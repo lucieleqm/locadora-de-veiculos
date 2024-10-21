@@ -1,45 +1,64 @@
-import { Tabs } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import { Tabs } from "expo-router";
+import {
+  Ionicons,
+  MaterialCommunityIcons,
+  Fontisto,
+  Foundation,
+} from "@expo/vector-icons";
 
 export default function TabsLayout() {
   return (
-    <Tabs 
-        screenOptions={{
-            headerShown: false,
-        }}>
+    <Tabs
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
       <Tabs.Screen
         name="home/index"
         options={{
-            tabBarLabel: 'Home',
-            tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home-outline" color={color} size={size} />
+          tabBarLabel: "",
+          tabBarIcon: ({ color, size }) => (
+            <Foundation name="home" color={color} size={size} />
           ),
         }}
       />
       <Tabs.Screen
-            name="clientes/index"
-            options={{
-                tabBarLabel: 'Clientes',
-                tabBarIcon: ({ color, size }) => (
-                    <Ionicons name="people-outline" color={color} size={size} />
+        name="locacoes/index"
+        options={{
+          tabBarLabel: "",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons
+              name="key-chain"
+              color={color}
+              size={size}
+            />
           ),
         }}
       />
       <Tabs.Screen
-            name="reparos/index"
-            options={{
-                tabBarLabel: 'Reparos',
-                tabBarIcon: ({ color, size }) => (
-                    <Ionicons name="construct-outline" color={color} size={size} />
+        name="veiculos/index"
+        options={{
+          tabBarLabel: "",
+          tabBarIcon: ({ color, size }) => (
+            <Fontisto name="motorcycle" color={color} size={size} />
           ),
         }}
       />
       <Tabs.Screen
-            name="locacoes/index"
-            options={{
-                tabBarLabel: 'Locações',
-                tabBarIcon: ({ color, size }) => (
-                    <Ionicons name="car-outline" color={color} size={size} />
+        name="clientes/index"
+        options={{
+          tabBarLabel: "",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="people" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="reparos/index"
+        options={{
+          tabBarLabel: "",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="construct" color={color} size={size} />
           ),
         }}
       />
