@@ -8,6 +8,8 @@ import { clienteSchema } from "../../../schemas/clienteSchemas";
 import { FormInputController } from "../../../controllers/FormInputController";
 import FormButton from "../../Button/FormButton";
 
+import styles from "../style";
+
 // Define a interface para o tipo de dados do formulário
 interface ClienteFormData {
   nome: string;
@@ -40,8 +42,11 @@ export function FormCliente() {
   }
 
   return (
-    <ScrollView className="w-full flex-1 bg-white p-5">
-      <View className="px-4 mb-4 ">
+    <ScrollView className="w-full flex-1 bg-slate-100 p-5">
+      <View style={styles.formContainer}>
+        <View style={styles.formTitle}>
+          <Text style={styles.formTitleText}> Cadastrar Cliente </Text>
+        </View>
         <FormInputController
           control={control}
           name={"nome"}
@@ -133,7 +138,6 @@ export function FormCliente() {
           errors={errors}
           keyboardType="numeric"
         />
-
         <FormButton
           label="Salvar"
           onPress={handleSubmit(handleCadastroCliente)}

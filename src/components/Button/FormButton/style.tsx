@@ -1,20 +1,26 @@
 import { StyleSheet } from "react-native";
+import { theme } from "../../../styles/theme";
 
 const styles = StyleSheet.create({
+  buttonContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginVertical: 16,
+  },
   buttonForm: {
-    width: "50%",
+    width: "45%",
     height: 48,
-    backgroundColor: "#007BFF",
-    borderColor: "#d1d1d1",
-    borderWidth: 1,
-    borderRadius: 8,
-    color: "#555",
-    paddingHorizontal: 16,
-    marginBottom: 16,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: theme.colors.blue,
+    borderRadius: 10,
+    padding: 10,
   },
   textButtonForm: {
-    color: "#ffffff",
+    color: theme.colors.gray[100],
+    fontFamily: theme.fontFamily.bold,
+    fontSize: 16,
   },
-});
+})
 
 export default styles;

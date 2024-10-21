@@ -8,7 +8,7 @@ interface FormButtonProps extends TouchableOpacityProps {
 
 const FormButton: React.FC<FormButtonProps> = ({ label, ...props }) => {
   return (
-    <View>
+    <View style={styles.buttonContainer}>
       <TouchableOpacity style={styles.buttonForm} {...props}>
         <Text style={styles.textButtonForm}>{label}</Text>
       </TouchableOpacity>

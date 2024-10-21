@@ -3,13 +3,27 @@ import { View, Text, Image } from "react-native";
 
 import styles from "./style";
 
-export default function VehicleListItem() {
+interface VehicleListItemProps {
+    name: string;
+    price: string;
+    details: string;
+    image: any;
+  }
+
+export default function VehicleListItem({ name, price, details, image }: VehicleListItemProps)  { 
+
     return(
-        <View>
-            <Image source={require('../../assets/images/car1.png')} 
-            style = {styles.vehicleImage}/>
-            
-            <Text >CALCULADORA DE IMC</Text>
+        <View style = {styles.cardVehicle}>
+            <View>
+                <Image source={image} style={styles.cardImage} />
+            </View>
+            <View style= {styles.cardInfosContainer}>
+                <Text style={styles.cardTitle}>{name}</Text>
+                <Text style={styles.cardVehicleDetails}>{details}</Text>
+                <Text style={styles.cardParagraph}>A partir de </Text>
+                <Text style={styles.cardVehiclePrice}>R$ {price}/Semana</Text>
+            </View>
+            <Text ></Text>
         </View>
     );
 }

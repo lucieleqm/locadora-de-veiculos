@@ -36,7 +36,12 @@ export function FormInputController<T extends FieldValues>({
         name={name}
         render={({ field: { onChange, onBlur, value } }) => (
           <View>
-            <Text>{label}</Text>
+            <Text style = {styles.labelInputForm}>{label}</Text>
+            {errors && errors[name] && (
+              <Text style = {styles.errorText}>
+                {errors[name]?.message as string}
+              </Text>
+            )}
             {maskType ? (
               <TextInputMask
                 type={maskType}
@@ -44,7 +49,7 @@ export function FormInputController<T extends FieldValues>({
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}
-                style={styles.input}
+                style={styles.inputForm}
                 {...props}  
               />
             ) : (
@@ -52,14 +57,9 @@ export function FormInputController<T extends FieldValues>({
                 onChangeText={onChange}
                 onBlur={onBlur}
                 value={value}
-                style={styles.input}
+                style={styles.inputForm}
                 {...props}
               />
-            )}
-            {errors && errors[name] && (
-              <Text className="text-red-500">
-                {errors[name]?.message as string}
-              </Text>
             )}
           </View>
         )}
