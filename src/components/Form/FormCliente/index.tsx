@@ -8,6 +8,9 @@ import { clienteSchema } from "../../../schemas/clienteSchemas";
 import { FormInputController } from "../../../controllers/FormInputController";
 import FormButton from "../../Button/FormButton";
 
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { useNavigation } from "expo-router";
+
 import styles from "../style";
 
 // Define a interface para o tipo de dados do formulário
@@ -35,6 +38,7 @@ export function FormCliente() {
   } = useForm({
     resolver: yupResolver(clienteSchema),
   });
+  const navigation = useNavigation()
 
   // Função chamada no envio do formulário
   function handleCadastroCliente(data: ClienteFormData) {
@@ -45,6 +49,9 @@ export function FormCliente() {
     <ScrollView className="w-full flex-1 bg-slate-100 p-5">
       <View style={styles.formContainer}>
         <View style={styles.formTitle}>
+          <TouchableOpacity style={styles.boxButtonIcon} onPress={()=> navigation.goBack()}>
+            <MaterialIcons name="arrow-back-ios" size={25} color="black" />
+          </TouchableOpacity>
           <Text style={styles.formTitleText}> Cadastrar Cliente </Text>
         </View>
         <FormInputController

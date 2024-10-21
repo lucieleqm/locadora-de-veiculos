@@ -12,6 +12,10 @@ export default function TabsLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
+        tabBarIconStyle:{
+          justifyContent: 'center',
+          top: 6
+        },
       }}
     >
       <Tabs.Screen

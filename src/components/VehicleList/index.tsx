@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, FlatList } from "react-native";
 import VehicleListItem from "../VehicleListItem";
-
-import { listContainer } from "./style";
+import styles from "./style";
 
 export default function VehicleList() {
   /*
@@ -85,5 +84,3 @@ const [vehicles, setVehicles] = useState([
     </View>
   );
 }
-
-const styles = StyleSheet.create({});

@@ -5,20 +5,25 @@ const styles = StyleSheet.create({
     formContainer: {
         flex: 1,
         marginVertical: 40,
-        marginHorizontal: 5, 
+        marginHorizontal: 5,
     },
 
     formTitle: {
-        alignItems: "center",
-        justifyContent: "center",
-        padding: 10,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        paddingBottom: 20,
     },
     formTitleText: {
         fontFamily: theme.fontFamily.bold,
         fontSize: 20,
         color: theme.colors.gray[800],
-        marginBottom: 10,
+        marginBottom: 10
     },
+    boxButtonIcon:{
+        position: 'absolute',
+        left: 0,
+        paddingLeft: 10
+    }
 })
 
 export default styles;
