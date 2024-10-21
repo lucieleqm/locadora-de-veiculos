@@ -1,9 +1,8 @@
 import { Slot } from "expo-router";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import * as SplashScreen from "expo-splash-screen"
-
+import React from "react";
 import "../styles/global.css";
-
 import {
   useFonts,
   Roboto_300Light,

@@ -2,9 +2,10 @@ import { Tabs } from "expo-router";
 import {
   Ionicons,
   MaterialCommunityIcons,
-  Fontisto,
   Foundation,
+  FontAwesome
 } from "@expo/vector-icons";
+import React from "react";
 
 export default function TabsLayout() {
   return (
@@ -40,7 +41,7 @@ export default function TabsLayout() {
         options={{
           tabBarLabel: "",
           tabBarIcon: ({ color, size }) => (
-            <Fontisto name="motorcycle" color={color} size={size} />
+            <FontAwesome name="car" color={color} size={size} />
           ),
         }}
       />

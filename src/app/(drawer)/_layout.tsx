@@ -1,5 +1,5 @@
 import { Foundation } from "@expo/vector-icons";
-
+import React from "react";
 import { Drawer } from "expo-router/drawer";
 
 export default function DrawerLayout() {
