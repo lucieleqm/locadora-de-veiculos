@@ -6,6 +6,7 @@ import {
   FontAwesome
 } from "@expo/vector-icons";
 import React from "react";
+import { theme } from "../../../styles/theme";
 
 export default function TabsLayout() {
   return (
@@ -16,6 +17,14 @@ export default function TabsLayout() {
           justifyContent: 'center',
           top: 6
         },
+        tabBarStyle: {
+          backgroundColor: theme.colors.gray[100],
+          borderColor: 'transparent',
+          paddingTop: 5,
+          paddingBottom: 5
+        },
+        tabBarActiveTintColor: theme.colors.gray[800],
+        tabBarInactiveTintColor: theme.colors.gray[300],
       }}
     >
       <Tabs.Screen
