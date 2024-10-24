@@ -1,7 +1,9 @@
+import React from "react";
 import { Slot } from "expo-router";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import * as SplashScreen from "expo-splash-screen"
-import React from "react";
+import { StatusBar } from "expo-status-bar";
+
 import "../styles/global.css";
 import {
   useFonts,
@@ -27,6 +29,7 @@ export default function Layout() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
+      <StatusBar style="auto"/>
       <Slot />
     </GestureHandlerRootView>
   );
