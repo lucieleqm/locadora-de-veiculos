@@ -34,6 +34,7 @@ export function FormCliente() {
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(clienteSchema),
@@ -43,6 +44,7 @@ export function FormCliente() {
   // Função chamada no envio do formulário
   function handleCadastroCliente(data: ClienteFormData) {
     console.log(data);
+    reset()
   }
 
   return (
@@ -59,6 +61,7 @@ export function FormCliente() {
           name={"nome"}
           label={"Nome Completo"}
           errors={errors}
+          placeholder="João da Silva"
         />
 
         <FormInputController
@@ -66,6 +69,7 @@ export function FormCliente() {
           name={"estado_civil"}
           label={"Estado Civil"}
           errors={errors}
+          placeholder="Casado"
         />
 
         <FormInputController
@@ -73,6 +77,7 @@ export function FormCliente() {
           name={"profissao"}
           label={"Profissão"}
           errors={errors}
+          placeholder="Motoboy"
         />
         <FormInputController
           control={control}
@@ -88,18 +93,21 @@ export function FormCliente() {
           errors={errors}
           keyboardType="numeric"
           maskType="cpf"
+          placeholder="XXX.XXX.XXX-XX"
         />
         <FormInputController
           control={control}
           name={"email"}
           label={"Email"}
           errors={errors}
+          placeholder="nome@exemplo.com"
         />
         <FormInputController
           control={control}
           name={"telefone"}
           label={"Telefone"}
           errors={errors}
+          placeholder="(11) 99999-9999"
           keyboardType="numeric"
           maskType="cel-phone" // Máscara de telefone
           maskOptions={{
@@ -113,30 +121,35 @@ export function FormCliente() {
           name={"rua"}
           label={"Rua"}
           errors={errors}
+          placeholder="Ex.: Rua das Flores"
         />
         <FormInputController
           control={control}
           name={"numero"}
           label={"Nº"}
           errors={errors}
+          placeholder="Ex.: 123"
         />
         <FormInputController
           control={control}
           name={"bairro"}
           label={"Bairro"}
           errors={errors}
+          placeholder="Ex.: Centro"
         />
         <FormInputController
           control={control}
           name={"complemento"}
-          label={"Complemento"}
+          label={"Complemento (opcional)"}
           errors={errors}
+          placeholder="Ex.: Próximo a quadra poliesportiva"
         />
         <FormInputController
           control={control}
           name={"cidade"}
           label={"Cidade"}
           errors={errors}
+          placeholder="Ex.: São Luís"
         />
         <FormInputController
           control={control}
@@ -144,6 +157,7 @@ export function FormCliente() {
           label={"CEP"}
           errors={errors}
           keyboardType="numeric"
+          placeholder="Ex.: 12345-678"
         />
         <FormButton
           label="Salvar"
