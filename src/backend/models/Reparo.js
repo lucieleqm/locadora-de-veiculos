@@ -1,0 +1,38 @@
+module.exports = (sequelize, DataTypes) => {
+  const Reparo = sequelize.define("Reparo", {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    descricao: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    data: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    custo: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+    },
+    id_veiculo: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'tb_veiculo',
+        key: 'id'
+      },
+      onDelete: 'RESTRICT',
+      onUpdate: 'CASCADE',
+    }
+    }, {
+    tableName: "tb_reparo"
+  });
+
+  Reparo.associate = (models) => {
+    Reparo.hasOne(models.Veiculo, { foreignKey: 'id_veiculo' });
+  }
+
+  return Reparo;
+};
