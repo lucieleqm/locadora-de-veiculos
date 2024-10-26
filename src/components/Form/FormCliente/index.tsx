@@ -1,5 +1,5 @@
-import React from "react";
-import { View, ScrollView, Text, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import { View, ScrollView, Text, TouchableOpacity, Alert } from "react-native";
 
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -8,9 +8,9 @@ import { clienteSchema } from "../../../schemas/clienteSchemas";
 import { FormInputController } from "../../../controllers/FormInputController";
 import FormButton from "../../Button/FormButton";
 
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useNavigation } from "expo-router";
-
+import axios from "axios";
 import styles from "../style";
 
 // Define a interface para o tipo de dados do formulário
@@ -38,18 +38,44 @@ export function FormCliente() {
   } = useForm({
     resolver: yupResolver(clienteSchema),
   });
-  const navigation = useNavigation()
+  const navigation = useNavigation();
 
+  const [loading, setLoading] = useState(false);
   // Função chamada no envio do formulário
-  function handleCadastroCliente(data: ClienteFormData) {
-    console.log(data);
+  async function handleCadastroCliente(dados: ClienteFormData) {
+    setLoading(true); // Ativa o estado de carregamento
+
+    try {
+      const response = await axios.post(
+        "http://192.168.1.40:3001/clientes/insert",
+        dados
+      ); // Ajuste a URL conforme necessário
+
+      if (response.status === 201) {
+        Alert.alert("Sucesso", "Cliente cadastrado com sucesso!");
+        navigation.goBack(); // Navega de volta após o cadastro
+      } else {
+        Alert.alert("Erro", "Não foi possível cadastrar o cliente.");
+      }
+    } catch (error) {
+      console.error("Erro ao cadastrar cliente:", error);
+      Alert.alert(
+        "Erro",
+        "Ocorreu um erro ao cadastrar o cliente. Tente novamente."
+      );
+    } finally {
+      setLoading(false); // Desativa o estado de carregamento
+    }
   }
 
   return (
     <ScrollView className="w-full flex-1 bg-slate-100 p-5">
       <View style={styles.formContainer}>
         <View style={styles.formTitle}>
-          <TouchableOpacity style={styles.boxButtonIcon} onPress={()=> navigation.goBack()}>
+          <TouchableOpacity
+            style={styles.boxButtonIcon}
+            onPress={() => navigation.goBack()}
+          >
             <MaterialIcons name="arrow-back-ios" size={25} color="black" />
           </TouchableOpacity>
           <Text style={styles.formTitleText}> Cadastrar Cliente </Text>
@@ -148,6 +174,7 @@ export function FormCliente() {
         <FormButton
           label="Salvar"
           onPress={handleSubmit(handleCadastroCliente)}
+          disabled={loading}
         />
       </View>
     </ScrollView>
