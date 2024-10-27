@@ -1,6 +1,6 @@
-import { View, Text} from "react-native";
+import {View} from "react-native";
 import React from "react";
-import FormVeiculos   from "../components/Form/FormVeiculos"
+import FormVeiculos from "../components/Form/FormVeiculos"
 
 export default function AdicionarCliente(){
     return (

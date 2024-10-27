@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 
 import styles from "./style";
 interface Veiculo {
@@ -13,7 +13,7 @@ interface Veiculo {
 export default function VehicleListItem({ nome, preco, detalhes, imagem }: Veiculo)  { 
 
     return(
-        <View style = {styles.cardVehicle}>
+        <TouchableOpacity style = {styles.cardVehicle}>
             <View>
                 <Image source={imagem} style={styles.cardImage} />
             </View>
@@ -24,6 +24,6 @@ export default function VehicleListItem({ nome, preco, detalhes, imagem }: Veicu
                 <Text style={styles.cardVehiclePrice}>R$ {preco}/Semana</Text>
             </View>
             <Text ></Text>
-        </View>
+        </TouchableOpacity>
     );
 }

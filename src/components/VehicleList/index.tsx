@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View, FlatList } from "react-native";
 import VehicleListItem from "../VehicleListItem";
 import styles from "./style";

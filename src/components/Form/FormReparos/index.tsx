@@ -63,7 +63,7 @@ export default function FormReparos(){
                     name={"tipo_veiculo"}
                     label={"Modelo do veículo"}
                     errors={errors}
-                    placeholder="Pop 110"
+                    placeholder="Start 160"
                     />
                 <FormInputController
                     control={control}
