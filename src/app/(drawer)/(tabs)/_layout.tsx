@@ -20,6 +20,7 @@ export default function TabsLayout() {
         tabBarStyle: {
           backgroundColor: theme.colors.gray[100],
           borderColor: 'transparent',
+          height:60,
           paddingTop: 5,
           paddingBottom: 5
         },
@@ -32,7 +33,7 @@ export default function TabsLayout() {
         options={{
           tabBarLabel: "",
           tabBarIcon: ({ color, size }) => (
-            <Foundation name="home" color={color} size={size} />
+            <Foundation name="home" color={color} size={30} />
           ),
         }}
       />
@@ -44,7 +45,7 @@ export default function TabsLayout() {
             <MaterialCommunityIcons
               name="key-chain"
               color={color}
-              size={size}
+              size={29}
             />
           ),
         }}
@@ -54,7 +55,7 @@ export default function TabsLayout() {
         options={{
           tabBarLabel: "",
           tabBarIcon: ({ color, size }) => (
-            <FontAwesome name="car" color={color} size={size} />
+            <FontAwesome name="car" color={color} size={25} />
           ),
         }}
       />
@@ -62,8 +63,8 @@ export default function TabsLayout() {
         name="clientes/index"
         options={{
           tabBarLabel: "",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="people" color={color} size={size} />
+          tabBarIcon: ({ color, size, }) => (
+            <Ionicons name="people" color={color} size={30} />
           ),
         }}
       />
@@ -72,7 +73,7 @@ export default function TabsLayout() {
         options={{
           tabBarLabel: "",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="construct" color={color} size={size} />
+            <Ionicons name="construct" color={color} size={29} />
           ),
         }}
       />
