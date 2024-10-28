@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, FlatList } from "react-native";
-import VehicleListItem from "../VehicleListItem";
+import { StyleSheet, Text, View, FlatList, Image } from "react-native";
 import styles from "./style";
+import axios from "axios";
 
-export default function VehicleList() {
+export default function ListVeiculo() {
   /*
     const [list, setList] = useState();
 
@@ -27,7 +27,7 @@ export default function VehicleList() {
         setList(newList);
     };
 */
-
+/*
 const [vehicles, setVehicles] = useState([
     {
       id: 1,
@@ -43,6 +43,7 @@ const [vehicles, setVehicles] = useState([
       details: '2.0 DI e:HEV Touring e-CVT',
       image: require('../../assets/images/car2.png'),
     },
+    
     {
       id: 4,
       name: 'Fiat Toro',
@@ -65,21 +66,54 @@ const [vehicles, setVehicles] = useState([
       image: require('../../assets/images/car2.png'),
     },
   ]);
+*/
+
+interface Veiculo {
+  id: number;
+  Modelo: {
+    nome: string;
+  } 
+  valor: number;   
+  ano: string;
+  imagem: string;  // URL da imagem
+}
+
+const [isLoading, setLoading] = useState(true);
+const [data, setData] = useState<Veiculo[]>([]);
+
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("http://192.168.1.48:3001/veiculos/select");
+      setData(response.data);
+    } catch (error) {
+      console.error("Erro ao buscar veículos:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  fetchData();
+}, []);
+    const renderItem = ({ item }: { item: Veiculo }) => (
+      <View style = {styles.cardVehicle}>
+            <View>
+                <Image source={{uri: item.imagem}} style={styles.cardImage} />
+            </View>
+            <View style= {styles.cardInfosContainer}>
+                <Text style={styles.cardTitle}>{item.Modelo.nome}</Text>
+                <Text style={styles.cardVehicleDetails}>{item.ano}</Text>
+                <Text style={styles.cardParagraph}>A partir de </Text>
+                <Text style={styles.cardVehiclePrice}>R$ {item.valor}/Semana</Text>
+            </View>
+        </View>
+    )
 
   return (
     <View style={styles.listContainer}>
       <FlatList
-        data={vehicles}
+        data={data}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <VehicleListItem
-            id={item.id}
-            nome={item.name}
-            preco={item.price}
-            detalhes={item.details}
-            imagem={item.image}
-          />
-        )}
+        renderItem={renderItem}
         numColumns={2}
       />
     </View>

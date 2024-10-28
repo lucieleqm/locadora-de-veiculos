@@ -2,6 +2,12 @@ import { StyleSheet } from "react-native";
 import { theme } from "../../styles/theme";
 
 const styles = StyleSheet.create({
+  listContainer: {
+    flex: 1,
+    width: '100%',
+    padding: 10,
+  },
+
   cardVehicle: {
     backgroundColor: "#FFFFFF",
     borderRadius: 10,
