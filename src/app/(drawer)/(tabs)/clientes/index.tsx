@@ -5,6 +5,8 @@ import { Octicons } from "@expo/vector-icons";
 
 import styles from "../../../../styles/style";
 
+// '../../../infoClientes'
+
 export default function Clientes(){
   const router = useRouter();
   const [clienteLoc, setClienteLoc] = useState([
@@ -56,7 +58,9 @@ export default function Clientes(){
                       showsVerticalScrollIndicator={false}
                       keyExtractor={(item)=>item.id}
                       renderItem={({item})=>(
-                        <TouchableOpacity style={styles.boxList}>
+                        <TouchableOpacity style={styles.boxList}
+                                          onPress={()=>router.push({pathname: '../../../infoClientes', params: {id: item.id}})}
+                                          >
                             <Text style={styles.textListType}>{item.name}</Text>
                             <Text style={styles.textListItem}>{item.phone}</Text>
                             <Text style={styles.textListItem}>{item.cpf}</Text>
