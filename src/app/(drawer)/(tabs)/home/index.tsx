@@ -1,11 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import { ImageSlider } from '../../../../components/Image/ImageSlider'
+import { VehicleDetails } from '../../../../components/Details/VehicleDetails'
 
-
+// Botei alguns componentes aqui só pra visualizar como eles estão
 export default function Home(){
     return (
-      <View className="flex-1 bg-grey-500 items-center justify-center">
-        <Text>Home</Text>
+      <View style={{ flex: 1}}>
+        <ImageSlider/>
+        <VehicleDetails/>
       </View>
     )
 }

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { SafeAreaView, Text, FlatList, TouchableOpacity } from "react-native";
 import styles from "../../../../styles/style";
-import { Octicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router"
+import AddButton from "../../../../components/Button/AddButton";
 
 export default function Reparos(){
   const router = useRouter();
@@ -44,7 +44,11 @@ export default function Reparos(){
       }
   ])
     return (
-      <SafeAreaView className="flex-1 bg-grey-500 items-center justify-center">
+      <SafeAreaView style={styles.container}>
+        <AddButton onPress={()=>router.push('../../../(stack)/addReparo')}/>
+      </SafeAreaView>
+      /*
+      <SafeAreaView>
           <SafeAreaView style={styles.boxMain}> 
             <Text style={styles.textTitle}> Reparos</Text>
             <SafeAreaView style={styles.boxFlatList}>
@@ -71,5 +75,6 @@ export default function Reparos(){
             </SafeAreaView>
         </SafeAreaView>
       </SafeAreaView>
+      */
     )
 }

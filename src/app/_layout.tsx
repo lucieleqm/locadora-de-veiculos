@@ -4,7 +4,6 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import * as SplashScreen from "expo-splash-screen"
 import { StatusBar } from "expo-status-bar";
 
-import "../styles/global.css";
 import {
   useFonts,
   Roboto_300Light,

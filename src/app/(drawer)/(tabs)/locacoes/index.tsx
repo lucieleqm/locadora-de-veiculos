@@ -1,11 +1,14 @@
-import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import { SafeAreaView} from 'react-native'
+import AddButton from '../../../../components/Button/AddButton'
+import { router } from 'expo-router'
 
+import styles from '../../../../styles/style'
 
 export default function Locacoes(){
     return (
-      <View className="flex-1 bg-grey-500 items-center justify-center">
-        <Text>Locacoes</Text>
-      </View>
+      <SafeAreaView style={styles.container}>
+        <AddButton onPress={()=>router.push('../../../addReparo')}/>
+      </SafeAreaView>
     )
 }

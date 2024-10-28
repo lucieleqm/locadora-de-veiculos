@@ -1,17 +1,18 @@
-import { StyleSheet, Text, View } from "react-native";
 import React from "react";
-import VehicleList from "../../../../components/VehicleList";
+import { SafeAreaView } from "react-native";
+import ListVeiculo from "../../../../components/ListVeiculo";
 import AddButton from "../../../../components/Button/AddButton";
 import { useRouter } from "expo-router";
+
+import styles from "../../../../styles/style";
 
 export default function Home() {
   const router = useRouter()
   return (
-    <View className="flex-1 bg-grey-500 items-center justify-center">
-      <VehicleList />
-      <AddButton onPress={()=>router.push('../../../addVeiculo')} />
-    </View>
+    <SafeAreaView style={styles.container}>
+      <ListVeiculo />
+      <AddButton onPress={()=>router.push('../../../(stack)/addVeiculo')} />
+    </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({});

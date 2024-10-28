@@ -1,10 +1,11 @@
 import React from "react";
 import { SafeAreaView } from "react-native";
-import FormReparos from "../components/Form/FormReparos";
+import FormReparos from "../../components/Form/FormReparos";
+import styles from "../../styles/style";
 
 export default function addReparo(){
     return(
-        <SafeAreaView className="flex-1 bg-grey-500 items-center justify-center">
+        <SafeAreaView style={styles.container}>
             <FormReparos></FormReparos>
         </SafeAreaView>
     )
