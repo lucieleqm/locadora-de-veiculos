@@ -2,10 +2,13 @@ import { StyleSheet } from "react-native";
 import { theme } from "../../../styles/theme";
 
 const styles = StyleSheet.create({
-  buttonAdd: {
+  buttonContainer: {
     position: "absolute",
-    left: 120,
+    left: "80%",
     bottom: 20,
+  },
+  
+  buttonAdd: {
     width: 58,
     height: 58,
     borderRadius: 29,
@@ -22,7 +25,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: theme.colors.gray[100],
     fontSize: 26,
-},
+  },
 });
 
 export default styles;

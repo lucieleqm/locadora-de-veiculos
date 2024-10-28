@@ -13,7 +13,7 @@ interface AddButtonProps extends TouchableOpacityProps {}
 
 const AddButton: React.FC<AddButtonProps> = ({ ...props }) => {
   return (
-    <View>
+    <View style={styles.buttonContainer}>
       <TouchableOpacity style={styles.buttonAdd} {...props}>
         <Octicons name="plus" style = {styles.buttonText}/>
       </TouchableOpacity>
