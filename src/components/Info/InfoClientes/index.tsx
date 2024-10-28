@@ -3,6 +3,7 @@ import { SafeAreaView, Text, TouchableOpacity } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { useNavigation } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import styles from "../style";
 
 interface Cliente {
@@ -11,7 +12,6 @@ interface Cliente {
   cpf: string;
   profissao: string,
   estado_civil: string
-
 }
 
 const clientes: Record<string, Cliente> = {
@@ -47,15 +47,32 @@ export default function ClienteDetalhes() {
           </TouchableOpacity>
           <Text style={styles.formTitleText}> Cliente </Text>
           </SafeAreaView>
-          <SafeAreaView style={{padding: 40}}>
-          <Text style={styles.textTitle}>Detalhes do Cliente</Text>
-          <Text style={styles.textTitle}>Nome: {cliente.name}</Text>
-          <Text style={styles.textTitle}>Telefone: {cliente.phone}</Text>
-          <Text style={styles.textTitle}>CPF: {cliente.cpf}</Text>
-          <Text style={styles.textTitle}>Estado civil: {cliente.estado_civil}</Text>
-          <Text style={styles.textTitle}>Profissão: {cliente.profissao}</Text>
+          <SafeAreaView style={{alignItems: 'center'}}>
+            <SafeAreaView style={styles.boxNavigation}>
+              <TouchableOpacity>
+                <Text style={styles.textButtonNav}>Detalhes</Text>
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Text style={styles.textButtonNav2}>Locações</Text>
+              </TouchableOpacity>
+            </SafeAreaView>
           </SafeAreaView>
-        </SafeAreaView>
+          <SafeAreaView style={{alignItems: 'center', width: '20%', height: 70, justifyContent: 'center'}}>
+            <TouchableOpacity style={styles.boxEdit}>
+              <FontAwesome6 name="edit" size={24} color="#fff" />
+            </TouchableOpacity>
+          </SafeAreaView>
+          <SafeAreaView style={{ width: '100%', alignItems: 'center'}}>
+            <SafeAreaView style={styles.boxDetails}>
+              <Text style={styles.textTitle}>Detalhes do Cliente</Text>
+              <Text style={styles.textTitle}>Nome: {cliente.name}</Text>
+              <Text style={styles.textTitle}>Telefone: {cliente.phone}</Text>
+              <Text style={styles.textTitle}>CPF: {cliente.cpf}</Text>
+              <Text style={styles.textTitle}>Estado civil: {cliente.estado_civil}</Text>
+              <Text style={styles.textTitle}>Profissão: {cliente.profissao}</Text>
+            </SafeAreaView>
+            </SafeAreaView>
+          </SafeAreaView>
     </SafeAreaView>
   );
 }

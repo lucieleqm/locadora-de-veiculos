@@ -20,10 +20,18 @@ const styles = StyleSheet.create({
     },
     boxList:{
         padding: 10,
-        borderRadius: 1,
+        borderRadius: 10,
+        borderWidth: 1,
         marginTop: 15,
-        shadowColor: '#e8e8e8',
-        shadowRadius: 2,
+        backgroundColor: '#fff',
+        borderColor: '#ddd',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 1
+        },
+        shadowOpacity: 0.1,
+        textShadowRadius: 4,
         elevation: 2
     },
     textListType:{
