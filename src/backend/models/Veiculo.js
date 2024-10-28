@@ -71,6 +71,10 @@ module.exports = (sequelize, DataTypes) => {
 
       onDelete: 'RESTRICT',
       onUpdate: 'CASCADE',
+    },
+    imagem: {
+      type: DataTypes.STRING,
+      allowNull: 'true'
     }
     }, {
     tableName: "tb_veiculo"

@@ -20,7 +20,8 @@ module.exports = (sequelize, DataTypes) => {
       onUpdate: 'CASCADE',
     }
     }, {
-    tableName: "tb_modelo"
+    tableName: "tb_modelo",
+    timestamps: false
   });
 
   Modelo.associate = (models) => {

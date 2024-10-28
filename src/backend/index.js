@@ -12,16 +12,21 @@ app.use(express.json());
 
 const db = require("./models");
 const clienteRoute = require("./routes/Clientes");
+const marcaRoute = require("./routes/Marcas");
+const veiculoRoute = require("./routes/Veiculos");
 
 app.use("/clientes", clienteRoute);
+app.use("/marcas",marcaRoute);
+app.use("/veiculos",veiculoRoute);
 
 
-
+/*
 db.sequelize.sync().then((req) => {
   app.listen(port, () => {
     console.log(`Servidor rodando na porta ${port}`);
   })
 })
+*/
 
 
 // Endpoint de teste

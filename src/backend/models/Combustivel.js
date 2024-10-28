@@ -8,13 +8,10 @@ module.exports = (sequelize, DataTypes) => {
     tipo: {
       type: DataTypes.STRING,
       allowNull: false,
-    },
-    descricao: {
-      type: DataTypes.STRING,
-      allowNull: false,
     }
     }, {
-    tableName: "tb_combustivel"
+    tableName: "tb_combustivel",
+    timestamps: false
   });
 
   Combustivel.associate = (models) => {

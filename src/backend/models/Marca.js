@@ -10,7 +10,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     }
     }, {
-    tableName: "tb_marca"
+    tableName: "tb_marca",
+    timestamps: false
   });
 
   Marca.associate = (models) => {

@@ -8,27 +8,27 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true
     },
     nome: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(150),
       allowNull: false,
     },
     estado_civil: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(20),
     },
     profissao: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(150),
     },
     rg: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(13),
       allowNull: false,
       unique: true,
     },
     cpf: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(15),
       allowNull: false,
       unique: true,
     },
     email: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(150),
       allowNull: false,
       unique: true,
       validate: {
@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     telefone: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(15),
       allowNull: false
     }
 

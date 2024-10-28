@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { Cliente } = require("../models");
+const { Cliente, Endereco } = require("../models");
 
 router.get("/select", (req, res) => {
     Cliente.findAll().then((clientes) => {
@@ -53,29 +53,44 @@ router.get("/insert", (req, res) => {
 
 
 router.post("/insert", async (req, res) => {
+    const t = await Cliente.sequelize.transaction();
+  
     try {
-        const novoCliente = await Cliente.create({
-          nome: req.body.nome,
-          estado_civil: req.body.estado_civil,
-          profissao: req.body.profissao,
-          rg: req.body.rg,
-          cpf: req.body.cpf,
-          email: req.body.email,
-          telefone: req.body.telefone,
-          rua: req.body.rua,
-          numero: req.body.numero,
-          bairro: req.body.bairro,
-          complemento: req.body.complemento,
-          cidade: req.body.cidade,
-          cep: req.body.cep,
-        });
-    
-        res.status(201).json({ message: "Cliente cadastrado com sucesso!", cliente: novoCliente });
-      } catch (err) {
-        console.error("Erro ao cadastrar cliente:", err);
-        res.status(500).json({ message: "Erro ao cadastrar cliente." });
-      }
-});
+      // Criar o cliente
+      const novoCliente = await Cliente.create({
+        nome: req.body.nome,
+        estado_civil: req.body.estado_civil,
+        profissao: req.body.profissao,
+        rg: req.body.rg,
+        cpf: req.body.cpf,
+        email: req.body.email,
+        telefone: req.body.telefone
+      }, { transaction: t });
+  
+      // Criar o endereço associado ao cliente
+      const novoEndereco = await Endereco.create({
+        rua: req.body.rua,
+        numero: req.body.numero,
+        bairro: req.body.bairro,
+        complemento: req.body.complemento,
+        cidade: req.body.cidade,
+        cep: req.body.cep,
+        id_cliente: novoCliente.id
+      }, { transaction: t });
+  
+      await t.commit();
+  
+      res.status(201).json({ 
+        message: "Cliente e endereço cadastrados com sucesso!", 
+        cliente: novoCliente, 
+        endereco: novoEndereco 
+      });
+    } catch (err) {
+      await t.rollback();
+      console.error("Erro ao cadastrar cliente e endereço:", err);
+      res.status(500).json({ message: "Erro ao cadastrar cliente e endereço.", error: err.message });
+    }
+  });
 
 router.delete("/delete", (req, res) => {
     res.send("delete");
