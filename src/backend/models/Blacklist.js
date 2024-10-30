@@ -20,7 +20,8 @@ module.exports = (sequelize, DataTypes) => {
       onUpdate: 'CASCADE',
     }
   }, {
-    tableName: "tb_blacklist"
+    tableName: "tb_blacklist",
+    timestamps: false
   });
 
   Blacklist.associate = (models) => {

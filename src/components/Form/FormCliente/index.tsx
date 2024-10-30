@@ -8,7 +8,6 @@ import { clienteSchema } from "../../../schemas/clienteSchemas";
 import { FormInputController } from "../../../controllers/FormInputController";
 import FormButton from "../../Button/FormButton";
 
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useNavigation } from "expo-router";
 import axios from "axios";
 import styles from "../style";
@@ -39,6 +38,7 @@ export function FormCliente() {
   } = useForm({
     resolver: yupResolver(clienteSchema),
   });
+  
   const navigation = useNavigation();
 
   const [loading, setLoading] = useState(false);
@@ -48,7 +48,7 @@ export function FormCliente() {
 
     try {
       const response = await axios.post(
-        "http://192.168.1.40:3001/clientes/insert",
+        "http://192.168.1.48:3001/clientes/insert",
         dados
       ); // Ajuste a URL conforme necessário
 
@@ -70,15 +70,9 @@ export function FormCliente() {
   }
 
   return (
-    <ScrollView className="w-full flex-1 bg-slate-100 p-5">
+    <ScrollView>
       <View style={styles.formContainer}>
         <View style={styles.formTitle}>
-          <TouchableOpacity
-            style={styles.boxButtonIcon}
-            onPress={() => navigation.goBack()}
-          >
-            <MaterialIcons name="arrow-back-ios" size={25} color="black" />
-          </TouchableOpacity>
           <Text style={styles.formTitleText}> Cadastrar Cliente </Text>
         </View>
         <FormInputController

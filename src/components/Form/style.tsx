@@ -4,7 +4,7 @@ import { theme } from "../../styles/theme";
 const styles = StyleSheet.create({
     formContainer: {
         flex: 1,
-        marginVertical: 40,
+        marginVertical: 20,
         marginHorizontal: 5,
     },
 

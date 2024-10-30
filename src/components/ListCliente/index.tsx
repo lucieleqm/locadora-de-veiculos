@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, FlatList, Image } from "react-native";
 import styles from "./style";
 import axios from "axios";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default function ListCliente() {
   interface Cliente {
@@ -31,9 +32,11 @@ export default function ListCliente() {
   }, []);
   const renderItem = ({ item }: { item: Cliente }) => (
     <View style={styles.cardCliente}>
-      <Text style={styles.cardTitle}>{item.nome}</Text>
-      <Text style={styles.cardClienteDetails}>{item.cpf}</Text>
-      <Text style={styles.cardClienteDetails}>{item.telefone}</Text>
+      <TouchableOpacity>
+        <Text style={styles.cardTitle}>{item.nome}</Text>
+        <Text style={styles.cardClienteDetails}>{item.cpf}</Text>
+        <Text style={styles.cardClienteDetails}>{item.telefone}</Text>
+      </TouchableOpacity>
     </View>
   );
   return (
@@ -42,7 +45,7 @@ export default function ListCliente() {
         data={data}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderItem}
-        numColumns={2}
+        numColumns={1}
       />
     </View>
   );

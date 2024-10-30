@@ -1,4 +1,4 @@
-const { ForeignKeyConstraintError } = require("sequelize");
+
 
 module.exports = (sequelize, DataTypes) => {
   const Veiculo = sequelize.define("Veiculo", {
@@ -8,34 +8,34 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true
     },
     tipo: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(50),
       allowNull: false,
     },
     placa: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(15),
       allowNull: false,
       unique: true,
     },
     renavam: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(15),
       allowNull: false,
       unique: true
     },
     chassi: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(30),
       allowNull: false,
       unique: true
     },
     motor: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(20),
       allowNull: false
     },
     cor: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(20),
       allowNull: false
     },
     ano: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(4),
       allowNull: false
     },
     valor: {
@@ -44,7 +44,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     status: {
       type: DataTypes.BOOLEAN,
-      allowNull: false
+      allowNull: false,
+      default: 0
     },/*
     id_marca: {
       type: DataTypes.INTEGER,
@@ -72,18 +73,17 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'RESTRICT',
       onUpdate: 'CASCADE',
     },
-    imagem: {
-      type: DataTypes.STRING,
-      allowNull: 'true'
-    }
     }, {
-    tableName: "tb_veiculo"
+    tableName: "tb_veiculo",
+    timestamps: false
   });
 
   Veiculo.associate = (models) => {
     Veiculo.belongsTo(models.Modelo, { foreignKey: 'id_modelo' });
     Veiculo.belongsTo(models.Combustivel, { foreignKey: 'id_combustivel' });
-    Veiculo.hasMany(models.Locacao);
+    Veiculo.hasMany(models.Reparo, { foreignKey: 'id_veiculo' });
+    Veiculo.hasMany(models.Locacao, { foreignKey: 'id_veiculo' });
+    Veiculo.hasMany(models.ImagemVeiculo, { foreignKey: 'id_veiculo' });
   };
 
   return Veiculo;

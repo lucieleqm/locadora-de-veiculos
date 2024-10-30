@@ -38,13 +38,14 @@ module.exports = (sequelize, DataTypes) => {
       onUpdate: 'CASCADE',
     }
     }, {
-    tableName: "tb_locacao"
+    tableName: "tb_locacao",
+    timestamps: false
   });
 
   Locacao.associate = (models) => {
     Locacao.belongsTo(models.Veiculo, { foreignKey: 'id_veiculo' });
     Locacao.belongsTo(models.Cliente, { foreignKey: 'id_cliente' });
-    Locacao.hasOne(models.Review);
+    Locacao.hasOne(models.Review, { foreignKey: 'id_locacao' });
 
   }
 

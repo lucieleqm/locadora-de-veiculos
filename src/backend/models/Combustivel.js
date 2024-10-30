@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Combustivel.associate = (models) => {
-    Combustivel.hasMany(models.Veiculo);
+    Combustivel.hasMany(models.Veiculo, {foreignKey: 'id_combustivel'});
   };
 
   return Combustivel;

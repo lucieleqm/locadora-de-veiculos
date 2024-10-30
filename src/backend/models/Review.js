@@ -26,7 +26,8 @@ module.exports = (sequelize, DataTypes) => {
       onUpdate: 'CASCADE',
     }
     }, {
-    tableName: "tb_review"
+    tableName: "tb_review",
+    timestamps: false
   });
 
   Review.associate = (models) => {

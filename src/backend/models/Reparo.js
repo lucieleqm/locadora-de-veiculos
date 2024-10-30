@@ -27,11 +27,12 @@ module.exports = (sequelize, DataTypes) => {
       onUpdate: 'CASCADE',
     }
     }, {
-    tableName: "tb_reparo"
+    tableName: "tb_reparo",
+    timestamps: false
   });
 
   Reparo.associate = (models) => {
-    Reparo.hasOne(models.Veiculo, { foreignKey: 'id_veiculo' });
+    Reparo.belongsTo(models.Veiculo, { foreignKey: 'id_veiculo' });
   }
 
   return Reparo;

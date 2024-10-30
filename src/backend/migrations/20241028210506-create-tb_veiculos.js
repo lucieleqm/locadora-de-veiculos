@@ -65,10 +65,6 @@ module.exports = {
         },
         onDelete: 'RESTRICT',
         onUpdate: 'CASCADE',
-      },
-      imagem: {
-        type: Sequelize.STRING(255),
-        allowNull: true
       }
     });
   },

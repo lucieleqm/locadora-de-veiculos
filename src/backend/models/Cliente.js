@@ -41,13 +41,14 @@ module.exports = (sequelize, DataTypes) => {
     }
 
   }, {
-    tableName: "tb_cliente"
+    tableName: "tb_cliente",
+    timestamps: false
   });
 
   Cliente.associate = (models) => {
-    Cliente.hasOne(models.Blacklist);
-    Cliente.hasOne(models.Endereco);
-    Cliente.hasMany(models.Locacao);
+    Cliente.hasOne(models.Blacklist, { foreignKey: 'id_cliente' });
+    Cliente.hasOne(models.Endereco, { foreignKey: 'id_cliente' });
+    Cliente.hasMany(models.Locacao, { foreignKey: 'id_cliente' });
   }
 
   return Cliente;

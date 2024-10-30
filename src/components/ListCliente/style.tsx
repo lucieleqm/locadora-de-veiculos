@@ -13,21 +13,23 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
-    width: "98%",
-    margin: 10,
-    padding: 20,
+    width: "auto",
+    marginHorizontal: 10,
+    marginVertical: 5,
+    padding: 10,
     textAlign: "center",
   },
   cardTitle: {
     fontFamily: theme.fontFamily.bold,
     fontSize: 18,
     color: theme.colors.gray[800],
-    marginTop: 8,
+    marginTop: 2,
     marginBottom: 5,
   },
   cardClienteDetails: {
     fontSize: 14,
     color: theme.colors.gray[800],
+    marginBottom: 2
   }
 })
 

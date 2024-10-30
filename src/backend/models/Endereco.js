@@ -39,7 +39,8 @@ module.exports = (sequelize, DataTypes) => {
         }
 
     }, {
-        tableName: "tb_endereco"
+        tableName: "tb_endereco",
+        timestamps: false
     });
 
     Endereco.associate = (models) => {

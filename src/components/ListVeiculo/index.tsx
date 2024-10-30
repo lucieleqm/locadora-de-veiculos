@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, FlatList, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import styles from "./style";
 import axios from "axios";
 
@@ -27,86 +34,61 @@ export default function ListVeiculo() {
         setList(newList);
     };
 */
-/*
-const [vehicles, setVehicles] = useState([
-    {
-      id: 1,
-      name: 'Fiat Toro',
-      price: '100',
-      details: '1.8 16V EVO Flex Endurance Manual',
-      image: require('../../assets/images/car1.png'), // Ajuste a imagem conforme necessário
-    },
-    {
-      id: 2,
-      name: 'Honda Civic',
-      price: '150',
-      details: '2.0 DI e:HEV Touring e-CVT',
-      image: require('../../assets/images/car2.png'),
-    },
-    
-    {
-      id: 4,
-      name: 'Fiat Toro',
-      price: '100',
-      details: '1.8 16V EVO Flex Endurance Manual',
-      image: require('../../assets/images/car1.png'),
-    },
-    {
-      id: 4,
-      name: 'Honda Civic',
-      price: '150',
-      details: '2.0 DI e:HEV Touring e-CVT',
-      image: require('../../assets/images/car2.png'),
-    },
-    {
-      id: 5,
-      name: 'Honda Civic',
-      price: '150',
-      details: '2.0 DI e:HEV Touring e-CVT',
-      image: require('../../assets/images/car2.png'),
-    },
-  ]);
-*/
 
-interface Veiculo {
-  id: number;
-  Modelo: {
-    nome: string;
-  } 
-  valor: number;   
-  ano: string;
-  imagem: string;  // URL da imagem
-}
+  interface Veiculo {
+    id: number;
+    Modelo: {
+      nome: string;
+    };
+    valor: number;
+    ano: string;
+    ImagemVeiculos: {
+      url: string;
+    }[];
+  }
 
-const [isLoading, setLoading] = useState(true);
-const [data, setData] = useState<Veiculo[]>([]);
+  const [isLoading, setLoading] = useState(true);
+  const [data, setData] = useState<Veiculo[]>([]);
 
-useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const response = await axios.get("http://192.168.1.48:3001/veiculos/select");
-      setData(response.data);
-    } catch (error) {
-      console.error("Erro ao buscar veículos:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-  fetchData();
-}, []);
-    const renderItem = ({ item }: { item: Veiculo }) => (
-      <View style = {styles.cardVehicle}>
-            <View>
-                <Image source={{uri: item.imagem}} style={styles.cardImage} />
-            </View>
-            <View style= {styles.cardInfosContainer}>
-                <Text style={styles.cardTitle}>{item.Modelo.nome}</Text>
-                <Text style={styles.cardVehicleDetails}>{item.ano}</Text>
-                <Text style={styles.cardParagraph}>A partir de </Text>
-                <Text style={styles.cardVehiclePrice}>R$ {item.valor}/Semana</Text>
-            </View>
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "http://192.168.1.48:3001/veiculos/select"
+        );
+        setData(response.data);
+      } catch (error) {
+        console.error("Erro ao buscar veículos:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+  const renderItem = ({ item }: { item: Veiculo }) => (
+    <View style={styles.cardVehicle}>
+      <TouchableOpacity>
+        <View>
+          {item.ImagemVeiculos && item.ImagemVeiculos.length > 0 ? (
+            <Image
+              source={{ 
+                uri: `http://192.168.1.48:3001/${item.ImagemVeiculos[0].url}`,
+              }}
+              style={styles.cardImage}
+            />
+          ) : (
+            <Text>Sem imagem</Text>
+          )}
         </View>
-    )
+        <View style={styles.cardInfosContainer}>
+          <Text style={styles.cardTitle}>{item.Modelo.nome}</Text>
+          <Text style={styles.cardVehicleDetails}>{item.ano}</Text>
+          <Text style={styles.cardParagraph}>A partir de </Text>
+          <Text style={styles.cardVehiclePrice}>R$ {item.valor}/Semana</Text>
+        </View>
+      </TouchableOpacity>
+    </View>
+  );
 
   return (
     <View style={styles.listContainer}>

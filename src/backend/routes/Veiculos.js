@@ -1,22 +1,36 @@
 const express = require("express");
 const router = express.Router();
-const { Veiculo, Modelo } = require("../models");
+const multer = require('multer');
+const { Veiculo, Modelo, ImagemVeiculo, Sequelize } = require("../models");
+const { ForeignKeyConstraintError } = Sequelize;
+
+//const storage = multer.memoryStorage(); const upload = multer({ storage: storage})
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, `${uniqueSuffix}-${file.originalname}`);
+  }
+});
+const upload = multer({ storage: storage });
+
 
 router.get('/select', async (req, res) => {
-    try {
-      const veiculos = await Veiculo.findAll({
-        include: [{
-          model: Modelo,
-          attributes: ['nome'], // Inclui apenas o nome do modelo
-        }],
-      });
-      res.json(veiculos);
-    } catch (error) {
-      console.error("Erro ao buscar veículos:", error);
-      res.status(500).send('Erro ao buscar veículos');
-    }
-  });
-
+  try {
+    const veiculos = await Veiculo.findAll({
+      include: [{ model: Modelo, attributes: ['nome']},
+      { model: ImagemVeiculo, attributes: ['url'] }
+      ],
+    });
+    res.json(veiculos);
+  } catch (error) {
+    console.error("Erro ao buscar veículos:", error);
+    res.status(500).send('Erro ao buscar veículos');
+  }
+});
+/*
 router.get("/insert", (req, res) => {
     //res.send("insert");
     Veiculo.create({
@@ -39,5 +53,63 @@ router.get("/insert", (req, res) => {
         }
     })
 });
+*/
 
+// Rota para cadastro de um veículo
+
+router.post('/insert', upload.array('imagens'), async (req, res) => {
+  const t = await Veiculo.sequelize.transaction();
+  const {
+    tipo,
+    placa,
+    renavam,
+    chassi,
+    motor,
+    cor,
+    ano,
+    valor,
+    status,
+    id_modelo,
+    id_combustivel,
+  } = req.body;
+
+  try {
+    const novoVeiculo = await Veiculo.create({
+      tipo,
+      placa,
+      renavam,
+      chassi,
+      motor,
+      cor,
+      ano,
+      valor,
+      status,
+      id_modelo,
+      id_combustivel,
+    }, { transaction: t });
+
+    //const imagens = req.files.map((file) => ({ id_veiculo: novoVeiculo.id, url: file.buffer}))
+    const imagens = req.files.map((file) => ({
+      id_veiculo: novoVeiculo.id,
+      url: `uploads/${file.filename}`/*`data:image/jpeg;base64,${file.buffer.toString('base64')}`*/, // Armazena a imagem em base64 para exibição
+    }));
+
+    // cria as imagens relacionadas ao veículo
+    await ImagemVeiculo.bulkCreate(imagens, { transaction: t });
+
+    await t.commit();
+
+    res.status(201).json({ mensagem: "Veículo e imagens cadastrados com sucesso!", veiculo: novoVeiculo });
+  } catch (error) {
+    await t.rollback();
+    console.error("Erro ao cadastrar veículo e imagens:", error);
+
+    // Verifica se o erro é de violação de chave estrangeira
+    if (error instanceof ForeignKeyConstraintError) {
+      return res.status(400).json({ mensagem: "Modelo ou combustível não encontrado." });
+    }
+
+    res.status(500).json({ mensagem: "Erro ao cadastrar o veículo." });
+  }
+});
 module.exports = router;

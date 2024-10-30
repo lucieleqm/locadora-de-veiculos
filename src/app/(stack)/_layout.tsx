@@ -13,7 +13,7 @@ export default function StackLayout() {
         headerStyle: { backgroundColor: theme.colors.gray[100] },
         headerTintColor: theme.colors.gray[800],
         headerLeft: ({ tintColor }) => (
-          <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginLeft: 15 }}>
+          <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginLeft: 5 }}>
             <MaterialIcons name="arrow-back-ios" size={30} color={tintColor} />
           </TouchableOpacity>
         ),
