@@ -17,14 +17,6 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: false,
       },
-      hora_Inicio: {
-        type: Sequelize.TIME,
-        allowNull: true,
-      },
-      hora_Final: {
-        type: Sequelize.TIME,
-        allowNull: true,
-      },
       id_veiculo: {
         type: Sequelize.INTEGER,
         references: {
@@ -40,6 +32,16 @@ module.exports = {
         },
         onDelete: 'RESTRICT',
         onUpdate: 'CASCADE',
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW
       }
     });
   },

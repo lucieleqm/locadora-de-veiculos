@@ -13,14 +13,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       allowNull: false,
     },
-    hora_Inicio: {
-      type: DataTypes.TIME,
-      allowNull: true,
-    },
-    hora_Final: {
-      type: DataTypes.TIME,
-      allowNull: true,
-    },
     id_veiculo: {
       type: DataTypes.INTEGER,
       references: {
@@ -39,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
     }
     }, {
     tableName: "tb_locacao",
-    timestamps: false
+    timestamps: true
   });
 
   Locacao.associate = (models) => {

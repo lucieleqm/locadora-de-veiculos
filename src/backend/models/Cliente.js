@@ -42,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
 
   }, {
     tableName: "tb_cliente",
-    timestamps: false
+    timestamps: true
   });
 
   Cliente.associate = (models) => {

@@ -12,6 +12,17 @@ module.exports = {
       nome: {
         type: Sequelize.STRING(50),
         allowNull: false,
+      },
+      id_tipo_veiculo: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'tb_tipo_veiculo',
+          key: 'id'
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+  
+        allowNull: false
       }
     })
   },

@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     tableName: "tb_blacklist",
-    timestamps: false
+    timestamps: true
   });
 
   Blacklist.associate = (models) => {

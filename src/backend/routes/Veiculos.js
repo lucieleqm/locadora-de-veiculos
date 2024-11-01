@@ -60,41 +60,43 @@ router.get("/insert", (req, res) => {
 router.post('/insert', upload.array('imagens'), async (req, res) => {
   const t = await Veiculo.sequelize.transaction();
   const {
-    tipo,
+    id_tipo_veiculo,
     placa,
     renavam,
     chassi,
     motor,
-    cor,
+    km,
+    id_cor,
     ano,
     valor,
-    status,
+    disponibilidade,
     id_modelo,
     id_combustivel,
   } = req.body;
 
   try {
     const novoVeiculo = await Veiculo.create({
-      tipo,
+      id_tipo_veiculo,
       placa,
       renavam,
       chassi,
       motor,
-      cor,
+      km,
+      id_cor,
       ano,
       valor,
-      status,
+      disponibilidade,
       id_modelo,
       id_combustivel,
     }, { transaction: t });
 
+    // Manipulação das imagens
     //const imagens = req.files.map((file) => ({ id_veiculo: novoVeiculo.id, url: file.buffer}))
     const imagens = req.files.map((file) => ({
       id_veiculo: novoVeiculo.id,
       url: `uploads/${file.filename}`/*`data:image/jpeg;base64,${file.buffer.toString('base64')}`*/, // Armazena a imagem em base64 para exibição
     }));
 
-    // cria as imagens relacionadas ao veículo
     await ImagemVeiculo.bulkCreate(imagens, { transaction: t });
 
     await t.commit();

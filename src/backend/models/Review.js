@@ -8,16 +8,19 @@ module.exports = (sequelize, DataTypes) => {
     estrelas: {
       type: DataTypes.FLOAT,
       allowNull: false,
+      default: 0,
       validate: {
         min: 0,
         max: 5,
       },
     },
     comentario: {
+      allowNull: true,
       type: DataTypes.TEXT,
     },
     id_locacao: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       references: {
         model: 'tb_locacao',
         key: 'id',
@@ -27,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
     }
     }, {
     tableName: "tb_review",
-    timestamps: false
+    timestamps: true
   });
 
   Review.associate = (models) => {

@@ -12,11 +12,15 @@ app.use(express.json());
 
 const db = require("./models");
 const clienteRoute = require("./routes/Clientes");
+const coresRoute = require("./routes/Cores");
+const tiposVeiculoRoute = require("./routes/TiposVeiculo");
 const marcaRoute = require("./routes/Marcas");
 const combustivelRoute = require("./routes/Combustiveis");
 const veiculoRoute = require("./routes/Veiculos");
 
 app.use("/clientes", clienteRoute);
+app.use("/cores",coresRoute);
+app.use("/tipos",tiposVeiculoRoute);
 app.use("/marcas",marcaRoute);
 app.use("/combustiveis",combustivelRoute);
 app.use("/veiculos",veiculoRoute);

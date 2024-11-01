@@ -12,22 +12,35 @@ module.exports = {
       estrelas: {
         type: Sequelize.FLOAT,
         allowNull: false,
+        default: 0,
         validate: {
           min: 0,
           max: 5
         }
       },
       comentario: {
+        allowNull: true,
         type: Sequelize.TEXT,
       },
       id_locacao: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references: {
           model: 'tb_locacao',
           key: 'id'
         },
         onDelete: 'RESTRICT',
         onUpdate: 'CASCADE',
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW
       }
     });
   },

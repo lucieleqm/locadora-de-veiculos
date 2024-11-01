@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     id_veiculo: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       references: {
         model: 'tb_veiculo',
         key: 'id'
@@ -19,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       onUpdate: 'CASCADE',
     }
   }, {
-      tableName: "tb_imgveiculo",
+      tableName: "tb_img_veiculo",
       timestamps: false
   });
 
