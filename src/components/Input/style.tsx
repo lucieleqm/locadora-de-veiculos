@@ -2,6 +2,10 @@ import { StyleSheet } from "react-native";
 import { theme } from "../../styles/theme";
 
 const styles = StyleSheet.create({
+  inputContainer: {
+    flex: 1,
+    padding: 10,
+  },
   inputForm: {
     width: "100%",
     height: 48,
@@ -21,6 +25,13 @@ const styles = StyleSheet.create({
     color: theme.colors.gray[800],
     marginBottom: 5,
     marginLeft: 10,
+  },
+  inputPicker: {
+    backgroundColor: "#ffff",
+    borderWidth: 3,
+    borderColor: theme.colors.blue,
+    borderRadius: 4,
+    padding: 8,
   },
   errorText: {
     color: theme.colors.red,

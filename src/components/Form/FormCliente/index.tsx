@@ -9,8 +9,8 @@ import { FormInputController } from "../../../controllers/FormInputController";
 import FormButton from "../../Button/FormButton";
 
 import { useNavigation } from "expo-router";
-import axios from "axios";
 import styles from "../style";
+import api from "../../../services/api";
 
 // Define a interface para o tipo de dados do formulário
 interface ClienteFormData {
@@ -47,8 +47,8 @@ export function FormCliente() {
     setLoading(true); // Ativa o estado de carregamento
 
     try {
-      const response = await axios.post(
-        "http://192.168.1.48:3001/clientes/insert",
+      const response = await api.post(
+        "/clientes/insert",
         dados
       ); // Ajuste a URL conforme necessário
 
@@ -72,9 +72,6 @@ export function FormCliente() {
   return (
     <ScrollView>
       <View style={styles.formContainer}>
-        <View style={styles.formTitle}>
-          <Text style={styles.formTitleText}> Cadastrar Cliente </Text>
-        </View>
         <FormInputController
           control={control}
           name={"nome"}

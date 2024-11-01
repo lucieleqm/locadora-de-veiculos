@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import styles from "./style";
 import axios from "axios";
+import api from "../../services/api";
 
 export default function ListVeiculo() {
   /*
@@ -53,8 +54,8 @@ export default function ListVeiculo() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "http://192.168.1.48:3001/veiculos/select"
+        const response = await api.get(
+          "/veiculos/select"
         );
         setData(response.data);
       } catch (error) {

@@ -38,7 +38,7 @@ export default function FormReparos() {
 
   const navigation = useNavigation();
   return (
-    <ScrollView className="w-full flex-1 bg-slate-100 p-5">
+    <ScrollView>
       <SafeAreaView style={styles.formContainer}>
         <SafeAreaView style={styles.formTitle}>
           <TouchableOpacity
@@ -47,7 +47,6 @@ export default function FormReparos() {
           >
             <MaterialIcons name="arrow-back-ios" size={25} color="black" />
           </TouchableOpacity>
-          <Text style={styles.formTitleText}>Adicionar Reparo</Text>
         </SafeAreaView>
         <FormInputController
           control={control}
