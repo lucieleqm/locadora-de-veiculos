@@ -8,7 +8,7 @@ import styles from '../../../../styles/style'
 export default function Locacoes(){
     return (
       <SafeAreaView style={styles.container}>
-        <AddButton onPress={()=>router.push('../../../(stack)/addReparo')}/>
+        <AddButton onPress={()=>router.push('../../../addReparo')}/>
       </SafeAreaView>
     )
 }

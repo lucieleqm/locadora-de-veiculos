@@ -1,35 +1,60 @@
 import React from "react";
-import { Slot } from "expo-router";
+import { Slot, Stack } from "expo-router";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import * as SplashScreen from "expo-splash-screen"
 import { StatusBar } from "expo-status-bar";
 
-import {
-  useFonts,
-  Roboto_300Light,
-  Roboto_400Regular,
-  Roboto_500Medium,
-  Roboto_700Bold,
-} from "@expo-google-fonts/roboto";
- 
-SplashScreen.preventAutoHideAsync()
+import { TouchableOpacity } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
+
+import { useFontLoader } from "../hooks/useFontLoader";
+import { theme } from "../styles/theme";
+
 
 export default function Layout() {
-  const [fontsLoaded] = useFonts({
-    Roboto_300Light,
-    Roboto_400Regular,
-    Roboto_500Medium,
-    Roboto_700Bold,
-  });
 
-  if (!fontsLoaded){
-    SplashScreen.hideAsync()
-  }
+  const fontsLoaded = useFontLoader();
+  if (!fontsLoaded) return null;
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <StatusBar style="auto"/>
-      <Slot />
+      <Stack
+      screenOptions={({ navigation }) => ({
+        title: "",
+        headerStyle: { backgroundColor: theme.colors.gray[100] },
+        headerTintColor: theme.colors.gray[800],
+        headerTitleStyle: { fontFamily: theme.fontFamily.bold },
+        headerLeft: ({ tintColor }) => (
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={{ marginLeft: 5 }}
+          >
+            <MaterialIcons name="arrow-back-ios" size={30} color={tintColor} />
+          </TouchableOpacity>
+        ),
+        headerShown: true,
+      })}
+    >
+      <Stack.Screen
+        name="(drawer)"
+        options={{ headerShown: false}}
+      />
+      <Stack.Screen
+        name="addCliente"
+        options={{ title: "Cadastrar Cliente" }}
+      />
+      <Stack.Screen name="addReparo" 
+      options={{ title: "Adicionar Reparo" }} />
+      <Stack.Screen
+        name="addLocacao"
+        options={{ title: "Adicionar Locação" }}
+      />
+      <Stack.Screen
+        name="addVeiculo"
+        options={{ title: "Cadastrar Veículo" }}
+      />
+    </Stack>  
     </GestureHandlerRootView>
   );
 }

@@ -50,6 +50,8 @@ export function ImageSlider() {
   );
 
   return (
+    <View></View>
+    /*
     <SafeAreaView>
       <FlatList
         data={images}
@@ -80,7 +82,7 @@ export function ImageSlider() {
           ))}
         </View>
       ) : null}
-    </SafeAreaView>
+    </SafeAreaView>*/
   );
 }
 const styles = StyleSheet.create({

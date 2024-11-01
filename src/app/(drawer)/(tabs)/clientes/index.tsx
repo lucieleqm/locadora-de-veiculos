@@ -51,7 +51,7 @@ export default function Clientes() {
   return (
     <SafeAreaView style={styles.container}>
       <ListCliente></ListCliente>
-      <AddButton onPress={() => router.push("../../../(stack)/addCliente")}/>
+      <AddButton onPress={() => router.push("../../../addCliente")}/>
     </SafeAreaView>
 /*
 <SafeAreaView style={styles.boxMain}>

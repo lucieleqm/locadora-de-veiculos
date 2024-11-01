@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <SafeAreaView style={styles.container}>
       <ListVeiculo />
-      <AddButton onPress={()=>router.push('../../../(stack)/addVeiculo')} />
+      <AddButton onPress={()=>router.push('../../../addVeiculo')} />
     </SafeAreaView>
   );
 }
