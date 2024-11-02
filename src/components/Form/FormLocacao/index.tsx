@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
   Text,
   View,
+  Button,
+  Image,
 } from "react-native";
 import DatePicker from "react-native-modern-datepicker";
 import { getFormatedDate, getToday } from "react-native-modern-datepicker";
@@ -17,6 +19,7 @@ import { FormInputController } from "../../../controllers/FormInputController";
 import { locacaoSchema } from "../../../schemas/locacaoShemas";
 import styles from "../style";
 import FormButton from "../../Button/FormButton";
+import * as ImagePicker from "expo-image-picker";
 
 interface LocacaoFormData {
   cpfCliente: string;
@@ -34,8 +37,12 @@ export function FormLocacao() {
     resolver: yupResolver(locacaoSchema),
   });
 
+  // variáveis relacionadas ao DatePicker
   const [openInicio, setOpenInicio] = useState(false);
   const [openFinal, setOpenFinal] = useState(false);
+
+  // variáveis relacionadas ao ImagePicker
+  const [imagens, setImagens] = useState<any[]>([]);
 
   const today = new Date();
   today.setDate(today.getDate() + 1);
@@ -44,10 +51,31 @@ export function FormLocacao() {
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
 
+  // Função para selecionar imagens
+  const pickImage = async () => {
+    const { assets, canceled } = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      //allowsMultipleSelection: false,
+      allowsEditing: true,
+      aspect: [4, 4],
+      quality: 1,
+    });
+    if (!canceled && assets) {
+      setImagens((prevImagens) => [...prevImagens, assets[0]]);
+    } else {
+      console.log("Operação cancelada");
+    }
+  };
+
+  // Função do botão de cadastro do Formulário
   async function cadastrarLocacao(dados: LocacaoFormData) {
     try {
-      const veiculoResponse = await api.get(`/veiculos/buscarPorPlaca/${dados.placaVeiculo}`);
-      const clienteResponse = await api.get(`/clientes/buscarPorCpf/${dados.cpfCliente}`);
+      const veiculoResponse = await api.get(
+        `/veiculos/buscarPorPlaca/${dados.placaVeiculo}`
+      );
+      const clienteResponse = await api.get(
+        `/clientes/buscarPorCpf/${dados.cpfCliente}`
+      );
 
       const formData = new FormData();
       formData.append("id_cliente", clienteResponse.data.id);
@@ -56,6 +84,17 @@ export function FormLocacao() {
       formData.append("dt_final", dados.dtFinal);
 
       console.log("FormData Enviado:", formData);
+
+      imagens.forEach((imagem, index) => {
+        const filename = imagem.uri.split("/").pop();
+        const type = `image/${filename?.split(".").pop()}`;
+  
+        formData.append("imagens", {
+          uri: imagem.uri,
+          name: filename,
+          type: type,
+        } as any);
+      });
 
       const response = await api.post("/locacoes/cadastrar", formData, {
         headers: { "Content-Type": "multipart/form-data" },
@@ -80,6 +119,16 @@ export function FormLocacao() {
 
   return (
     <SafeAreaView style={styles.formContainer}>
+
+      {/*Botão para capturar as iamgens*/}
+      <Button title="Capturar Imagens" onPress={pickImage} />
+      {imagens.map((image, index) => (
+        <Image
+          key={index}
+          source={{ uri: image.uri }}
+          style={styles.boxImageLoad}
+        />
+      ))}
       <FormInputController
         control={control}
         name="cpfCliente"
@@ -108,7 +157,11 @@ export function FormLocacao() {
 
             {error && <Text style={{ color: "red" }}>{error.message}</Text>}
 
-            <Modal animationType="slide" transparent={true} visible={openInicio}>
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={openInicio}
+            >
               <View style={styles.centeredView}>
                 <View style={styles.modalView}>
                   <DatePicker
