@@ -3,19 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const { Veiculo, Modelo, ImagemVeiculo, Sequelize } = require("../models");
 const { ForeignKeyConstraintError } = Sequelize;
-
-//const storage = multer.memoryStorage(); const upload = multer({ storage: storage})
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, `${uniqueSuffix}-${file.originalname}`);
-  }
-});
-const upload = multer({ storage: storage });
-
+const upload = require('../config/multer');
 
 router.get('', async (req, res) => {
   try {
@@ -75,6 +63,8 @@ router.get("/insert", (req, res) => {
 // Rota para cadastro de um veículo
 
 router.post('/insert', upload.array('imagens'), async (req, res) => {
+  // transaction serve para garantir que todas as inserções sejam atômicas, 
+  //ou seja,  (ou todas ocorrem, ou nenhuma ocorre, para garantir integridade)
   const t = await Veiculo.sequelize.transaction();
   const {
     id_tipo_veiculo,
@@ -114,6 +104,7 @@ router.post('/insert', upload.array('imagens'), async (req, res) => {
       url: `uploads/${file.filename}`/*`data:image/jpeg;base64,${file.buffer.toString('base64')}`*/, // Armazena a imagem em base64 para exibição
     }));
 
+    // Cadastra Imagens
     await ImagemVeiculo.bulkCreate(imagens, { transaction: t });
 
     await t.commit();
