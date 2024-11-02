@@ -1,6 +1,6 @@
 import React from "react";
 import { SafeAreaView } from "react-native";
-import ListVeiculo from "../../../../components/ListVeiculo";
+import ListVeiculo from "../../../../components/List/ListVeiculo";
 import AddButton from "../../../../components/Button/AddButton";
 import { useRouter } from "expo-router";
 
