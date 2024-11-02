@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import {
-  StyleSheet,
   Text,
   View,
   FlatList,
   Image,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
+
 import styles from "./style";
-import axios from "axios";
 import api from "../../services/api";
+import { theme } from "../../styles/theme";
 
 export default function ListVeiculo() {
   /*
@@ -54,9 +55,7 @@ export default function ListVeiculo() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get(
-          "/veiculos/select"
-        );
+        const response = await api.get("/veiculos/select");
         setData(response.data);
       } catch (error) {
         console.error("Erro ao buscar veículos:", error);
@@ -72,7 +71,7 @@ export default function ListVeiculo() {
         <View>
           {item.ImagemVeiculos && item.ImagemVeiculos.length > 0 ? (
             <Image
-              source={{ 
+              source={{
                 uri: `http://192.168.1.48:3001/${item.ImagemVeiculos[0].url}`,
               }}
               style={styles.cardImage}
@@ -93,12 +92,16 @@ export default function ListVeiculo() {
 
   return (
     <View style={styles.listContainer}>
-      <FlatList
-        data={data}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={renderItem}
-        numColumns={2}
-      />
+      {isLoading ? (
+        <ActivityIndicator size="large" color={theme.colors.gray[800]}/>
+      ) : (
+        <FlatList
+          data={data}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={renderItem}
+          numColumns={2}
+        />
+      )}
     </View>
   );
 }

@@ -8,7 +8,7 @@ import {
   Alert,
   Switch,
 } from "react-native";
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { useForm, SubmitHandler} from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { veiculoSchema } from "../../../schemas/veiculoSchemas";
 import { FormInputController } from "../../../controllers/FormInputController";
@@ -133,7 +133,7 @@ export function FormVeiculo() {
   };
 
   // Função do botão de Cadastrar
-  async function CadastrarVeiculo(dados: VeiculoFormData) {
+  async function cadastrarVeiculo(dados: VeiculoFormData) {
     const formData = new FormData();
 
     formData.append("id_tipo_veiculo", dados.tipo.toString());
@@ -304,7 +304,7 @@ export function FormVeiculo() {
 
         <FormButton
           label="Salvar"
-          onPress={handleSubmit(CadastrarVeiculo)}
+          onPress={handleSubmit(cadastrarVeiculo)}
           disabled={loading}
         />
       </View>

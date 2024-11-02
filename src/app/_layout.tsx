@@ -1,7 +1,6 @@
 import React from "react";
 import { Slot, Stack } from "expo-router";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import * as SplashScreen from "expo-splash-screen"
 import { StatusBar } from "expo-status-bar";
 
 import { TouchableOpacity } from "react-native";
