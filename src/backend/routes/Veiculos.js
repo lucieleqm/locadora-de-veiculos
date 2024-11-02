@@ -17,7 +17,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 
-router.get('/select', async (req, res) => {
+router.get('', async (req, res) => {
   try {
     const veiculos = await Veiculo.findAll({
       include: [{ model: Modelo, attributes: ['nome']},
@@ -30,6 +30,23 @@ router.get('/select', async (req, res) => {
     res.status(500).send('Erro ao buscar veículos');
   }
 });
+
+// Busca Veículo por meio da Placa
+// ex: "http://localhost:3001/veiculos/buscarPorPlaca/ABC0D00"
+router.get('/buscarPorPlaca/:placa', async (req, res) => {
+  const { placa } = req.params;
+  try {
+      const veiculo = await Veiculo.findOne({ where: { placa } });
+      if (!veiculo) {
+          return res.status(404).json({ error: 'Veículo não encontrado' });
+      }
+      res.json(veiculo);
+  } catch (error) {
+      console.error("Erro ao buscar veículo:", error);
+      res.status(500).json({ error: 'Erro ao buscar veículo' });
+  }
+});
+
 /*
 router.get("/insert", (req, res) => {
     //res.send("insert");
