@@ -9,8 +9,8 @@ import {
 } from "react-native";
 
 import styles from "./style";
-import api from "../../services/api";
-import { theme } from "../../styles/theme";
+import api from "../../../services/api";
+import { theme } from "../../../styles/theme";
 
 export default function ListVeiculo() {
   /*
@@ -55,7 +55,7 @@ export default function ListVeiculo() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get("/veiculos/select");
+        const response = await api.get("/veiculos");
         setData(response.data);
       } catch (error) {
         console.error("Erro ao buscar veículos:", error);
