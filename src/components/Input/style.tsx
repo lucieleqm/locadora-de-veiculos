@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
   },
   inputForm: {
     width: "100%",
-    height: 48,
+    height: 50,
     backgroundColor: theme.colors.white,
     borderColor: theme.colors.gray[200],
     borderWidth: 1,
@@ -26,13 +26,20 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     marginLeft: 10,
   },
-  inputPicker: {
+  labelPicker: {
+    fontFamily: theme.fontFamily.medium,
+    fontSize: 16,
+    color: theme.colors.gray[800],
+    marginBottom: 5,
+  },
+  /*inputPicker: {
+    width: "100%",
     backgroundColor: "#ffff",
     borderWidth: 3,
     borderColor: theme.colors.blue,
     borderRadius: 4,
     padding: 8,
-  },
+  },*/
   errorText: {
     color: theme.colors.red,
     marginLeft: 10,

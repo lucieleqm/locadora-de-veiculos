@@ -38,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
     Locacao.belongsTo(models.Veiculo, { foreignKey: 'id_veiculo' });
     Locacao.belongsTo(models.Cliente, { foreignKey: 'id_cliente' });
     Locacao.hasOne(models.Review, { foreignKey: 'id_locacao' });
-
+    Locacao.hasMany(models.ImagemLocacao, { foreignKey: 'id_locacao' });
   }
 
   return Locacao;

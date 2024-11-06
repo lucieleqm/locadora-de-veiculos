@@ -20,6 +20,7 @@ import { locacaoSchema } from "../../../schemas/locacaoShemas";
 import styles from "../style";
 import FormButton from "../../Button/FormButton";
 import * as ImagePicker from "expo-image-picker";
+import { ScrollView } from "react-native-gesture-handler";
 
 interface LocacaoFormData {
   cpfCliente: string;
@@ -88,7 +89,7 @@ export function FormLocacao() {
       imagens.forEach((imagem, index) => {
         const filename = imagem.uri.split("/").pop();
         const type = `image/${filename?.split(".").pop()}`;
-  
+
         formData.append("imagens", {
           uri: imagem.uri,
           name: filename,
@@ -119,114 +120,119 @@ export function FormLocacao() {
 
   return (
     <SafeAreaView style={styles.formContainer}>
-
-      {/*Botão para capturar as iamgens*/}
-      <Button title="Capturar Imagens" onPress={pickImage} />
-      {imagens.map((image, index) => (
-        <Image
-          key={index}
-          source={{ uri: image.uri }}
-          style={styles.boxImageLoad}
+      <ScrollView>
+        {/*Botão para capturar as iamgens*/}
+        <Button title="Capturar Imagens" onPress={pickImage} />
+        {imagens.map((image, index) => (
+          <Image
+            key={index}
+            source={{ uri: image.uri }}
+            style={styles.boxImageLoad}
+          />
+        ))}
+        <FormInputController
+          control={control}
+          name="cpfCliente"
+          label="CPF do Locatário *"
+          errors={errors}
+          keyboardType="numeric"
+          placeholder="000.000.000-00"
+          maskType="cpf"
         />
-      ))}
-      <FormInputController
-        control={control}
-        name="cpfCliente"
-        label="CPF do Locatário *"
-        errors={errors}
-        keyboardType="numeric"
-        placeholder="000.000.000-00"
-        maskType="cpf"
-      />
-      <FormInputController
-        control={control}
-        name="placaVeiculo"
-        label="Placa do Veículo *"
-        errors={errors}
-        placeholder="AAA0A00"
-      />
+        <FormInputController
+          control={control}
+          name="placaVeiculo"
+          label="Placa do Veículo *"
+          errors={errors}
+          placeholder="AAA0A00"
+        />
 
-      <Controller
-        control={control}
-        name="dtInicio"
-        render={({ field: { onChange, value }, fieldState: { error } }) => (
-          <>
-            <TouchableOpacity onPress={() => setOpenInicio(true)}>
-              <Text>{value || "Selecionar Data de Início"}</Text>
-            </TouchableOpacity>
+        <Controller
+          control={control}
+          name="dtInicio"
+          render={({ field: { onChange, value }, fieldState: { error } }) => (
+            <>
+              <TouchableOpacity onPress={() => setOpenInicio(true)}>
+                <Text>{value || "Selecionar Data de Início"}</Text>
+              </TouchableOpacity>
 
-            {error && <Text style={{ color: "red" }}>{error.message}</Text>}
+              {error && <Text style={{ color: "red" }}>{error.message}</Text>}
 
-            <Modal
-              animationType="slide"
-              transparent={true}
-              visible={openInicio}
-            >
-              <View style={styles.centeredView}>
-                <View style={styles.modalView}>
-                  <DatePicker
-                    mode="calendar"
-                    selected={value}
-                    minimumDate={startDate}
-                    onDateChange={(date) => {
-                      console.log(typeof date);
-                      const formattedDate = date.replace(/\//g, "-");
-                      console.log(`Data de Início Selecionada: ${date}`);
-                      onChange(date);
-                      setOpenInicio(false);
-                    }}
-                    locale="pt-br"
-                  />
-                  <TouchableOpacity onPress={() => setOpenInicio(false)}>
-                    <Text>Fechar</Text>
-                  </TouchableOpacity>
+              <Modal
+                animationType="slide"
+                transparent={true}
+                visible={openInicio}
+              >
+                <View style={styles.centeredView}>
+                  <View style={styles.modalView}>
+                    <DatePicker
+                      mode="calendar"
+                      selected={value}
+                      minimumDate={startDate}
+                      onDateChange={(date) => {
+                        console.log(typeof date);
+                        const formattedDate = date.replace(/\//g, "-");
+                        console.log(`Data de Início Selecionada: ${date}`);
+                        onChange(date);
+                        setOpenInicio(false);
+                      }}
+                      locale="pt-br"
+                    />
+                    <TouchableOpacity onPress={() => setOpenInicio(false)}>
+                      <Text>Fechar</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
-              </View>
-            </Modal>
-          </>
-        )}
-      />
+              </Modal>
+            </>
+          )}
+        />
 
-      <Controller
-        control={control}
-        name="dtFinal"
-        render={({ field: { onChange, value }, fieldState: { error } }) => (
-          <>
-            <TouchableOpacity onPress={() => setOpenFinal(true)}>
-              <Text>{value || "Selecionar Data de Término"}</Text>
-            </TouchableOpacity>
+        <Controller
+          control={control}
+          name="dtFinal"
+          render={({ field: { onChange, value }, fieldState: { error } }) => (
+            <>
+              <TouchableOpacity onPress={() => setOpenFinal(true)}>
+                <Text>{value || "Selecionar Data de Término"}</Text>
+              </TouchableOpacity>
 
-            {error && <Text style={{ color: "red" }}>{error.message}</Text>}
+              {error && <Text style={{ color: "red" }}>{error.message}</Text>}
 
-            <Modal animationType="slide" transparent={true} visible={openFinal}>
-              <View style={styles.centeredView}>
-                <View style={styles.modalView}>
-                  <DatePicker
-                    mode="calendar"
-                    selected={value}
-                    minimumDate={startDate}
-                    onDateChange={(date) => {
-                      const formattedDate = date.replace(/\//g, "-");
-                      onChange(date);
-                      setOpenFinal(false);
-                    }}
-                    locale="pt-br"
-                  />
-                  <TouchableOpacity onPress={() => setOpenFinal(false)}>
-                    <Text>Fechar</Text>
-                  </TouchableOpacity>
+              <Modal
+                animationType="slide"
+                transparent={true}
+                visible={openFinal}
+              >
+                <View style={styles.centeredView}>
+                  <View style={styles.modalView}>
+                    <DatePicker
+                      mode="calendar"
+                      selected={value}
+                      minimumDate={startDate}
+                      onDateChange={(date) => {
+                        const formattedDate = date.replace(/\//g, "-");
+                        onChange(date);
+                        setOpenFinal(false);
+                      }}
+                      locale="pt-br"
+                    />
+                    <TouchableOpacity onPress={() => setOpenFinal(false)}>
+                      <Text>Fechar</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
-              </View>
-            </Modal>
-          </>
-        )}
-      />
+              </Modal>
+            </>
+          )}
+        />
 
-      <FormButton
-        label="Salvar"
-        onPress={handleSubmit(cadastrarLocacao)}
-        disabled={loading}
-      />
+        <FormButton
+          label="Salvar"
+          onPress={handleSubmit(cadastrarLocacao)}
+          disabled={loading}
+        />
+      </ScrollView>
     </SafeAreaView>
   );
 }
