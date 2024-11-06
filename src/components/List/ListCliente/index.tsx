@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, FlatList } from "react-native";
 import styles from "../style";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import api from '../../../services/api';
+import { useRouter } from 'expo-router';
 
 export default function ListCliente() {
   interface Cliente {
@@ -31,9 +32,13 @@ export default function ListCliente() {
     };
     fetchData();
   }, []);
+  
+  const router = useRouter();
+
   const renderItem = ({ item }: { item: Cliente }) => (
     <View style={styles.card}>
-      <TouchableOpacity>
+      <TouchableOpacity
+      onPress={() => router.push(`/details/info-cliente/${item.id}`)}>
         <Text style={styles.cardTitle}>{item.nome}</Text>
         <Text style={styles.cardText}>{item.cpf}</Text>
         <Text style={styles.cardText}>{item.telefone}</Text>

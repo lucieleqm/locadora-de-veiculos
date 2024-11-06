@@ -11,7 +11,7 @@ export default function Locacoes(){
     return (
       <SafeAreaView style={styles.container}>
         <ListLocacao/>
-        <AddButton onPress={()=>router.push('../../../addLocacao')}/>
+        <AddButton onPress={()=>router.push('../../../add-locacao')}/>
       </SafeAreaView>
     )
 }

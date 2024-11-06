@@ -1,18 +1,24 @@
 const express = require("express");
 const router = express.Router();
-const { Locacao, ImagemLocacao, Cliente, Veiculo, Modelo, Marca} = require("../models");
+const { Locacao, ImagemLocacao, Cliente, Veiculo, Modelo, Marca } = require("../models");
 const upload = require('../config/multer');
 
 // Buscar Todas as Locacoes
 router.get("", (req, res) => {
     Locacao.findAll({
         include: [
-            {model: Cliente, atributes: ['nome']},
-            {model: Veiculo, include: [
-                {model: Modelo, atributes: ['nome'], include: [
-                    {model: Marca, atributes: ['nome']}
-                ]}
-            ]},
+            { model: Cliente, attributes: ['nome'] },
+            {
+                model: Veiculo, attributes: ['placa'],
+                include: [
+                    {
+                        model: Modelo, attributes: ['nome'],
+                        include: [
+                            { model: Marca, attributes: ['nome'] }
+                        ]
+                    }
+                ]
+            },
         ]
     }).then((locacoes) => {
         res.send(locacoes)
@@ -23,8 +29,38 @@ router.get("", (req, res) => {
     })
 });
 
+
+// Buscar Locacao por Id
+router.get("/:id", async (req, res) => {
+    const { id } = req.params;
+    try {
+        const locacao = await Locacao.findOne({
+            where: { id },
+            include: [{
+                model: ImagemLocacao, attributes: ['id', 'url']
+            }, {
+                model: Cliente, attributes: ['nome', 'cpf', 'telefone']
+            }, {
+                model: Veiculo, attributes: ['placa'], include: [{
+                    model: Modelo, attributes: ['nome'], include: [{
+                        model: Marca, attributes: ['nome']
+                    }]
+                }]
+            }]
+        });
+        if (!locacao) {
+            return res.status(404).json({ error: 'Locação não encontrada' });
+        }
+        res.json(locacao);
+    } catch (error) {
+        console.error("Erro ao buscar locacao:", error);
+        res.status(500).json({ error: 'Erro ao buscar locacao' });
+    }
+});
+
+
 // Rota para Cadastrar a Locacao
-router.post("/cadastrar", upload.array('imagens') ,async (req, res) => {
+router.post("/cadastrar", upload.array('imagens'), async (req, res) => {
     // transaction serve para garantir que todas as inserções sejam atômicas, 
     //ou seja,  (ou todas ocorrem, ou nenhuma ocorre, para garantir integridade)
     const t = await Locacao.sequelize.transaction();
@@ -35,14 +71,14 @@ router.post("/cadastrar", upload.array('imagens') ,async (req, res) => {
     try {
         // Cria a Locacão
         const novaLocacao = await Locacao.create({
-            dt_Inicio: dt_inicio, 
-            dt_Final: dt_final, 
-            id_veiculo, 
+            dt_Inicio: dt_inicio,
+            dt_Final: dt_final,
+            id_veiculo,
             id_cliente,
         }, { transaction: t });
 
         // Manipulação das imagens
-       const imagens = req.files.map((file) => ({
+        const imagens = req.files.map((file) => ({
             id_locacao: novaLocacao.id,
             url: `uploads/${file.filename}`
         }));

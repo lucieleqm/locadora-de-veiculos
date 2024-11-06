@@ -40,17 +40,18 @@ export default function Layout() {
         options={{ headerShown: false}}
       />
       <Stack.Screen
-        name="addCliente"
+        name="add-cliente"
         options={{ title: "Cadastrar Cliente" }}
       />
-      <Stack.Screen name="addReparo" 
+      <Stack.Screen 
+      name="add-reparo" 
       options={{ title: "Adicionar Reparo" }} />
       <Stack.Screen
-        name="addLocacao"
+        name="add-locacao"
         options={{ title: "Adicionar Locação" }}
       />
       <Stack.Screen
-        name="addVeiculo"
+        name="add-veiculo"
         options={{ title: "Cadastrar Veículo" }}
       />
     </Stack>  

@@ -1,21 +1,97 @@
-import React from "react";
-import { View, Text } from "react-native";
-import styles from "./style";
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  ActivityIndicator,
+  SafeAreaView,
+  ScrollView,
+} from "react-native";
+import { Feather } from "@expo/vector-icons";
 import EditButton from "../../Button/EditButton";
+import api from "../../../services/api";
+import { theme } from "../../../styles/theme";
+import { InfoItem, SectionCard } from "../common";
+import styles from "../common/style";
+import { ImageSlider } from "../../Image/ImageSlider";
 
-export function VehicleDetails() {
+interface VeiculoDetailsData {
+  id: string;
+}
+
+export function VeiculoDetails({ id }: VeiculoDetailsData) {
+  const [isLoading, setLoading] = useState(true);
+  const [details, setDetails] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchDetails = async () => {
+      try {
+        console.log();
+        const response = await api.get(`veiculos/${id}`);
+        console.log("Dados recebidos:", response.data);
+        setDetails(response.data);
+      } catch (error) {
+        console.error("Erro ao buscar locações:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchDetails();
+  }, [id]);
+
+  if (isLoading) {
+    return <ActivityIndicator size="large" color={theme.colors.gray[800]} />;
+  }
+  if (!details) {
+    console.log(id);
+    return <Text>Detalhes não encontrados</Text>;
+  }
+
+  const baseUrl = "http://ip:3001/";
+  const imagens = details.ImagemVeiculos?.map((imagem: any) => ({ 
+    id: imagem.id, 
+    url: `${baseUrl}${imagem.url}`
+  })) ?? [];
+  console.log("imagens:", imagens)
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.titleDetails}>Uma moto aí</Text>
-      <View style={styles.infos}>
-        <Text style={styles.infoDetails}>Ano: 2020</Text>
-        <Text style={styles.infoDetails}>Cor: Prata</Text>
-        <Text style={styles.infoDetails}>Preço: R$ 100,99</Text>
-        <Text style={styles.infoDetails}>Cilindrada: 140 cc</Text>
-      </View>
-      <View style={styles.buttons}>
-        <EditButton/>
-      </View>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <ScrollView>
+
+        <ImageSlider images={imagens} />
+        
+        <View>
+          <View style={styles.header}>
+            <Text>
+              {details.Modelo.Marca.nome} {details.Modelo.nome}
+            </Text>
+            <EditButton />
+          </View>
+        </View>
+
+        <SectionCard
+          title="Ficha Técnica"
+          iconComponent={Feather}
+          iconName="settings"
+        >
+          <InfoItem label="Marca" value={details.Modelo.Marca.nome} />
+          <InfoItem label="Modelo" value={details.Modelo.nome} />
+          <InfoItem label="Ano" value={details.ano} />
+          <InfoItem label="Motor" value={details.motor} />
+          <InfoItem label="Combustível" value={details.Combustivel.tipo} />
+          <InfoItem label="Cor" value={details.Cor.cor} />
+          <InfoItem label="Preço" value={details.valor} />
+        </SectionCard>
+
+        <SectionCard
+          title="Documentação"
+          iconComponent={Feather}
+          iconName="file-text"
+        >
+          <InfoItem label="Placa" value={details.placa} />
+          <InfoItem label="Renavam" value={details.renavam} />
+          <InfoItem label="Chassi" value={details.chassi} />
+        </SectionCard>
+      </ScrollView>
+    </SafeAreaView>
   );
 }

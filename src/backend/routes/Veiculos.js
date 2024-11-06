@@ -1,14 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const multer = require('multer');
-const { Veiculo, Modelo, ImagemVeiculo, Sequelize } = require("../models");
+const { Veiculo, Modelo, ImagemVeiculo, TipoVeiculo, Combustivel, Cor, Marca, Sequelize } = require("../models");
 const { ForeignKeyConstraintError } = Sequelize;
 const upload = require('../config/multer');
+
 
 router.get('', async (req, res) => {
   try {
     const veiculos = await Veiculo.findAll({
-      include: [{ model: Modelo, attributes: ['nome']},
+      include: [{ model: Modelo, attributes: ['nome'] },
       { model: ImagemVeiculo, attributes: ['url'] }
       ],
     });
@@ -19,49 +20,52 @@ router.get('', async (req, res) => {
   }
 });
 
+// Buscar Veiculo por Id
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const veiculo = await Veiculo.findOne({
+      where: { id },
+      include: [
+        { model: ImagemVeiculo, attributes: ['id', 'url'] },
+        { model: Cor, attributes: ['cor'] },
+        { model: TipoVeiculo, attributes: ['tipo'] },
+        { model: Combustivel, attributes: ['tipo'] },
+        {
+          model: Modelo, attributes: ['nome'],
+          include: [{ model: Marca, attributes: ['nome'] }]
+        }
+      ]
+    });
+    if (!veiculo) {
+      return res.status(404).json({ error: 'Veiculo não encontrado' });
+    }
+    res.json(veiculo);
+  } catch (error) {
+    console.error("Erro ao buscar veiculo:", error);
+    res.status(500).json({ error: 'Erro ao buscar veiculo' });
+  }
+});
+
+
 // Busca Veículo por meio da Placa
 // ex: "http://localhost:3001/veiculos/buscarPorPlaca/ABC0D00"
 router.get('/buscarPorPlaca/:placa', async (req, res) => {
   const { placa } = req.params;
   try {
-      const veiculo = await Veiculo.findOne({ where: { placa } });
-      if (!veiculo) {
-          return res.status(404).json({ error: 'Veículo não encontrado' });
-      }
-      res.json(veiculo);
+    const veiculo = await Veiculo.findOne({ where: { placa } });
+    if (!veiculo) {
+      return res.status(404).json({ error: 'Veículo não encontrado' });
+    }
+    res.json(veiculo);
   } catch (error) {
-      console.error("Erro ao buscar veículo:", error);
-      res.status(500).json({ error: 'Erro ao buscar veículo' });
+    console.error("Erro ao buscar veículo:", error);
+    res.status(500).json({ error: 'Erro ao buscar veículo' });
   }
 });
 
-/*
-router.get("/insert", (req, res) => {
-    //res.send("insert");
-    Veiculo.create({
-        tipo: "Moto",
-        placa: "ABC1A24",
-        renavam: "Engenheiro",
-        chassi: "9BD111060T5002156",
-        motor: "200 cc",
-        cor: "Preta",
-        ano: "2020",
-        valor: "100",
-        status: "123",
-        id_modelo: 2766,
-        id_combustivel: 1,
-        imagem: "https://image1.mobiauto.com.br/images/api/images/v1.0/388675756/transform/fl_progressive,f_webp,q_70,w_600"
-        
-    }).catch(err => {
-        if (err) {
-            console.log(err);
-        }
-    })
-});
-*/
 
 // Rota para cadastro de um veículo
-
 router.post('/insert', upload.array('imagens'), async (req, res) => {
   // transaction serve para garantir que todas as inserções sejam atômicas, 
   //ou seja,  (ou todas ocorrem, ou nenhuma ocorre, para garantir integridade)
@@ -98,10 +102,9 @@ router.post('/insert', upload.array('imagens'), async (req, res) => {
     }, { transaction: t });
 
     // Manipulação das imagens
-    //const imagens = req.files.map((file) => ({ id_veiculo: novoVeiculo.id, url: file.buffer}))
     const imagens = req.files.map((file) => ({
       id_veiculo: novoVeiculo.id,
-      url: `uploads/${file.filename}`/*`data:image/jpeg;base64,${file.buffer.toString('base64')}`*/, // Armazena a imagem em base64 para exibição
+      url: `uploads/${file.filename}`
     }));
 
     // Cadastra Imagens

@@ -30,7 +30,6 @@ interface VeiculoFormData {
   cor: number;
   ano: string;
   valor: number;
-  //status: boolean;
   modelo: number;
   combustivel: number;
   marca: number;
@@ -83,7 +82,7 @@ export function FormVeiculo() {
     if (tipoSelecionado) {
       fetchMarcas(tipoSelecionado);
     } else {
-      setMarcas([]); // Limpa as marcas se nenhum tipo for selecionado
+      setMarcas([]);
       setModelos([]); 
     }
   }, [tipoSelecionado]);
@@ -120,7 +119,7 @@ export function FormVeiculo() {
   const pickImage = async () => {
     const { assets, canceled } = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
-      //allowsMultipleSelection: false,
+
       allowsEditing: true,
       aspect: [4, 4],
       quality: 1,
@@ -145,7 +144,6 @@ export function FormVeiculo() {
     formData.append("id_cor", dados.cor.toString());
     formData.append("ano", dados.ano);
     formData.append("valor", dados.valor.toString());
-   // formData.append("status", dados.status.toString());
     formData.append("id_modelo", dados.modelo.toString());
     formData.append("id_combustivel", dados.combustivel.toString());
 
@@ -189,6 +187,7 @@ export function FormVeiculo() {
         <FormPickerController
           control={control}
           name="tipo"
+          label="Tipo *"
           placeholder="Selecione o Tipo"
           errors={errors}
           options={tipos.map((tipo) => ({
@@ -201,8 +200,12 @@ export function FormVeiculo() {
         <FormPickerController
           control={control}
           name="marca"
+          label="Marca *"
           placeholder="Selecione a Marca"
           errors={errors}
+          endpoint="/marcas/criar"
+          additionalData={{ tipoId: tipoSelecionado }}
+          setOptions={setMarcas}
           options={marcas.map((marca) => ({
             label: marca.nome,
             value: marca.id,
@@ -212,8 +215,12 @@ export function FormVeiculo() {
         <FormPickerController
           control={control}
           name="modelo"
+          label="Modelo *"
           placeholder="Selecione o Modelo"
           errors={errors}
+          endpoint="/modelos/criar"
+          additionalData={{ marcaId: marcaSelecionada }}
+          setOptions={setModelos}
           options={modelos.map((modelo) => ({
             key: modelo.id,
             label: modelo.nome,
@@ -224,6 +231,7 @@ export function FormVeiculo() {
         <FormPickerController
           control={control}
           name="cor"
+          label="Cor *"
           placeholder="Selecione a Cor"
           errors={errors}
           options={cores.map((cor) => ({
@@ -235,6 +243,7 @@ export function FormVeiculo() {
         {/* Picker para Combustível */}
         <FormPickerController
           control={control}
+          label="Combustível *"
           name="combustivel"
           placeholder="Selecione o Combustível"
           errors={errors}

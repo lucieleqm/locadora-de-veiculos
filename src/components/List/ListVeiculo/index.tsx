@@ -11,6 +11,7 @@ import {
 import styles from "./style";
 import api from "../../../services/api";
 import { theme } from "../../../styles/theme";
+import { useRouter } from "expo-router";
 
 export default function ListVeiculo() {
   /*
@@ -65,9 +66,13 @@ export default function ListVeiculo() {
     };
     fetchData();
   }, []);
+
+  const router = useRouter();
+  
   const renderItem = ({ item }: { item: Veiculo }) => (
     <View style={styles.cardVehicle}>
-      <TouchableOpacity>
+      <TouchableOpacity
+      onPress={() => router.push(`/details/info-veiculo/${item.id}`)}>
         <View>
           {item.ImagemVeiculos && item.ImagemVeiculos.length > 0 ? (
             <Image

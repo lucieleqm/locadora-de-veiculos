@@ -5,6 +5,7 @@ import {
   FlatList,
   NativeScrollEvent,
   NativeSyntheticEvent,
+  Text,
 } from "react-native";
 import { StyleSheet } from "react-native";
 import React, { useCallback, useState } from "react";
@@ -18,29 +19,18 @@ interface ImageItem {
   url: string;
 }
 
-const images: ImageItem[] = [
-  {
-    id: 1,
-    url: "https://www.chevrolet.com.br/content/dam/chevrolet/mercosur/brazil/portuguese/index/cars/cars-subcontent/09-images/onix-plus-showroom-1920x960.jpg?imwidth=960",
-  },
-  {
-    id: 2,
-    url: "https://quatrorodas.abril.com.br/wp-content/uploads/2024/02/FiatMobiLikeMY245.jpg?quality=70&strip=info",
-  },
-  {
-    id: 3,
-    url: "https://www.yamaha-motor.com.br/ccstore/v1/images/?source=/file/v1561935453053965188/products/30095.3-4-urbano-fazer-fz-25-abs-30095-condicao-img-01-v021.png",
-  },
-];
+interface ImageSliderProps {
+  images: ImageItem[];
+}
 
 const OnBoardingItem: React.FC<{ item: ImageItem }> = ({ item }) => {
   return <Image source={{ uri: item.url }} style={styles.image} />;
 };
 
-export function ImageSlider() {
+export function ImageSlider({ images }: ImageSliderProps) {
   const [activeIndex, setActiveIndex] = useState(0);
 
- // o useCallback melhora o desempenho do scroll  
+  // o useCallback melhora o desempenho do scroll
   const onScrollEnd = useCallback(
     (event: NativeSyntheticEvent<NativeScrollEvent>) => {
       const index = Math.round(event.nativeEvent.contentOffset.x / width);
@@ -49,7 +39,11 @@ export function ImageSlider() {
     []
   );
 
-  return (  
+  if (!images || images.length === 0) {
+    return <Text>Nenhuma imagem disponível</Text>;
+  }
+
+  return (
     <SafeAreaView>
       <FlatList
         data={images}
@@ -83,6 +77,7 @@ export function ImageSlider() {
     </SafeAreaView>
   );
 }
+
 const styles = StyleSheet.create({
   image: {
     width,

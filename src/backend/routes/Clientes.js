@@ -13,6 +13,28 @@ router.get("", (req, res) => {
     })   
 });
 
+
+// Buscar Cliente por Id
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+      const cliente = await Cliente.findOne({
+        where: { id },
+        include: [{
+          model: Endereco,
+        }]
+      });
+      if (!cliente) {
+          return res.status(404).json({ error: 'Cliente não encontrado' });
+      }
+      res.json(cliente);
+  } catch (error) {
+      console.error("Erro ao buscar cliente:", error);
+      res.status(500).json({ error: 'Erro ao buscar cliente' });
+  }
+});
+
+
 // Busca Cliente por meio do Cpf
 // ex: "http://localhost:3001/clietes/buscarPorCpf/000.000.000-00"
 router.get('/buscarPorCpf/:cpf', async (req, res) => {
@@ -29,47 +51,7 @@ router.get('/buscarPorCpf/:cpf', async (req, res) => {
     }
   });
 
-
-
-/*
-router.get("/select", (req, res) => {
-    Cliente.findAll({ where: { nome: "Ana" } }).then((clientes) => {
-        res.send(clientes)
-    }).catch(err => {
-        if (err) {
-            console.log(err);
-        }
-    })
-
-    //res.send("select");
-});
-/*
-router.get("/insert", (req, res) => {
-    //res.send("insert");
-    Cliente.create({
-        nome: "João da Silva",
-        estado_civil: "Solteiro",
-        profissao: "Engenheiro",
-        rg: "123456789",
-        cpf: "123.456.789-00",
-        email: "joao@example.com",
-        telefone: "1234567890",
-        rua: "Rua Exemplo",
-        numero: "123",
-        bairro: "Centro",
-        complemento: "Apto 101",
-        cidade: "Cidade Exemplo",
-        cep: "12345-678"
-    }).catch(err => {
-        if (err) {
-            console.log(err);
-        }
-    })
-});
-*/
-
-
-
+// Rota de Cadastro de Cliente
 router.post("/insert", async (req, res) => {
     const t = await Cliente.sequelize.transaction();
   

@@ -5,6 +5,7 @@ import styles from "../style";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import api from '../../../services/api';
 import { theme } from '../../../styles/theme';
+import { useRouter } from 'expo-router';
 
 export default function ListLocacao() {
   interface Locacao {
@@ -47,9 +48,13 @@ export default function ListLocacao() {
     };
     fetchData();
   }, []);
+
+  const router = useRouter();
+
   const renderItem = ({ item }: { item: Locacao }) => (
     <View style={styles.card}>
-      <TouchableOpacity>
+      <TouchableOpacity
+      onPress={() => router.push(`/details/info-locacao/${item.id}`)}>
         <Text style={styles.cardTitle}>{item.Veiculo.Modelo.nome}</Text>
         <Text style={styles.cardText}>{item.Cliente.nome}</Text>
         <Text style={styles.cardText}>Início: {dateFormat(item.dt_Inicio)}</Text>
