@@ -12,32 +12,9 @@ import styles from "./style";
 import api from "../../../services/api";
 import { theme } from "../../../styles/theme";
 import { useFocusEffect, useRouter } from "expo-router";
+import { TextInput } from "react-native-gesture-handler";
 
 export default function ListVeiculo() {
-  /*
-    const [list, setList] = useState();
-
-    const handleOrderClick = () => {
-        let newList = [];
-        
-        // Ordenar a lista de a-z
-        newList.sort((a, b)=> {
-            if(a.name > b.name) {
-                return 1;
-            }else {
-                if(b.name > a.name) {
-                    return -1;
-                }else {
-                    return 0;
-                }
-            }
-            
-        });
-
-        setList(newList);
-    };
-*/
-
   interface Veiculo {
     id: number;
     Modelo: {
@@ -50,13 +27,16 @@ export default function ListVeiculo() {
     }[];
   }
 
+  const [searchText, setSearchText] = useState("");
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState<Veiculo[]>([]);
+  const [lista, setLista] = useState(data);
 
   const fetchData = async () => {
     try {
       const response = await api.get("/veiculos");
       setData(response.data);
+      setLista(response.data)
     } catch (error) {
       console.error("Erro ao buscar veículos:", error);
     } finally {
@@ -64,10 +44,30 @@ export default function ListVeiculo() {
     }
   };
 
+  useEffect(() => {
+    if (searchText === "") {
+      setLista(data);
+    } else {
+      setLista(
+        data.filter((item) => (
+          item.Modelo.nome.toLowerCase().indexOf(searchText.toLowerCase())) > -1
+        )
+      );
+    }
+  }, [searchText, data]);
+
+  const handleOnClick = () => {
+    let newList = [...data];
+
+    newList.sort((a, b) => (a.Modelo.nome > b.Modelo.nome)?1:(b.Modelo.nome > a.Modelo.nome)?-1:0);
+
+    setLista(newList);
+  };
+
   useFocusEffect(
     React.useCallback(() => {
       fetchData();
-    }, [fetchData])
+    }, [])
   );
 
   const router = useRouter();
@@ -104,12 +104,21 @@ export default function ListVeiculo() {
       {isLoading ? (
         <ActivityIndicator size="large" color={theme.colors.gray[800]} />
       ) : (
-        <FlatList
-          data={data}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={renderItem}
-          numColumns={2}
-        />
+        <View>
+          <TextInput
+            placeholder="Pesquise um veículo"
+            value={searchText}
+            onChangeText={(text) => setSearchText(text)}
+            returnKeyType="done"
+            onFocus={() => {}}
+          />
+          <FlatList
+            data={lista}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={renderItem}
+            numColumns={2}
+          />
+        </View>
       )}
     </View>
   );
