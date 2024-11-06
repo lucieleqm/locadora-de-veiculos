@@ -31,7 +31,7 @@ interface VeiculoFormData {
   km: number;
   cor: number;
   ano: string;
-  valor: number;
+  valor: string;
   modelo: number;
   combustivel: number;
   marca: number;
@@ -167,7 +167,7 @@ export function FormVeiculo() {
     formData.append("km", dados.km.toString());
     formData.append("id_cor", dados.cor.toString());
     formData.append("ano", dados.ano);
-    formData.append("valor", dados.valor.toString());
+    formData.append("valor", dados.valor.replace("R$ ", "").replace(",", ".").trim());
     formData.append("id_modelo", dados.modelo.toString());
     formData.append("id_combustivel", dados.combustivel.toString());
 
@@ -329,7 +329,11 @@ export function FormVeiculo() {
           name="placa"
           label="Placa *"
           errors={errors}
-          placeholder="Ex.: ABC-1234"
+          placeholder="Ex.: AAA9A99"
+          maskType="custom"
+          maskOptions={{
+            mask: "AAA9A99",
+          }}
         />
         <FormInputController
           control={control}
@@ -366,7 +370,15 @@ export function FormVeiculo() {
           label="Valor de Locação *"
           errors={errors}
           keyboardType="numeric"
-          placeholder="Ex.: 100.5"
+          placeholder="Ex.: R$ 150,00"
+          maskType="money"
+          maskOptions={{
+            precision: 2, // Duas casas decimais
+            separator: ",", // Separador de casas decimais
+            delimiter: ".", // Delimitador de milhares
+            unit: "R$ ", // Símbolo da moeda
+            suffixUnit: "", // Sufixo (pode deixar vazio)
+          }}
         />
 
         <FormButton

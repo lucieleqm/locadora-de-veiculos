@@ -145,6 +145,10 @@ export function FormLocacao() {
           label="Placa do Veículo *"
           errors={errors}
           placeholder="AAA0A00"
+          maskType="custom"
+          maskOptions={{
+            mask: "AAA9A99",
+          }}
         />
 
         <Controller
