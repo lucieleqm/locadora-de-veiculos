@@ -46,7 +46,8 @@ export default function Reparos(){
   ])
     return (
       <SafeAreaView style={styles.container}>
-        <AddButton onPress={()=>router.push('../../../addReparo')}/>
+        <ListReparo></ListReparo>
+        <AddButton onPress={()=>router.push('../../../add-reparo')}/>
       </SafeAreaView>
       /*
       <SafeAreaView>

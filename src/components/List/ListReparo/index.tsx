@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "../style";
 import { Text, SafeAreaView, ActivityIndicator, FlatList } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import api from '../../../services/api';
 import { theme } from '../../../styles/theme';
 
@@ -63,7 +62,7 @@ export default function ListReparo() {
             ) : (
                 <FlatList
                     data={data}
-                    keyExtractor={(item) => item.id.toString()}
+                    keyExtractor={(item) => item.id ? item.id.toString() : Math.random().toString()}
                     renderItem={renderItem}
                     numColumns={1}
                 />

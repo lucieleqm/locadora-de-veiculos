@@ -3,30 +3,33 @@ const router = express.Router()
 const {Reparo, Modelo, Veiculo} = require('../models');
 
 // Buscar reparos
-router.get("", (req, res) => {
-    Reparo.findAll({
-        include: [
-            {
-                model: Veiculo,
-                include: [
-                    {
-                        model: Modelo,
-                        attributes: ['nome']
-                    }
-                ],
-                attributes: ['placa']
-            },
-            {model: Reparo, attributes: ['data']},
-            {model: Reparo, attributes: ['custo']},
-            {model: Reparo, attributes: ['descricao']}
-        ]
-    }).then((reparos) => {
+router.get("", async (req, res) => {
+    try {
+        const reparos = await Reparo.findAll({
+            include: [
+                {
+                    model: Veiculo,
+                    attributes: ['placa'],
+                    include: [
+                        {
+                            model: Modelo,
+                            attributes: ['nome']
+                        }
+                    ]
+                }
+            ],
+            attributes: ['data', 'custo', 'descricao']
+        });
+
+        console.log("Dados de reparos:", JSON.stringify(reparos, null, 2));
+
         res.send(reparos);
-    }).catch(err => {
-        console.log("Erro ao buscar reparos:", err); // Detalha o erro no console
-        res.status(500).json({ error: "Erro ao buscar reparos", details: err.message }); // Envia a mensagem detalhada do erro
-    });
+    } catch (err) {
+        console.log("Erro ao buscar reparos:", err);
+        res.status(500).json({ error: "Erro ao buscar reparos", details: err.message });
+    }
 });
+
 
 
 router.post('/insert', async (req, res) => {
