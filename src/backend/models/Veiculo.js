@@ -1,5 +1,3 @@
-
-
 module.exports = (sequelize, DataTypes) => {
   const Veiculo = sequelize.define("Veiculo", {
     id: {

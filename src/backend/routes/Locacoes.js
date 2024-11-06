@@ -45,10 +45,10 @@ router.post("/cadastrar", upload.array('imagens') ,async (req, res) => {
        const imagens = req.files.map((file) => ({
             id_locacao: novaLocacao.id,
             url: `uploads/${file.filename}`
-        }));h
+        }));
 
         //Cadastra várias imagens de uma vez
-       await ImagemLocacao.bulkCreate(imagens, { transaction: t });
+        await ImagemLocacao.bulkCreate(imagens, { transaction: t });
 
         await t.commit();
 

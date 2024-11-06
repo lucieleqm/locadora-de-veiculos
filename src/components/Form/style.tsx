@@ -38,14 +38,25 @@ const styles = StyleSheet.create({
     boxImage:{
         width: '100%',
         height: '100%',
-        borderRadius: 10
+        borderRadius: 8
     },
     textImage:{
         position: 'absolute',
         fontSize: 16,
     },
-
-
+    boxImageSave:{
+        width: 60,
+        height: '100%',
+        borderRadius: 10,
+        borderWidth: 2,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    smallImage:{
+        width: '100%',
+        height: '100%',
+        borderRadius: 6
+    },
     centeredView: {
         flex: 1,
         justifyContent: "center",
