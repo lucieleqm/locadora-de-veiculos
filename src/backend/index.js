@@ -22,6 +22,7 @@ const marcaRoute = require("./routes/Marcas");
 const modeloRoute = require("./routes/Modelos");
 const combustivelRoute = require("./routes/Combustiveis");
 const veiculoRoute = require("./routes/Veiculos");
+const reparoRoute = require("./routes/Reparos");
 const locacaoRoute = require("./routes/Locacoes");
 
 
@@ -32,6 +33,7 @@ app.use("/marcas",marcaRoute);
 app.use("/modelos",modeloRoute);
 app.use("/combustiveis",combustivelRoute);
 app.use("/veiculos",veiculoRoute);
+app.use("/reparos",reparoRoute);
 app.use("/locacoes", locacaoRoute);
 
 app.use('/uploads', express.static('uploads'));
