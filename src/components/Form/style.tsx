@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
     boxImageLoad:{
-        width: '100%',
+        width: '95%',
         height: 250,
         borderWidth: 2,
         borderRadius: 10,
@@ -32,20 +32,34 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         width: '100%',
         height: 63,
-        marginTop: 10,
+        marginTop: 15,
         marginBottom: 10
+    },
+    boxImageSave:{
+        width: 60,
+        height: '100%',
+        borderRadius: 10,
+        borderWidth: 2,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     boxImage:{
         width: '100%',
         height: '100%',
-        borderRadius: 10
+        borderRadius: 8
     },
     textImage:{
-        position: 'absolute',
-        fontSize: 16,
+        fontSize: 16
     },
-
-
+    boxImageButton:{
+        alignItems: 'center'
+    },
+    boxButtons:{
+        flexDirection: 'row',
+        justifyContent:'space-around',
+        width: '100%',
+        height: 50
+    },
     centeredView: {
         flex: 1,
         justifyContent: "center",

@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   cardText: {
-    fontSize: 14,
+    fontSize: 15,
     color: theme.colors.gray[800],
     marginBottom: 2
   }

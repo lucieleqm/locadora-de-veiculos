@@ -98,7 +98,7 @@ export function FormLocacao() {
       });
 
       const response = await api.post("/locacoes/cadastrar", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: { "Content-Type": "multipart/form-data" }
       });
 
       if (response.status === 201) {

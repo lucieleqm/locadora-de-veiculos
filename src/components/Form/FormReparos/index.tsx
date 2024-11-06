@@ -41,7 +41,7 @@ export default function FormReparos() {
 
   // variáveis relacionadas ao DatePicker
   const [openInicio, setOpenInicio] = useState(false);
-  const [openFinal, setOpenFinal] = useState(false);
+
 
   const today = new Date();
   today.setDate(today.getDate() + 1);
@@ -98,10 +98,6 @@ export default function FormReparos() {
           label={"Placa do veículo"}
           errors={errors}
           placeholder="XXX9X99"
-          maskType="custom"
-          maskOptions={{
-            mask: "AAA9A99",
-          }}
         />
         <Controller
           control={control}
@@ -160,8 +156,8 @@ export default function FormReparos() {
         />
         <FormInputController
           control={control}
-          name={"descricao"}
-          label={"Descrição"}
+          name="descricao"
+          label="Descrição"
           errors={errors}
           placeholder="Troca de óleo"
         />

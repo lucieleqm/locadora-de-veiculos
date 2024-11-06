@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import {
   View,
   ScrollView,
-  Text,
-  Button,
+  TouchableOpacity,
   Image,
   Alert,
-  Switch,
+  Text,
+  SafeAreaView
 } from "react-native";
-import { useForm, SubmitHandler} from "react-hook-form";
+import { useForm} from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { veiculoSchema } from "../../../schemas/veiculoSchemas";
 import { FormInputController } from "../../../controllers/FormInputController";
@@ -17,6 +17,8 @@ import FormButton from "../../Button/FormButton";
 import { useNavigation } from "expo-router";
 import * as ImagePicker from "expo-image-picker";
 import styles from "../style";
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import api from "../../../services/api";
 
 // Interface para o tipo de dados do formulário
@@ -47,7 +49,7 @@ export function FormVeiculo() {
 
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
-  const [imagens, setImagens] = useState<any[]>([]);
+  const [imagens, setImagens] = useState<{ uri: string }[]>([]);
   const [tipos, setTipos] = useState<any[]>([]);
   const [cores, setCores] = useState<any[]>([]);
   const [marcas, setMarcas] = useState<any[]>([]);
@@ -57,6 +59,28 @@ export function FormVeiculo() {
   // Observa os valores selecionados nos pickers de tipo e marca
   const tipoSelecionado = watch("tipo");
   const marcaSelecionada = watch("marca");
+
+  // Função para abrir a câmera e tirar uma foto
+  const takePicture = async () => {
+    const { status } = await ImagePicker.requestCameraPermissionsAsync();
+    if (status !== "granted") {
+      Alert.alert("Permissão de câmera", "Precisamos de permissão para acessar a câmera.");
+      return;
+    }
+
+    const result = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      aspect: [4, 4],
+      quality: 1,
+    });
+
+    if (!result.canceled && result.assets && result.assets[0]) {
+      const { uri } = result.assets[0]; // Acessa a URI da imagem
+      setImagens((prevImagens) => [...prevImagens, { uri }]);
+    } else {
+      console.log("Operação cancelada");
+    }
+  };
 
   // Carrega os valores iniciais de tipos e combustiveis
   useEffect(() => {
@@ -76,7 +100,7 @@ export function FormVeiculo() {
     }
     fetchData();
   }, []);
-
+   
   // Filtra as marcas com base no tipo selecionado
   useEffect(() => {
     if (tipoSelecionado) {
@@ -125,7 +149,7 @@ export function FormVeiculo() {
       quality: 1,
     });
     if (!canceled && assets) {
-      setImagens((prevImagens) => [...prevImagens, assets[0]]);
+      setImagens([{ uri: assets[0].uri }]);
     } else {
       console.log("Operação cancelada");
     }
@@ -180,9 +204,48 @@ export function FormVeiculo() {
     }
   }
 
+  const deleteImage = () => {
+    setImagens([]); // Limpa o estado de imagens
+  };
+
   return (
     <ScrollView>
       <View style={styles.formContainer}>
+      <SafeAreaView style={styles.boxImageButton}>
+      <SafeAreaView style={styles.boxImageLoad}>
+          {/* Verifica se há imagens, caso contrário exibe a mensagem */}
+          {imagens.length === 0 ? (
+            <Text style={{ position: 'absolute', fontSize: 16 }}>Sem imagem</Text>
+          ) : (
+            imagens.map((image, index) => (
+              <Image
+                key={index}
+                source={{ uri: image.uri }}
+                style={styles.boxImage}
+              />
+            ))
+          )}
+      </SafeAreaView>
+
+        
+      </SafeAreaView>
+      <SafeAreaView style={styles.boxImageSaveLoad}>
+          <TouchableOpacity onPress={pickImage}>
+              <SafeAreaView style={styles.boxImageSave}>
+                <MaterialIcons name="add-photo-alternate" size={35} color="black" />
+              </SafeAreaView>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={takePicture}>
+              <SafeAreaView style={styles.boxImageSave}>
+                  <MaterialIcons name="add-a-photo" size={30} color="black" />
+              </SafeAreaView>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={deleteImage}>
+              <SafeAreaView style={styles.boxImageSave}>
+                <Ionicons name="trash-bin-outline" size={37} color="black" />
+              </SafeAreaView>
+          </TouchableOpacity>
+      </SafeAreaView>
         {/* Picker para Tipo de Veículo */}
         <FormPickerController
           control={control}
@@ -273,18 +336,21 @@ export function FormVeiculo() {
           name="renavam"
           label="Renavam *"
           errors={errors}
+          placeholder="Ex.: 12345678901"
         />
         <FormInputController
           control={control}
           name="chassi"
           label="Chassi *"
           errors={errors}
+          placeholder="Ex.: 9BWZZZ377VT004251"
         />
         <FormInputController
           control={control}
           name="motor"
           label="Motor *"
           errors={errors}
+          placeholder="Ex.: ABC123456789"
         />
         <FormInputController
           control={control}
@@ -292,6 +358,7 @@ export function FormVeiculo() {
           label="Km *"
           errors={errors}
           keyboardType="numeric"
+          placeholder="Ex.: 100"
         />
         <FormInputController
           control={control}
@@ -301,15 +368,6 @@ export function FormVeiculo() {
           keyboardType="numeric"
           placeholder="Ex.: 100.5"
         />
-      
-        <Button title="Capturar Imagens" onPress={pickImage} />
-        {imagens.map((image, index) => (
-          <Image
-            key={index}
-            source={{ uri: image.uri }}
-            style={styles.boxImageLoad}
-          />
-        ))}
 
         <FormButton
           label="Salvar"
