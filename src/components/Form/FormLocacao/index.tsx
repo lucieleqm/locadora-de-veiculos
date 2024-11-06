@@ -72,10 +72,10 @@ export function FormLocacao() {
   async function cadastrarLocacao(dados: LocacaoFormData) {
     try {
       const veiculoResponse = await api.get(
-        `/veiculos/buscarPorPlaca/${dados.placaVeiculo}`
+        `/veiculos/buscar-placa/${dados.placaVeiculo}`
       );
       const clienteResponse = await api.get(
-        `/clientes/buscarPorCpf/${dados.cpfCliente}`
+        `/clientes/buscar-cpf/${dados.cpfCliente}`
       );
 
       const formData = new FormData();

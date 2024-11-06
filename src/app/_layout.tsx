@@ -45,7 +45,8 @@ export default function Layout() {
       />
       <Stack.Screen 
       name="add-reparo" 
-      options={{ title: "Adicionar Reparo" }} />
+      options={{ title: "Adicionar Reparo" }} 
+      />
       <Stack.Screen
         name="add-locacao"
         options={{ title: "Adicionar Locação" }}

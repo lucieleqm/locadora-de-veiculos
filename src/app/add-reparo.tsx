@@ -6,7 +6,7 @@ import styles from "../styles/style";
 export default function addReparo(){
     return(
         <SafeAreaView style={styles.container}>
-            <FormReparos></FormReparos>
+            <FormReparos/>
         </SafeAreaView>
-    )
+    );
 }

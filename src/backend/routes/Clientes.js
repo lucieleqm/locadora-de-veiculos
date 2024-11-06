@@ -36,8 +36,8 @@ router.get("/:id", async (req, res) => {
 
 
 // Busca Cliente por meio do Cpf
-// ex: "http://localhost:3001/clietes/buscarPorCpf/000.000.000-00"
-router.get('/buscarPorCpf/:cpf', async (req, res) => {
+// ex: "http://localhost:3001/clietes/000.000.000-00"
+router.get('/buscar-cpf/:cpf', async (req, res) => {
     const { cpf } = req.params;
     try {
         const cliente = await Cliente.findOne({ where: { cpf } });

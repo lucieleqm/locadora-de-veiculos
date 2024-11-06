@@ -49,8 +49,8 @@ router.get("/:id", async (req, res) => {
 
 
 // Busca Veículo por meio da Placa
-// ex: "http://localhost:3001/veiculos/buscarPorPlaca/ABC0D00"
-router.get('/buscarPorPlaca/:placa', async (req, res) => {
+// ex: "http://localhost:3001/veiculos/ABC0D00"
+router.get('/buscar-placa/:placa', async (req, res) => {
   const { placa } = req.params;
   try {
     const veiculo = await Veiculo.findOne({ where: { placa } });
