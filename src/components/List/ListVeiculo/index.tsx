@@ -13,6 +13,7 @@ import api from "../../../services/api";
 import { theme } from "../../../styles/theme";
 import { useFocusEffect, useRouter } from "expo-router";
 import { TextInput } from "react-native-gesture-handler";
+import { API_URL } from "@env";
 
 export default function ListVeiculo() {
   interface Veiculo {
@@ -81,7 +82,7 @@ export default function ListVeiculo() {
           {item.ImagemVeiculos && item.ImagemVeiculos.length > 0 ? (
             <Image
               source={{
-                uri: `http://192.168.1.48:3001/${item.ImagemVeiculos[0].url}`,
+                uri: `${API_URL}/${item.ImagemVeiculos[0].url}`,
               }}
               style={styles.cardImage}
             />

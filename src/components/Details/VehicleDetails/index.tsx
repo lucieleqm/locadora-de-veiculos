@@ -13,6 +13,7 @@ import { theme } from "../../../styles/theme";
 import { InfoItem, SectionCard } from "../common";
 import styles from "../common/style";
 import { ImageSlider } from "../../Image/ImageSlider";
+import { API_URL } from "@env";
 
 interface VeiculoDetailsData {
   id: string;
@@ -46,10 +47,9 @@ export function VeiculoDetails({ id }: VeiculoDetailsData) {
     return <Text>Detalhes não encontrados</Text>;
   }
 
-  const baseUrl = "http://ip:3001/";
   const imagens = details.ImagemVeiculos?.map((imagem: any) => ({ 
     id: imagem.id, 
-    url: `${baseUrl}${imagem.url}`
+    url: `${API_URL}/${imagem.url}`
   })) ?? [];
   console.log("imagens:", imagens)
 
