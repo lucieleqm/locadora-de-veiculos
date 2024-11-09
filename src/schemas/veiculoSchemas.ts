@@ -17,9 +17,9 @@ export const veiculoSchema = yup.object().shape({
     .required("O ano é obrigatório")
     .matches(/^\d{4}$/, "O ano deve ter 4 dígitos"),
   valor: yup
-    .number()
-    .required("O valor é obrigatório")
-    .typeError("O valor deve ser um número"),
+    .string()
+    .required("O valor é obrigatório"),
+    //.typeError("O valor deve ser um número"),
   //status: yup.boolean().required("O status é obrigatório"),
   tipo: yup
     .number()
