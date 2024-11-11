@@ -18,12 +18,13 @@ router.get("", (req, res) => {
 router.post("/cadastrar", async (req, res) => {
     const t = await Blacklist.sequelize.transaction();
 
-    const { cpf, motivo } = req.body;
+    const { cpf, nome, motivo } = req.body;
     console.log('Recebido no backend:', req.body);
 
     try {
         const novaBlacklist = await Blacklist.create({
             cpf,
+            nome,
             motivo,
         }, { transaction: t });
 

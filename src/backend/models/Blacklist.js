@@ -9,6 +9,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: false,
     },
+    nome: {
+      type: DataTypes.STRING(150),
+      allowNull: false,
+    },
     cpf: {
       type: DataTypes.STRING(15),
       allowNull: false,

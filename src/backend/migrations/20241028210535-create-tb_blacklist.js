@@ -9,6 +9,10 @@ module.exports = {
         primaryKey: true,
         autoIncrement: true
       },
+      nome: {
+        type: Sequelize.STRING(150),
+        allowNull: false,
+      },
       cpf: {
         type: Sequelize.STRING(15),
         allowNull: false,
