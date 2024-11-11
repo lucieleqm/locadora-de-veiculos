@@ -31,7 +31,7 @@ export default function ListCliente() {
   useFocusEffect(
     React.useCallback(() => {
       fetchData();
-    }, [fetchData])
+    }, [])
   );
 
   const router = useRouter();

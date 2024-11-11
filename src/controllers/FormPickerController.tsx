@@ -25,7 +25,7 @@ interface FormPickerControllerProps<T extends FieldValues> {
   label?: string;
   options: { label: string; value: any }[];
   setOptions?: React.Dispatch<
-    React.SetStateAction<{ label: string; value: any }[]>
+    React.SetStateAction<{ label: string; value: any; key:string }[]>
   >;
   placeholder?: string;
   endpoint?: string;
@@ -58,7 +58,7 @@ export function FormPickerController<T extends FieldValues>({
         if (setOptions) {
           setOptions((prevOptions) => [
             ...prevOptions,
-            { label: newItemData.nome, value: newItemData.id },
+            { label: newItemData.nome, value: newItemData.id, key: newItemData.id },
           ]);
         }
       } catch (error) {
@@ -92,7 +92,7 @@ export function FormPickerController<T extends FieldValues>({
               }}
               items={
                 endpoint
-                  ? [...options, { label: "Outra...", value: "novaOpcao" }]
+                  ? [...options, { label: "Outra...", value: "novaOpcao", key: "novaOpcao" }]
                   : options
               }
               placeholder={{

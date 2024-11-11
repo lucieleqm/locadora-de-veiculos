@@ -15,18 +15,19 @@ import api from "../../../services/api";
 // Define a interface para o tipo de dados do formulário
 interface ClienteFormData {
   nome: string;
-  estado_civil: string;
-  profissao: string;
+  estado_civil?: string;
+  profissao?: string;
   rg: string;
   cpf: string;
-  email: string;
-  telefone: string;
-  rua: string;
-  numero: string;
-  bairro: string;
+  email?: string;
+  telefone1: string;
+  telefone2?: string;
+  rua?: string;
+  numero?: string;
+  bairro?: string;
   complemento?: string;
-  cidade: string;
-  cep: string;
+  cidade?: string;
+  cep?: string;
 }
 
 export function FormCliente() {
@@ -48,7 +49,7 @@ export function FormCliente() {
 
     try {
       const response = await api.post(
-        "/clientes/insert",
+        "/clientes/cadastrar",
         dados
       ); // Ajuste a URL conforme necessário
 
@@ -75,7 +76,7 @@ export function FormCliente() {
         <FormInputController
           control={control}
           name={"nome"}
-          label={"Nome Completo"}
+          label={"Nome Completo *"}
           errors={errors}
           placeholder="João da Silva"
         />
@@ -98,14 +99,14 @@ export function FormCliente() {
         <FormInputController
           control={control}
           name={"rg"}
-          label={"RG"}
+          label={"RG *"}
           errors={errors}
           keyboardType="numeric"
         />
         <FormInputController
           control={control}
           name={"cpf"}
-          label={"CPF"}
+          label={"CPF *"}
           errors={errors}
           keyboardType="numeric"
           maskType="cpf"
@@ -120,8 +121,8 @@ export function FormCliente() {
         />
         <FormInputController
           control={control}
-          name={"telefone"}
-          label={"Telefone"}
+          name={"telefone1"}
+          label={"Telefone *"}
           errors={errors}
           placeholder="(11) 99999-9999"
           keyboardType="numeric"
@@ -129,7 +130,21 @@ export function FormCliente() {
           maskOptions={{
             maskType: "BRL",
             withDDD: true,
-            dddMask: "(99) ",
+            dddMask: "(98) ",
+          }}
+        />
+        <FormInputController
+          control={control}
+          name={"telefone2"}
+          label={"Telefone Secundário"}
+          errors={errors}
+          placeholder="(11) 99999-9999"
+          keyboardType="numeric"
+          maskType="cel-phone" // Máscara de telefone
+          maskOptions={{
+            maskType: "BRL",
+            withDDD: true,
+            dddMask: "(98) ",
           }}
         />
         <FormInputController

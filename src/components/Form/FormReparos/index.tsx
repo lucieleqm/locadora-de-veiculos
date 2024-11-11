@@ -23,13 +23,15 @@ import styles from "../style";
 import { reparoSchema } from "../../../schemas/reparoSchemas";
 
 interface ReparoFormData {
-  placaVeiculo: string;
   data: string;
   custo: string;
   descricao: string;
 }
+interface FormReparoProps { 
+  veiculoId: number; 
+}
 
-export default function FormReparos() {
+export default function FormReparos({veiculoId}: FormReparoProps) {
   const {
     control,
     handleSubmit,
@@ -53,12 +55,8 @@ export default function FormReparos() {
   async function handleCadastroReparo(dados: ReparoFormData) {
     setLoading(true);
     try {
-      const veiculoResponse = await api.get(
-        `/veiculos/buscar-placa/${dados.placaVeiculo}`
-      );
-
       const formData = {
-        id_veiculo: veiculoResponse.data.id,
+        id_veiculo: veiculoId,
         data: dados.data,
         custo: dados.custo.replace("R$ ", "").replace(",", ".").trim(),
         descricao: dados.descricao.trim(),
@@ -92,17 +90,6 @@ export default function FormReparos() {
   return (
     <SafeAreaView style={styles.formContainer}>
       <ScrollView>
-        <FormInputController
-          control={control}
-          name={"placaVeiculo"}
-          label={"Placa do veículo"}
-          errors={errors}
-          placeholder="XXX9X99"
-          maskType="custom"
-          maskOptions={{
-            mask: "AAA9A99",
-          }}
-        />
         <Controller
           control={control}
           name="data"
