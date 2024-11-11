@@ -1,5 +1,5 @@
 import React from "react";
-import { SafeAreaView } from "react-native";
+import { SafeAreaView, View } from "react-native";
 import ListVeiculo from "../../../../components/List/ListVeiculo";
 import AddButton from "../../../../components/Button/AddButton";
 import { useRouter } from "expo-router";
@@ -7,12 +7,11 @@ import { useRouter } from "expo-router";
 import styles from "../../../../styles/style";
 
 export default function Home() {
-  const router = useRouter()
+  const router = useRouter();
   return (
     <SafeAreaView style={styles.container}>
-      <ListVeiculo />
-      <AddButton onPress={()=>router.push('../../../add-veiculo')} />
+        <ListVeiculo />
+      <AddButton onPress={() => router.push("../../../add-veiculo")} />
     </SafeAreaView>
   );
 }
-

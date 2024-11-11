@@ -9,7 +9,6 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useFontLoader } from "../hooks/useFontLoader";
 import { theme } from "../styles/theme";
 
-
 export default function Layout() {
 
   const fontsLoaded = useFontLoader();
@@ -24,6 +23,7 @@ export default function Layout() {
         headerStyle: { backgroundColor: theme.colors.gray[100] },
         headerTintColor: theme.colors.gray[800],
         headerTitleStyle: { fontFamily: theme.fontFamily.bold },
+        headerShadowVisible: false,
         headerLeft: ({ tintColor }) => (
           <TouchableOpacity
             onPress={() => navigation.goBack()}
@@ -38,6 +38,9 @@ export default function Layout() {
       <Stack.Screen
         name="(drawer)"
         options={{ headerShown: false}}
+      />
+      <Stack.Screen
+        name="details/info-veiculo"
       />
       <Stack.Screen
         name="add-cliente"
