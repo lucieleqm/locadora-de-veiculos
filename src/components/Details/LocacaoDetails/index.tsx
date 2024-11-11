@@ -9,6 +9,7 @@ import { InfoItem, SectionCard } from "../common";
 import { Feather, Ionicons } from "@expo/vector-icons";
 import { ScrollView } from "react-native-gesture-handler";
 import { ImageSlider } from "../../Image/ImageSlider";
+import { API_URL } from "@env";
 
 interface LocacaoDetailsData {
   id: string;
@@ -40,11 +41,10 @@ export function LocacaoDetails({ id }: LocacaoDetailsData) {
     return <Text>Detalhes não encontrados</Text>;
   }
 
-  const baseUrl = "http://192.168.100.13:3001/";
   const imagens =
     details.ImagemLocacaos?.map((imagem: any) => ({
       id: imagem.id,
-      url: `${baseUrl}${imagem.url}`,
+      url: `${API_URL}/${imagem.url}`,
     })) ?? [];
 
   return (

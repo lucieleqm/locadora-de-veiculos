@@ -98,6 +98,10 @@ export default function FormReparos() {
           label={"Placa do veículo"}
           errors={errors}
           placeholder="XXX9X99"
+          maskType="custom"
+          maskOptions={{
+            mask: "AAA9A99",
+          }}
         />
         <Controller
           control={control}
