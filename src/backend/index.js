@@ -24,6 +24,7 @@ const combustivelRoute = require("./routes/Combustiveis");
 const veiculoRoute = require("./routes/Veiculos");
 const reparoRoute = require("./routes/Reparos");
 const locacaoRoute = require("./routes/Locacoes");
+const blacklistRoute = require("./routes/Blacklists");
 
 
 app.use("/clientes", clienteRoute);
@@ -35,6 +36,7 @@ app.use("/combustiveis",combustivelRoute);
 app.use("/veiculos",veiculoRoute);
 app.use("/reparos",reparoRoute);
 app.use("/locacoes", locacaoRoute);
+app.use("/blacklists", blacklistRoute);
 
 app.use('/uploads', express.static('uploads'));
 
