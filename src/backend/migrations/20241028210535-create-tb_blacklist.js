@@ -9,18 +9,14 @@ module.exports = {
         primaryKey: true,
         autoIncrement: true
       },
+      cpf: {
+        type: Sequelize.STRING(15),
+        allowNull: false,
+        unique: true,
+      },
       motivo: {
         type: Sequelize.TEXT,
         allowNull: false,
-      },
-      id_cliente: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'tb_cliente',
-          key: 'id'
-        },
-        onDelete: 'RESTRICT',
-        onUpdate: 'CASCADE',
       },
       createdAt: {
         allowNull: false,

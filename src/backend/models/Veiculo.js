@@ -56,7 +56,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     km: {
       type: DataTypes.FLOAT,
-      allowNull: false,
+      allowNull: true,
       default: 0
     },
     disponibilidade: {

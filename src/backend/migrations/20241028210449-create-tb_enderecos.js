@@ -11,26 +11,26 @@ module.exports = {
       },
       rua: {
         type: Sequelize.STRING(100),
-        allowNull: false
+        allowNull: true
       },
       numero: {
         type: Sequelize.STRING(10),
-        allowNull: false
+        allowNull: true
       },
       bairro: {
         type: Sequelize.STRING(50),
-        allowNull: false
+        allowNull: true
       },
       complemento: {
         type: Sequelize.STRING(50),
       },
       cidade: {
         type: Sequelize.STRING(50),
-        allowNull: false
+        allowNull: true
       },
       cep: {
         type: Sequelize.STRING(15),
-        allowNull: false
+        allowNull: true
       },
       id_cliente: {
         type: Sequelize.INTEGER,

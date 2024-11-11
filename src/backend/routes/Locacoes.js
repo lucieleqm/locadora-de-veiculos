@@ -39,7 +39,7 @@ router.get("/:id", async (req, res) => {
             include: [{
                 model: ImagemLocacao, attributes: ['id', 'url']
             }, {
-                model: Cliente, attributes: ['nome', 'cpf', 'telefone']
+                model: Cliente, attributes: ['nome', 'cpf', 'telefone1', 'telefone2']
             }, {
                 model: Veiculo, attributes: ['placa'], include: [{
                     model: Modelo, attributes: ['nome'], include: [{
@@ -59,13 +59,47 @@ router.get("/:id", async (req, res) => {
 });
 
 
+// Buscar Locacoes de um veiculo
+router.get("/veiculo/:veiculoId", async (req, res) => {
+    const veiculoId = Number(req.params.veiculoId);
+    console.log('Recebido no backend:', veiculoId);
+    Locacao.findAll({
+        where: { id_veiculo: veiculoId },
+        include: [{
+            model: ImagemLocacao,
+            attributes: ['id', 'url']
+        }, {
+            model: Cliente,
+            attributes: ['nome', 'cpf', 'telefone1', 'telefone2']
+        }, {
+            model: Veiculo,
+            attributes: ['placa'],
+            include: [{
+                model: Modelo,
+                attributes: ['nome'],
+                include: [{
+                    model: Marca,
+                    attributes: ['nome']
+                }]
+            }]
+        }]
+    }).then((locacoes) => {
+        res.send(locacoes)
+    }).catch(err => {
+        if (err) {
+            console.log(err);
+        }
+    })
+});
+
+
 // Rota para Cadastrar a Locacao
 router.post("/cadastrar", upload.array('imagens'), async (req, res) => {
     // transaction serve para garantir que todas as inserções sejam atômicas, 
     //ou seja,  (ou todas ocorrem, ou nenhuma ocorre, para garantir integridade)
     const t = await Locacao.sequelize.transaction();
 
-    const { dt_inicio, dt_final, id_veiculo, id_cliente } = req.body;
+    const { dt_inicio, dt_final, caucao, valor, km, id_veiculo, id_cliente } = req.body;
     console.log('Recebido no backend:', req.body);
 
     try {
@@ -73,6 +107,9 @@ router.post("/cadastrar", upload.array('imagens'), async (req, res) => {
         const novaLocacao = await Locacao.create({
             dt_Inicio: dt_inicio,
             dt_Final: dt_final,
+            caucao,
+            valor,
+            km,
             id_veiculo,
             id_cliente,
         }, { transaction: t });

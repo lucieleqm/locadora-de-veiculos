@@ -9,24 +9,15 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    id_cliente: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: 'tb_cliente',
-        key: 'id'
-      },
-
-      onDelete: 'RESTRICT',
-      onUpdate: 'CASCADE',
-    }
+    cpf: {
+      type: DataTypes.STRING(15),
+      allowNull: false,
+      unique: true,
+    },
   }, {
     tableName: "tb_blacklist",
     timestamps: true
   });
-
-  Blacklist.associate = (models) => {
-    Blacklist.belongsTo(models.Cliente, { foreignKey: 'id_cliente' });
-  };
 
   return Blacklist;
 };
