@@ -21,6 +21,8 @@ import styles from "../style";
 import FormButton from "../../Button/FormButton";
 import * as ImagePicker from "expo-image-picker";
 import { ScrollView } from "react-native-gesture-handler";
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 interface LocacaoFormData {
   cpfCliente: string;
@@ -118,18 +120,59 @@ export function FormLocacao() {
     }
   }
 
+  const takePicture = async () => {
+    const { status } = await ImagePicker.requestCameraPermissionsAsync();
+    if (status !== "granted") {
+      Alert.alert("Permissão de câmera", "Precisamos de permissão para acessar a câmera.");
+      return;
+    }
+
+    const result = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      aspect: [4, 4],
+      quality: 1,
+    });
+
+    if (!result.canceled && result.assets && result.assets[0]) {
+      const { uri } = result.assets[0]; // Acessa a URI da imagem
+      setImagens((prevImagens) => [...prevImagens, { uri }]);
+    } else {
+      console.log("Operação cancelada");
+    }
+  };
+
   return (
     <SafeAreaView style={styles.formContainer}>
       <ScrollView>
-        {/*Botão para capturar as iamgens*/}
-        <Button title="Capturar Imagens" onPress={pickImage} />
-        {imagens.map((image, index) => (
-          <Image
-            key={index}
-            source={{ uri: image.uri }}
-            style={styles.boxImageLoad}
-          />
-        ))}
+      <View style={styles.boxImageButton}>
+        <SafeAreaView style={styles.boxImageLoad}>
+            {/* Verifica se há imagens, caso contrário exibe a mensagem */}
+            {imagens.length === 0 ? (
+              <Text style={{ position: 'absolute', fontSize: 16 }}>Sem imagem</Text>
+            ) : (
+              imagens.map((image, index) => (
+                <Image
+                  key={index}
+                  source={{ uri: image.uri }}
+                  style={styles.boxImage}
+                />
+              ))
+            )}
+        </SafeAreaView>
+          {/*Botão para capturar as iamgens*/}
+          <SafeAreaView style={styles.boxImageSaveLoad}>
+          <TouchableOpacity onPress={pickImage}>
+              <SafeAreaView style={styles.boxImageSave}>
+                <MaterialIcons name="add-photo-alternate" size={35} color="black" />
+              </SafeAreaView>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={takePicture}>
+              <SafeAreaView style={styles.boxImageSave}>
+                  <MaterialIcons name="add-a-photo" size={30} color="black" />
+              </SafeAreaView>
+          </TouchableOpacity>
+          </SafeAreaView>
+        </View>
         <FormInputController
           control={control}
           name="cpfCliente"

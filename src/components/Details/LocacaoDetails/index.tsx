@@ -40,7 +40,7 @@ export function LocacaoDetails({ id }: LocacaoDetailsData) {
     return <Text>Detalhes não encontrados</Text>;
   }
 
-  const baseUrl = "http://ip:3001/";
+  const baseUrl = "http://192.168.100.13:3001/";
   const imagens =
     details.ImagemLocacaos?.map((imagem: any) => ({
       id: imagem.id,

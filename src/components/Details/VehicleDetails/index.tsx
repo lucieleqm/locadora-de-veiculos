@@ -46,7 +46,7 @@ export function VeiculoDetails({ id }: VeiculoDetailsData) {
     return <Text>Detalhes não encontrados</Text>;
   }
 
-  const baseUrl = "http://ip:3001/";
+  const baseUrl = "http://192.168.100.13:3001/";
   const imagens = details.ImagemVeiculos?.map((imagem: any) => ({ 
     id: imagem.id, 
     url: `${baseUrl}${imagem.url}`

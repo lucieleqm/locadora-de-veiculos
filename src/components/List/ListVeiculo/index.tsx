@@ -81,7 +81,7 @@ export default function ListVeiculo() {
           {item.ImagemVeiculos && item.ImagemVeiculos.length > 0 ? (
             <Image
               source={{
-                uri: `http://192.168.1.48:3001/${item.ImagemVeiculos[0].url}`,
+                uri: `http://192.168.100.13:3001/${item.ImagemVeiculos[0].url}`,
               }}
               style={styles.cardImage}
             />

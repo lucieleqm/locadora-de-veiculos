@@ -105,9 +105,10 @@ export function FormPickerController<T extends FieldValues>({
               }}
             />
             <Modal visible={modalVisible} animationType="slide">
-              <View>
-                <Text>Adicionar nova {labelNovoItem}</Text>
+              <View style={styles.boxMain}>
+                <Text style={styles.TextTitle}>Adicionar {labelNovoItem}</Text>
                 <TextInput
+                  style={styles.inputMarca}
                   placeholder={`Nome da ${labelNovoItem}`}
                   value={newItem.nome}
                   onChangeText={(text) =>
@@ -115,12 +116,14 @@ export function FormPickerController<T extends FieldValues>({
                   }
                   //style={styles.input}
                 />
-                <TouchableOpacity onPress={handleCreateItem}>
-                  <Text>Criar</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => setModalVisible(false)}>
-                  <Text>Cancelar</Text>
-                </TouchableOpacity>
+                <View style={styles.boxButton}>
+                  <TouchableOpacity style={styles.button} onPress={handleCreateItem}>
+                    <Text style={styles.textButton}>Criar</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.button}  onPress={() => setModalVisible(false)}>
+                    <Text style={styles.textButton}>Cancelar</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             </Modal>
           </>
