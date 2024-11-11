@@ -224,8 +224,25 @@ export function FormVeiculo() {
             ))
           )}
       </SafeAreaView>
-
-        
+      <SafeAreaView style={styles.boxImageSaveLoad}>
+          <TouchableOpacity style={styles.boxImageSave}>
+            <Text style={{ position: 'absolute', fontSize: 13 }}>imagem</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.boxImageSave}>
+            <Text style={{ position: 'absolute', fontSize: 13 }}>imagem</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.boxImageSave}>
+            <Text style={{ position: 'absolute', fontSize: 13 }}>imagem</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.boxImageSave}>
+            <Text style={{ position: 'absolute', fontSize: 13 }}>imagem</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={deleteImage}>
+              <SafeAreaView style={styles.boxImageSave}>
+                <Ionicons name="trash-bin-outline" size={37} color="black" />
+              </SafeAreaView>
+          </TouchableOpacity>
+      </SafeAreaView>
       </SafeAreaView>
       <SafeAreaView style={styles.boxImageSaveLoad}>
           <TouchableOpacity onPress={pickImage}>
@@ -236,11 +253,6 @@ export function FormVeiculo() {
           <TouchableOpacity onPress={takePicture}>
               <SafeAreaView style={styles.boxImageSave}>
                   <MaterialIcons name="add-a-photo" size={30} color="black" />
-              </SafeAreaView>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={deleteImage}>
-              <SafeAreaView style={styles.boxImageSave}>
-                <Ionicons name="trash-bin-outline" size={37} color="black" />
               </SafeAreaView>
           </TouchableOpacity>
       </SafeAreaView>
@@ -328,11 +340,7 @@ export function FormVeiculo() {
           name="placa"
           label="Placa *"
           errors={errors}
-          placeholder="Ex.: AAA9A99"
-          maskType="custom"
-          maskOptions={{
-            mask: "AAA9A99",
-          }}
+          placeholder="Ex.: AAA0A00"
         />
         <FormInputController
           control={control}
