@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 150,
     borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
+    borderTopRightRadius: 10
   },
 
   cardInfosContainer: {

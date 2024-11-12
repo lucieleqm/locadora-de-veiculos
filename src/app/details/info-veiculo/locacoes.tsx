@@ -14,7 +14,7 @@ export default function Locacoes() {
   console.log("veiculoId na tela Locacoes:", veiculoId);
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.titleContainer}>
+      <View>
         <Text style={styles.textTitle}>Histórico de Locação</Text>
       </View>
       {veiculoId ? (

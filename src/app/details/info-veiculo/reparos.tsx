@@ -14,7 +14,7 @@ export default function Reparos() {
   console.log("veiculoId na tela Reparos:", veiculoId);
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.titleContainer}>
+      <View>
         <Text style={styles.textTitle}>Histórico de Manutenção</Text>
       </View>
       {veiculoId ? (

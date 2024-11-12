@@ -36,6 +36,11 @@ interface FormLocacaoProps {
   veiculoId: number; 
 }
 
+type ImageItem = {
+  uri: string;
+  id: number;
+};
+
 export function FormLocacao({veiculoId}: FormLocacaoProps) {
   const {
     control,
@@ -51,6 +56,7 @@ export function FormLocacao({veiculoId}: FormLocacaoProps) {
 
   // variáveis relacionadas ao ImagePicker
   const [imagens, setImagens] = useState<any[]>([]);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const today = new Date();
   today.setDate(today.getDate() + 1);
@@ -61,19 +67,62 @@ export function FormLocacao({veiculoId}: FormLocacaoProps) {
 
   // Função para selecionar imagens
   const pickImage = async () => {
-    const { assets, canceled } = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      //allowsMultipleSelection: false,
+    if (imagens.length >= 5) return;
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 4],
       quality: 1,
     });
-    if (!canceled && assets) {
-      setImagens((prevImagens) => [...prevImagens, assets[0]]);
-    } else {
-      console.log("Operação cancelada");
+
+    if (!result.canceled && result.assets) {
+      const newImage: ImageItem = {
+        uri: result.assets[0].uri,
+        id: new Date().getTime(),
+      };
+      const updatedImages = [...imagens, newImage];
+      setImagens(updatedImages);
+      setSelectedImage(newImage.uri);
     }
   };
+
+  // Função para selecionar uma imagem ao clicar em um quadradinho
+  const handleSelectImage = (uri: string) => {
+    setSelectedImage(uri);
+  };
+
+  const handleDeleteSelectedImage = () => {
+    if (!selectedImage) return;
+
+    const updatedImages = imagens.filter((image) => image.uri !== selectedImage);
+    setImagens(updatedImages);
+
+    // Atualizar a imagem selecionada após a exclusão
+    if (updatedImages.length > 0) {
+      setSelectedImage(updatedImages[0].uri);
+    } else {
+      setSelectedImage(null);
+    }
+  };
+
+  const takePhoto = async () => {
+    if (imagens.length >= 5) return;
+
+    const result = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    if (!result.canceled && result.assets) {
+      const newImage: ImageItem = {
+        uri: result.assets[0].uri,
+        id: new Date().getTime(),
+      };
+      const updatedImages = [...imagens, newImage];
+      setImagens(updatedImages);
+      setSelectedImage(newImage.uri);
+    }
+  }
 
   // Função do botão de cadastro do Formulário
   async function cadastrarLocacao(dados: LocacaoFormData) {
@@ -125,45 +174,39 @@ export function FormLocacao({veiculoId}: FormLocacaoProps) {
     }
   }
 
-  const takePicture = async () => {
-    const { status } = await ImagePicker.requestCameraPermissionsAsync();
-    if (status !== "granted") {
-      Alert.alert("Permissão de câmera", "Precisamos de permissão para acessar a câmera.");
-      return;
-    }
-
-    const result = await ImagePicker.launchCameraAsync({
-      allowsEditing: true,
-      aspect: [4, 4],
-      quality: 1,
-    });
-
-    if (!result.canceled && result.assets && result.assets[0]) {
-      const { uri } = result.assets[0]; // Acessa a URI da imagem
-      setImagens((prevImagens) => [...prevImagens, { uri }]);
-    } else {
-      console.log("Operação cancelada");
-    }
-  };
-
   return (
     <SafeAreaView style={styles.formContainer}>
       <ScrollView>
       <View style={styles.boxImageButton}>
         <SafeAreaView style={styles.boxImageLoad}>
             {/* Verifica se há imagens, caso contrário exibe a mensagem */}
-            {imagens.length === 0 ? (
-              <Text style={{ position: 'absolute', fontSize: 16 }}>Sem imagem</Text>
-            ) : (
-              imagens.map((image, index) => (
-                <Image
-                  key={index}
-                  source={{ uri: image.uri }}
-                  style={styles.boxImage}
-                />
-              ))
-            )}
+            {selectedImage ? (
+          <Image source={{ uri: selectedImage }} style={styles.boxImage} />
+        ) : (
+          <Text style={styles.textImage}>Imagem Principal</Text>
+        )}
         </SafeAreaView>
+
+        {/* Lista de quadradinhos abaixo da imagem principal */}
+      <View style={styles.boxImageSaveLoad}>
+        {Array(5)
+          .fill(null)
+          .map((_, index) => (
+            <TouchableOpacity
+              key={index}
+              onPress={() => imagens[index] && handleSelectImage(imagens[index].uri)}
+              style={styles.boxImageSave}
+              disabled={!imagens[index]} // Impede cliques em quadradinhos vazios
+            >
+              {imagens[index] ? (
+                <Image source={{ uri: imagens[index].uri }} style={styles.boxImage} />
+              ) : (
+                <Text style={styles.textImage}>+</Text>
+              )}
+            </TouchableOpacity>
+          ))}
+      </View>
+
           {/*Botão para capturar as iamgens*/}
           <SafeAreaView style={styles.boxImageSaveLoad}>
           <TouchableOpacity onPress={pickImage}>
@@ -171,9 +214,14 @@ export function FormLocacao({veiculoId}: FormLocacaoProps) {
                 <MaterialIcons name="add-photo-alternate" size={35} color="black" />
               </SafeAreaView>
           </TouchableOpacity>
-          <TouchableOpacity onPress={takePicture}>
+          <TouchableOpacity onPress={takePhoto}>
               <SafeAreaView style={styles.boxImageSave}>
                   <MaterialIcons name="add-a-photo" size={30} color="black" />
+              </SafeAreaView>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleDeleteSelectedImage}>
+              <SafeAreaView style={styles.boxImageSave}>
+                <Ionicons name="trash-bin-outline" size={37} color="black" />
               </SafeAreaView>
           </TouchableOpacity>
           </SafeAreaView>
