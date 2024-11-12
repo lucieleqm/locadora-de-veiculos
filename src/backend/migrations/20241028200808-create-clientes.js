@@ -15,9 +15,11 @@ module.exports = {
       },
       estado_civil: {
         type: Sequelize.STRING(20),
+        allowNull: true,
       },
       profissao: {
         type: Sequelize.STRING(150),
+        allowNull: true,
       },
       rg: {
         type: Sequelize.STRING(13),
@@ -31,15 +33,18 @@ module.exports = {
       },
       email: {
         type: Sequelize.STRING(150),
-        allowNull: false,
-        unique: true,
+        allowNull: true,
         validate: {
           isEmail: true
         }
       },
-      telefone: {
+      telefone1: {
         type: Sequelize.STRING(15),
         allowNull: false
+      },
+      telefone2: {
+        type: Sequelize.STRING(15),
+        allowNull: true
       },
       createdAt: {
         allowNull: false,

@@ -1,5 +1,5 @@
 import { API_URL } from "@env";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -14,23 +14,28 @@ import api from "../../../services/api";
 import { theme } from "../../../styles/theme";
 import { useFocusEffect, useRouter } from "expo-router";
 
-export default function ListLocacao() {
-  interface Locacao {
-    id: number;
-    Cliente: {
+interface Locacao {
+  id: number;
+  Cliente: {
+    nome: string;
+    cpf: string;
+  };
+  id_veiculo: number;
+  Veiculo: {
+    Modelo: {
       nome: string;
-      cpf: string;
     };
-    Veiculo: {
-      Modelo: {
-        nome: string;
-      };
-      placa: string;
-    };
-    dt_Inicio: string;
-    dt_Final: string;
-  }
+    placa: string;
+  };
+  dt_Inicio: string;
+  dt_Final: string;
+}
 
+interface ListLocacoesProps {
+  veiculoId?: number;
+}
+
+export default function ListLocacao({ veiculoId }: ListLocacoesProps) {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState<Locacao[]>([]);
 
@@ -44,7 +49,9 @@ export default function ListLocacao() {
 
   const fetchData = async () => {
     try {
-      const response = await api.get(`/locacoes`);
+      const response = veiculoId
+        ? await api.get(`/locacoes/veiculo/${veiculoId}`)
+        : await api.get(`/locacoes`);
       setData(response.data);
     } catch (error) {
       console.error("Erro ao buscar locacoes:", error);
@@ -54,9 +61,9 @@ export default function ListLocacao() {
   };
 
   useFocusEffect(
-    React.useCallback(() => {
+    useCallback(() => {
       fetchData();
-    }, [fetchData])
+    }, [veiculoId])
   );
 
   const router = useRouter();
@@ -79,6 +86,8 @@ export default function ListLocacao() {
     <View style={styles.listContainer}>
       {isLoading ? (
         <ActivityIndicator size="large" color={theme.colors.gray[800]} />
+      ) : data.length === 0 ? (
+        <Text>Nenhuma locação encontrada.</Text>
       ) : (
         <FlatList
           data={data}

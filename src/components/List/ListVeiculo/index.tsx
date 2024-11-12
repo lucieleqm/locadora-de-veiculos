@@ -11,8 +11,9 @@ import {
 import styles from "./style";
 import api from "../../../services/api";
 import { theme } from "../../../styles/theme";
+import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect, useRouter } from "expo-router";
-import { TextInput } from "react-native-gesture-handler";
+import { ScrollView, TextInput } from "react-native-gesture-handler";
 import { API_URL } from "@env";
 
 export default function ListVeiculo() {
@@ -20,9 +21,13 @@ export default function ListVeiculo() {
     id: number;
     Modelo: {
       nome: string;
+      Marca: {
+        nome: string;
+      };
     };
     valor: number;
     ano: string;
+    placa: string;
     ImagemVeiculos: {
       url: string;
     }[];
@@ -37,7 +42,7 @@ export default function ListVeiculo() {
     try {
       const response = await api.get("/veiculos");
       setData(response.data);
-      setLista(response.data)
+      setLista(response.data);
     } catch (error) {
       console.error("Erro ao buscar veículos:", error);
     } finally {
@@ -50,8 +55,10 @@ export default function ListVeiculo() {
       setLista(data);
     } else {
       setLista(
-        data.filter((item) => (
-          item.Modelo.nome.toLowerCase().indexOf(searchText.toLowerCase())) > -1
+        data.filter(
+          (item) =>
+            item.Modelo.nome.toLowerCase().indexOf(searchText.toLowerCase()) >
+            -1
         )
       );
     }
@@ -60,7 +67,9 @@ export default function ListVeiculo() {
   const handleOnClick = () => {
     let newList = [...data];
 
-    newList.sort((a, b) => (a.Modelo.nome > b.Modelo.nome)?1:(b.Modelo.nome > a.Modelo.nome)?-1:0);
+    newList.sort((a, b) =>
+      a.Modelo.nome > b.Modelo.nome ? 1 : b.Modelo.nome > a.Modelo.nome ? -1 : 0
+    );
 
     setLista(newList);
   };
@@ -91,7 +100,10 @@ export default function ListVeiculo() {
           )}
         </View>
         <View style={styles.cardInfosContainer}>
-          <Text style={styles.cardTitle}>{item.Modelo.nome}</Text>
+          <Text style={styles.cardTitle}>
+            {item.Modelo.Marca.nome} {item.Modelo.nome}
+          </Text>
+          <Text style={styles.cardVehicleDetails}>{item.placa}</Text>
           <Text style={styles.cardVehicleDetails}>{item.ano}</Text>
           <Text style={styles.cardParagraph}>A partir de </Text>
           <Text style={styles.cardVehiclePrice}>R$ {item.valor}/Semana</Text>
@@ -105,21 +117,26 @@ export default function ListVeiculo() {
       {isLoading ? (
         <ActivityIndicator size="large" color={theme.colors.gray[800]} />
       ) : (
-        <View>
-          <TextInput
-            placeholder="Pesquise um veículo"
-            value={searchText}
-            onChangeText={(text) => setSearchText(text)}
-            returnKeyType="done"
-            onFocus={() => {}}
-          />
+        <ScrollView>
+          <View style={styles.searchContainer}>
+          <Ionicons name="search" size={20} color={theme.colors.blue} style={styles.searchIcon} />
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Pesquise um veículo"
+              value={searchText}
+              onChangeText={(text) => setSearchText(text)}
+              returnKeyType="done"
+              onFocus={() => {}}
+            />
+          </View>
           <FlatList
             data={lista}
             keyExtractor={(item) => item.id.toString()}
             renderItem={renderItem}
             numColumns={2}
+            scrollEnabled={false}
           />
-        </View>
+        </ScrollView>
       )}
     </View>
   );

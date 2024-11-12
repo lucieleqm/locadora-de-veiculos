@@ -4,10 +4,9 @@ import { theme } from "../../../styles/theme";
 const styles = StyleSheet.create({
   listContainer: {
     flex: 1,
-    width: '100%',
+    width: "100%",
     padding: 10,
   },
-
   cardVehicle: {
     backgroundColor: "#FFFFFF",
     borderRadius: 10,
@@ -45,7 +44,7 @@ const styles = StyleSheet.create({
   cardVehicleDetails: {
     fontFamily: theme.fontFamily.regular,
     fontSize: 16,
-    color: theme.colors.gray[800]
+    color: theme.colors.gray[800],
   },
   // Estilo para o parágrafo do card
   cardParagraph: {
@@ -59,6 +58,26 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: theme.colors.blue,
   },
+  searchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: theme.colors.white,
+    borderWidth: 1,
+    borderColor: theme.colors.gray[200],
+    borderRadius: 24,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    height: 50,
+  },
+  searchInput: {
+    flex: 1,
+    fontFamily: theme.fontFamily.regular,
+    fontSize: 16,
+    color: theme.colors.gray[800],
+  },
+  searchIcon: { 
+    marginRight: 10,
+   },
 });
 
 export default styles;

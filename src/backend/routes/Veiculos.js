@@ -9,8 +9,15 @@ const upload = require('../config/multer');
 router.get('', async (req, res) => {
   try {
     const veiculos = await Veiculo.findAll({
-      include: [{ model: Modelo, attributes: ['nome'] },
-      { model: ImagemVeiculo, attributes: ['url'] }
+      include: [{ 
+        model: Modelo, 
+        attributes: ['nome'],
+      include: [{
+        model: Marca,
+        attributes: ['nome']
+      }] },
+      { model: ImagemVeiculo, 
+        attributes: ['url'] }
       ],
     });
     res.json(veiculos);
@@ -76,7 +83,6 @@ router.post('/insert', upload.array('imagens'), async (req, res) => {
     renavam,
     chassi,
     motor,
-    km,
     id_cor,
     ano,
     valor,
@@ -92,7 +98,6 @@ router.post('/insert', upload.array('imagens'), async (req, res) => {
       renavam,
       chassi,
       motor,
-      km,
       id_cor,
       ano,
       valor,

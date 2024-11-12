@@ -28,7 +28,6 @@ interface VeiculoFormData {
   renavam: string;
   chassi: string;
   motor: string;
-  km: number;
   cor: number;
   ano: string;
   valor: string;
@@ -164,7 +163,6 @@ export function FormVeiculo() {
     formData.append("renavam", dados.renavam);
     formData.append("chassi", dados.chassi);
     formData.append("motor", dados.motor);
-    formData.append("km", dados.km.toString());
     formData.append("id_cor", dados.cor.toString());
     formData.append("ano", dados.ano);
     formData.append("valor", dados.valor.replace("R$ ", "").replace(",", ".").trim());
@@ -268,6 +266,7 @@ export function FormVeiculo() {
           additionalData={{ tipoId: tipoSelecionado }}
           setOptions={setMarcas}
           options={marcas.map((marca) => ({
+            key: marca.id,
             label: marca.nome,
             value: marca.id,
           }))}
@@ -352,29 +351,20 @@ export function FormVeiculo() {
         />
         <FormInputController
           control={control}
-          name="km"
-          label="Km *"
-          errors={errors}
-          keyboardType="numeric"
-          placeholder="Ex.: 100"
-        />
-        <FormInputController
-          control={control}
           name="valor"
-          label="Valor de Locação *"
+          label="Valor de Referência Semanal *"
           errors={errors}
           keyboardType="numeric"
-          placeholder="Ex.: R$ 150,00"
+          placeholder="R$ 100,00"
           maskType="money"
           maskOptions={{
-            precision: 2, // Duas casas decimais
-            separator: ",", // Separador de casas decimais
-            delimiter: ".", // Delimitador de milhares
-            unit: "R$ ", // Símbolo da moeda
-            suffixUnit: "", // Sufixo (pode deixar vazio)
+            precision: 2,
+            separator: ",", 
+            delimiter: ".", 
+            unit: "R$ ",
+            suffixUnit: "", 
           }}
         />
-
         <FormButton
           label="Salvar"
           onPress={handleSubmit(cadastrarVeiculo)}

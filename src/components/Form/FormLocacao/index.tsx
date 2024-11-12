@@ -26,12 +26,17 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 
 interface LocacaoFormData {
   cpfCliente: string;
-  placaVeiculo: string;
+  caucao: string;
+  valor: string;
+  km: number;
   dtInicio: string;
   dtFinal: string;
 }
+interface FormLocacaoProps { 
+  veiculoId: number; 
+}
 
-export function FormLocacao() {
+export function FormLocacao({veiculoId}: FormLocacaoProps) {
   const {
     control,
     handleSubmit,
@@ -73,16 +78,16 @@ export function FormLocacao() {
   // Função do botão de cadastro do Formulário
   async function cadastrarLocacao(dados: LocacaoFormData) {
     try {
-      const veiculoResponse = await api.get(
-        `/veiculos/buscar-placa/${dados.placaVeiculo}`
-      );
       const clienteResponse = await api.get(
         `/clientes/buscar-cpf/${dados.cpfCliente}`
       );
 
       const formData = new FormData();
       formData.append("id_cliente", clienteResponse.data.id);
-      formData.append("id_veiculo", veiculoResponse.data.id);
+      formData.append("caucao", dados.caucao.replace("R$ ", "").replace(",", ".").trim());
+      formData.append("valor", dados.valor.replace("R$ ", "").replace(",", ".").trim());
+      formData.append("km", dados.km.toString());
+      formData.append("id_veiculo", veiculoId.toString());
       formData.append("dt_inicio", dados.dtInicio);
       formData.append("dt_final", dados.dtFinal);
 
@@ -184,16 +189,44 @@ export function FormLocacao() {
         />
         <FormInputController
           control={control}
-          name="placaVeiculo"
-          label="Placa do Veículo *"
+          name="caucao"
+          label="Caução *"
           errors={errors}
-          placeholder="AAA0A00"
-          maskType="custom"
+          keyboardType="numeric"
+          placeholder="R$ 100,00"
+          maskType="money"
           maskOptions={{
-            mask: "AAA9A99",
+            precision: 2,
+            separator: ",", 
+            delimiter: ".", 
+            unit: "R$ ",
+            suffixUnit: "", 
           }}
         />
-
+        <FormInputController
+          control={control}
+          name="valor"
+          label="Valor Semanal *"
+          errors={errors}
+          keyboardType="numeric"
+          placeholder="R$ 100,00"
+          maskType="money"
+          maskOptions={{
+            precision: 2,
+            separator: ",", 
+            delimiter: ".", 
+            unit: "R$ ",
+            suffixUnit: "", 
+          }}
+        />
+        <FormInputController
+          control={control}
+          name="km"
+          label="Km Rodados"
+          errors={errors}
+          keyboardType="numeric"
+          placeholder="0"
+        />
         <Controller
           control={control}
           name="dtInicio"

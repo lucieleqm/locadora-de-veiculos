@@ -9,6 +9,24 @@ module.exports = {
         primaryKey: true,
         autoIncrement: true
       },
+      caucao: {
+        type: Sequelize.FLOAT,
+        allowNull: false
+      },
+      valor: {
+        type: Sequelize.FLOAT,
+        allowNull: false
+      },
+      km: {
+        type: Sequelize.FLOAT,
+        allowNull: true,
+        default: 0
+      },
+      status: {
+        type: Sequelize.BOOLEAN,
+        allowNull: true,
+        default: false
+      },
       dt_Inicio: {
         type: Sequelize.DATE,
         allowNull: false,

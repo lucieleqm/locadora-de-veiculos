@@ -7,26 +7,26 @@ module.exports = (sequelize, DataTypes) => {
         },
         rua: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         numero: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         bairro: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         complemento: {
             type: DataTypes.STRING,
         },
         cidade: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         cep: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         id_cliente: {
             type: DataTypes.INTEGER,

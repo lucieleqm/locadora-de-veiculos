@@ -1,24 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import styles from "../style";
-import { Text, SafeAreaView, ActivityIndicator, FlatList } from "react-native";
+import { Text, SafeAreaView, ActivityIndicator, FlatList, View } from "react-native";
 import api from "../../../services/api";
 import { theme } from "../../../styles/theme";
 import { useFocusEffect } from "expo-router";
-
-export default function ListReparo() {
-  interface Reparo {
-    id: number;
-    Veiculo: {
-      Modelo: {
+interface Reparo {
+  id: number;
+  id_veiculo: string;
+  Veiculo: {
+    Modelo: {
+      nome: string;
+      Marca: {
         nome: string;
       };
-      placa: string;
     };
-    data: string;
-    custo: number;
-    descricao: string;
+    placa: string;
+  };
+  data: string;
+  custo: number;
+  descricao: string;
+}
+interface ListReparoProps { 
+  veiculoId?: number; 
   }
 
+export default function ListReparo({ veiculoId }: ListReparoProps) {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState<Reparo[]>([]);
 
@@ -32,25 +38,28 @@ export default function ListReparo() {
 
   const fetchData = async () => {
     try {
-      const response = await api.get(`/reparos`);
+      const response = veiculoId
+      ? await api.get(`/reparos/${veiculoId}`)
+      : await api.get(`/reparos`);
       setData(response.data);
+      console.log("Dados recebidos da API:", JSON.stringify(response.data, null, 2));
     } catch (error) {
       console.error("Erro ao buscar reparos:", error);
     } finally {
       setLoading(false);
     }
   };
-  
+
   useFocusEffect(
-    React.useCallback(() => {
+    useCallback(() => {
       fetchData();
-    }, [fetchData])
+      return () => setLoading(false);
+    }, [veiculoId])
   );
 
   const renderItem = ({ item }: { item: Reparo }) => (
     <SafeAreaView style={styles.card}>
-      <SafeAreaView>
-        <Text style={styles.cardTitle}>{item.Veiculo.Modelo.nome}</Text>
+        <Text style={styles.cardTitle}>{item.Veiculo.Modelo.Marca.nome} {item.Veiculo.Modelo.nome}</Text>
         <Text style={styles.cardText}>
           Placa do veículo: {item.Veiculo.placa}
         </Text>
@@ -59,23 +68,24 @@ export default function ListReparo() {
         </Text>
         <Text style={styles.cardText}>Custo do Reparo: R$ {item.custo}</Text>
         <Text style={styles.cardText}>Descrição: {item.descricao}</Text>
-      </SafeAreaView>
     </SafeAreaView>
   );
-
+  
   return (
     <SafeAreaView style={styles.listContainer}>
       {isLoading ? (
         <ActivityIndicator size="large" color={theme.colors.gray[800]} />
+      ) : data.length === 0 ? (
+        <Text>Nenhum reparo encontrado.</Text>
       ) : (
+        <View>
         <FlatList
           data={data}
-          keyExtractor={(item) =>
-            item.id ? item.id.toString() : Math.random().toString()
-          }
+          keyExtractor={(item) => item.id.toString()}
           renderItem={renderItem}
           numColumns={1}
         />
+        </View>  
       )}
     </SafeAreaView>
   );

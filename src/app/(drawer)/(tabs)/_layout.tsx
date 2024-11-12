@@ -1,9 +1,10 @@
 import { Tabs } from "expo-router";
 import {
   Ionicons,
-  MaterialCommunityIcons,
   Foundation,
-  FontAwesome
+  FontAwesome,
+  MaterialIcons,
+  FontAwesome6
 } from "@expo/vector-icons";
 import React from "react";
 import { theme } from "../../../styles/theme";
@@ -12,7 +13,13 @@ export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
-        headerShown: false,
+        headerStyle: { 
+          backgroundColor: theme.colors.gray[100],
+        },
+        headerTitleStyle: {
+          marginLeft: 5,
+          color: theme.colors.gray[800]
+        },
         tabBarIconStyle:{
           justifyContent: 'center',
           top: 6
@@ -28,32 +35,22 @@ export default function TabsLayout() {
         tabBarInactiveTintColor: theme.colors.gray[300],
       }}
     >
-      <Tabs.Screen
+      {/*<Tabs.Screen
         name="home/index"
         options={{
-          tabBarLabel: "",
+          headerShown: false,
+          headerTitle: "",
+          tabBarLabel: "Home",
           tabBarIcon: ({ color, size }) => (
             <Foundation name="home" color={color} size={30} />
           ),
         }}
-      />
-      <Tabs.Screen
-        name="locacoes/index"
-        options={{
-          tabBarLabel: "",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons
-              name="key-chain"
-              color={color}
-              size={29}
-            />
-          ),
-        }}
-      />
+      />*/}
       <Tabs.Screen
         name="veiculos/index"
         options={{
-          tabBarLabel: "",
+          headerTitle: "Veículos",
+          tabBarLabel: "Veículos",
           tabBarIcon: ({ color, size }) => (
             <FontAwesome name="car" color={color} size={25} />
           ),
@@ -62,16 +59,32 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="clientes/index"
         options={{
-          tabBarLabel: "",
+          headerTitle: "Clientes",
+          tabBarLabel: "Clientes",
           tabBarIcon: ({ color, size, }) => (
             <Ionicons name="people" color={color} size={30} />
+          ),
+        }}
+      />
+       <Tabs.Screen
+        name="locacoes/index"
+        options={{
+          headerTitle: "Contratos",
+          tabBarLabel: "Contratos",
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome6
+              name="key"
+              color={color}
+              size={25}
+            />
           ),
         }}
       />
       <Tabs.Screen
         name="reparos/index"
         options={{
-          tabBarLabel: "",
+          headerTitle: "Reparos",
+          tabBarLabel: "Reparos",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="construct" color={color} size={29} />
           ),

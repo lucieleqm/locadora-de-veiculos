@@ -5,6 +5,24 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       autoIncrement: true
     },
+    caucao: {
+      type: DataTypes.FLOAT,
+      allowNull: false
+    },
+    valor: {
+      type: DataTypes.FLOAT,
+      allowNull: false
+    },
+    km: {
+      type: DataTypes.FLOAT,
+      allowNull: true,
+      default: 0
+    },
+    status: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+      default: false
+    },
     dt_Inicio: {
       type: DataTypes.DATE,
       allowNull: false,

@@ -56,7 +56,7 @@ export function FormInputController<T extends FieldValues>({
               <TextInput
                 onChangeText={onChange}
                 onBlur={onBlur}
-                value={value}
+                value={value || ""}
                 style={styles.inputForm}
                 {...props}
               />

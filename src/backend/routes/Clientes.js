@@ -52,7 +52,7 @@ router.get('/buscar-cpf/:cpf', async (req, res) => {
   });
 
 // Rota de Cadastro de Cliente
-router.post("/insert", async (req, res) => {
+router.post("/cadastrar", async (req, res) => {
     const t = await Cliente.sequelize.transaction();
   
     try {
@@ -64,7 +64,8 @@ router.post("/insert", async (req, res) => {
         rg: req.body.rg,
         cpf: req.body.cpf,
         email: req.body.email,
-        telefone: req.body.telefone
+        telefone1: req.body.telefone1,
+        telefone2: req.body.telefone2
       }, { transaction: t });
   
       // Criar o endereço associado ao cliente
