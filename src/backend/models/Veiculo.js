@@ -35,17 +35,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(20),
       allowNull: false
     },
-    id_cor: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'tb_cor',
-        key: 'id'
-      },
-
-      onDelete: 'RESTRICT',
-      onUpdate: 'CASCADE',
-    },
     ano: {
       type: DataTypes.STRING(4),
       allowNull: false
@@ -59,7 +48,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
       default: 0
     },
-    disponibilidade: {
+    locado: {
       type: DataTypes.BOOLEAN,
       allowNull: true,
       default: false

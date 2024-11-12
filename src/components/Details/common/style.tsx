@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   },
   infoValue: {
     fontFamily: theme.fontFamily.regular,
-    color: "#333",
+    color: theme.colors.gray[800],
   },
 });
 

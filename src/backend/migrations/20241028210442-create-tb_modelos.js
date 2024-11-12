@@ -19,7 +19,7 @@ module.exports = {
           model: 'tb_marca',
           key: 'id'
         },
-        onDelete: 'RESTRICT',
+        onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
       }
     });

@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const multer = require('multer');
 const { Veiculo, Modelo, ImagemVeiculo, TipoVeiculo, Combustivel, Cor, Marca, Sequelize } = require("../models");
 const { ForeignKeyConstraintError } = Sequelize;
 const upload = require('../config/multer');
@@ -9,15 +8,18 @@ const upload = require('../config/multer');
 router.get('', async (req, res) => {
   try {
     const veiculos = await Veiculo.findAll({
-      include: [{ 
-        model: Modelo, 
-        attributes: ['nome'],
       include: [{
-        model: Marca,
-        attributes: ['nome']
-      }] },
-      { model: ImagemVeiculo, 
-        attributes: ['url'] }
+        model: Modelo,
+        attributes: ['nome'],
+        include: [{
+          model: Marca,
+          attributes: ['nome']
+        }]
+      },
+      {
+        model: ImagemVeiculo,
+        attributes: ['url']
+      }
       ],
     });
     res.json(veiculos);
@@ -33,15 +35,26 @@ router.get("/:id", async (req, res) => {
   try {
     const veiculo = await Veiculo.findOne({
       where: { id },
-      include: [
-        { model: ImagemVeiculo, attributes: ['id', 'url'] },
-        { model: Cor, attributes: ['cor'] },
-        { model: TipoVeiculo, attributes: ['tipo'] },
-        { model: Combustivel, attributes: ['tipo'] },
-        {
-          model: Modelo, attributes: ['nome'],
-          include: [{ model: Marca, attributes: ['nome'] }]
-        }
+      include: [{
+        model: ImagemVeiculo,
+        attributes: ['id', 'url']
+      }, {
+        model: Cor,
+        attributes: ['cor']
+      }, {
+        model: TipoVeiculo,
+        attributes: ['tipo']
+      }, {
+        model: Combustivel,
+        attributes: ['tipo']
+      }, {
+        model: Modelo,
+        attributes: ['nome'],
+        include: [{
+          model: Marca,
+          attributes: ['nome']
+        }]
+      }
       ]
     });
     if (!veiculo) {
@@ -56,7 +69,6 @@ router.get("/:id", async (req, res) => {
 
 
 // Busca Veículo por meio da Placa
-// ex: "http://localhost:3001/veiculos/ABC0D00"
 router.get('/buscar-placa/:placa', async (req, res) => {
   const { placa } = req.params;
   try {
@@ -75,7 +87,7 @@ router.get('/buscar-placa/:placa', async (req, res) => {
 // Rota para cadastro de um veículo
 router.post('/insert', upload.array('imagens'), async (req, res) => {
   // transaction serve para garantir que todas as inserções sejam atômicas, 
-  //ou seja,  (ou todas ocorrem, ou nenhuma ocorre, para garantir integridade)
+  //ou seja,  ou todas ocorrem, ou nenhuma ocorre, para garantir integridade
   const t = await Veiculo.sequelize.transaction();
   const {
     id_tipo_veiculo,
@@ -130,4 +142,87 @@ router.post('/insert', upload.array('imagens'), async (req, res) => {
     res.status(500).json({ mensagem: "Erro ao cadastrar o veículo." });
   }
 });
+
+
+// Exclusão de Veículo por ID
+router.delete("/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const veiculo = await Veiculo.findOne({ where: { id } });
+    if (!veiculo) {
+      return res.status(404).json({ mensagem: 'Veículo não encontrado' });
+    }
+
+    await veiculo.destroy();
+    res.status(200).json({ mensagem: 'Veículo deletado com sucesso!' });
+  } catch (error) {
+    console.error("Erro ao deletar veículo:", error);
+    res.status(500).json({ mensagem: 'Erro ao deletar veículo' });
+  }
+});
+
+
+// Edição de Veículo por ID
+router.put('/:id/edit', upload.array('imagens'), async (req, res) => {
+  const { id } = req.params;
+  const {
+    id_tipo_veiculo,
+    id_modelo,
+    id_combustivel,
+    motor,
+    id_cor,
+    ano,
+    valor,
+    locado,
+    imagensRemovidas,
+  } = req.body;
+
+  const t = await Veiculo.sequelize.transaction();
+
+  try {
+    const veiculo = await Veiculo.findOne({ where: { id } });
+    if (!veiculo) {
+      await t.rollback();
+      return res.status(404).json({ mensagem: 'Veículo não encontrado' });
+    }
+
+    await veiculo.update({
+      id_tipo_veiculo,
+      id_modelo,
+      id_combustivel,
+      motor,
+      id_cor,
+      ano,
+      valor,
+      locado,
+    }, { transaction: t });
+
+    // Deletar imagens antigas (se houver IDs fornecidos) 
+    if (imagensRemovidas && imagensRemovidas.length > 0) {
+      await ImagemVeiculo.destroy({
+        where: { id: imagensRemovidas, id_veiculo: id },
+        transaction: t
+      });
+    }
+
+    // Adicionar novas imagens 
+    if (req.files && req.files.length > 0) {
+      const novasImagens = req.files.map((file) => ({
+        id_veiculo: veiculo.id,
+        url: `uploads/${file.filename}`
+      }));
+
+      await ImagemVeiculo.bulkCreate(novasImagens, { transaction: t });
+    }
+
+    await t.commit();
+
+    res.status(200).json({ mensagem: 'Veículo atualizado com sucesso!', veiculo });
+  } catch (error) {
+    await t.rollback();
+    console.error("Erro ao atualizar veículo:", error);
+    res.status(500).json({ mensagem: 'Erro ao atualizar veículo' });
+  }
+});
+
 module.exports = router;

@@ -174,6 +174,27 @@ export function FormLocacao({veiculoId}: FormLocacaoProps) {
     }
   }
 
+  const takePicture = async () => {
+    const { status } = await ImagePicker.requestCameraPermissionsAsync();
+    if (status !== "granted") {
+      Alert.alert("Permissão de câmera", "Precisamos de permissão para acessar a câmera.");
+      return;
+    }
+
+    const result = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled && result.assets && result.assets[0]) {
+      const { uri } = result.assets[0]; // Acessa a URI da imagem
+      setImagens((prevImagens) => [...prevImagens, { uri }]);
+    } else {
+      console.log("Operação cancelada");
+    }
+  };
+
   return (
     <SafeAreaView style={styles.formContainer}>
       <ScrollView>

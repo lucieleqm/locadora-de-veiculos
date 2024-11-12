@@ -6,19 +6,19 @@ const { Reparo, Veiculo, Modelo, Marca } = require("../models");
 router.get("", (req, res) => {
     Reparo.findAll({
         include: [{
-             model: Veiculo, 
-             attributes: ['placa'],
-             include: [{
-                model: Modelo, 
+            model: Veiculo,
+            attributes: ['placa'],
+            include: [{
+                model: Modelo,
                 attributes: ['nome'],
-                include: [{ 
+                include: [{
                     model: Marca,
                     attributes: ['nome']
                 }
+                ]
+            }
             ]
-        }
-    ]
-}]
+        }]
     }).then((reparos) => {
         res.send(reparos)
     }).catch(err => {
@@ -33,20 +33,20 @@ router.get("/:veiculoId", (req, res) => {
     const veiculoId = Number(req.params.veiculoId);
     Reparo.findAll({
         where: { id_veiculo: veiculoId },
-        include: [{ 
-            model: Veiculo, 
-            attributes: ['placa'], 
-            include: [{ 
-                model: Modelo, 
-                attributes: ['nome'], 
-                include: [{ 
-                    model: Marca, 
-                    attributes: ['nome'] 
+        include: [{
+            model: Veiculo,
+            attributes: ['placa'],
+            include: [{
+                model: Modelo,
+                attributes: ['nome'],
+                include: [{
+                    model: Marca,
+                    attributes: ['nome']
                 }
-            ] 
-        }
-    ] 
-}]
+                ]
+            }
+            ]
+        }]
     }).then((reparos) => {
         res.send(reparos)
     }).catch(err => {
@@ -58,8 +58,6 @@ router.get("/:veiculoId", (req, res) => {
 
 
 router.post("/cadastrar", async (req, res) => {
-    const t = await Reparo.sequelize.transaction();
-
     const { descricao, data, custo, id_veiculo } = req.body;
     console.log('Recebido no backend:', req.body);
 
@@ -69,13 +67,10 @@ router.post("/cadastrar", async (req, res) => {
             data,
             custo,
             id_veiculo,
-        }, { transaction: t });
-
-        await t.commit();
+        });
 
         res.status(201).json(novoReparo);
     } catch (error) {
-        await t.rollback();
         console.error('Erro ao criar reparo:', error);
         res.status(500).json({ error: 'Erro ao criar reparo' });
     }

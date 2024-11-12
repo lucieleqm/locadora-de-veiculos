@@ -27,7 +27,7 @@ module.exports = {
           model: 'tb_veiculo',
           key: 'id'
         },
-        onDelete: 'RESTRICT',
+        onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
       }
     });

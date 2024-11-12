@@ -144,7 +144,7 @@ export function FormVeiculo() {
       mediaTypes: ImagePicker.MediaTypeOptions.All,
 
       allowsEditing: true,
-      aspect: [4, 4],
+      aspect: [4, 3],
       quality: 1,
     });
     if (!canceled && assets) {
