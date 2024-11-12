@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         model: 'tb_veiculo',
         key: 'id'
       },
-      onDelete: 'RESTRICT',
+      onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
     }
   }, {

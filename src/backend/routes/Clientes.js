@@ -93,8 +93,22 @@ router.post("/cadastrar", async (req, res) => {
     }
   });
 
-router.delete("/delete", (req, res) => {
-    res.send("delete");
+
+// Exclusão de Cliente por ID
+router.delete("/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const cliente = await Cliente.findOne({ where: { id } });
+    if (!cliente) {
+      return res.status(404).json({ mensagem: 'Cliente não encontrado' });
+    }
+
+    await veiculo.destroy();
+    res.status(200).json({ mensagem: 'Cliente deletado com sucesso!' });
+  } catch (error) {
+    console.error("Erro ao deletar cliente:", error);
+    res.status(500).json({ mensagem: 'Erro ao deletar cliente' });
+  }
 });
 
 module.exports = router;

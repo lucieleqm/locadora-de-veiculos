@@ -37,3 +37,5 @@ router.post("/cadastrar", async (req, res) => {
         res.status(500).json({ error: 'Erro ao criar blacklist' });
     }
 });
+
+module.exports = router;

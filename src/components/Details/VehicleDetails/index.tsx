@@ -53,6 +53,9 @@ export function VeiculoDetails({ id }: VeiculoDetailsData) {
   })) ?? [];
   console.log("imagens:", imagens)
 
+  const disponibilidadeTexto = details.locado ? "Locado" : "Livre";
+  const disponibilidadeCor = details.locado ? "red" : "green";
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -64,9 +67,19 @@ export function VeiculoDetails({ id }: VeiculoDetailsData) {
             <Text>
               {details.Modelo.Marca.nome} {details.Modelo.nome}
             </Text>
-            <EditButton />
+            <EditButton id={id}  path="/details/info-veiculo"/>
           </View>
         </View>
+
+        <SectionCard
+          title="Disponibilidade"
+          iconComponent={Feather}
+          iconName="check-circle"
+        >
+          <Text style={{ color: disponibilidadeCor, fontWeight: "bold" }}>
+            {disponibilidadeTexto}
+          </Text>
+        </SectionCard>
 
         <SectionCard
           title="Ficha Técnica"

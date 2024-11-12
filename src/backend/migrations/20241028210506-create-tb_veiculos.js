@@ -38,17 +38,6 @@ module.exports = {
         type: Sequelize.STRING(20),
         allowNull: false
       },
-      id_cor: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'tb_cor',
-          key: 'id'
-        },
-  
-        onDelete: 'RESTRICT',
-        onUpdate: 'CASCADE',
-      },
       ano: {
         type: Sequelize.STRING(4),
         allowNull: false
@@ -62,7 +51,7 @@ module.exports = {
         allowNull: true,
         default: 0
       },
-      disponibilidade: {
+      locado: {
         type: Sequelize.BOOLEAN,
         allowNull: true,
         default: false

@@ -29,7 +29,7 @@ module.exports = {
           model: 'tb_locacao',
           key: 'id'
         },
-        onDelete: 'RESTRICT',
+        onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
       },
       createdAt: {
