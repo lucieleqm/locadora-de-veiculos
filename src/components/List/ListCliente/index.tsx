@@ -20,7 +20,7 @@ export default function ListCliente() {
     id: number;
     nome: string;
     cpf: string;
-    telefone: string;
+    telefone1: string;
   }
 
   const [searchText, setSearchText] = useState("");
@@ -67,8 +67,8 @@ export default function ListCliente() {
         onPress={() => router.push(`/details/info-cliente/${item.id}`)}
       >
         <Text style={styles.cardTitle}>{item.nome}</Text>
-        <Text style={styles.cardText}>{item.cpf}</Text>
-        <Text style={styles.cardText}>{item.telefone}</Text>
+        <Text style={styles.cardText}>cpf: {item.cpf}</Text>
+        <Text style={styles.cardText}>telefone: {item.telefone1}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -87,7 +87,7 @@ export default function ListCliente() {
             />
             <TextInput
               style={styles.searchInput}
-              placeholder="Pesquise um veículo"
+              placeholder="Pesquise um cliente"
               value={searchText}
               onChangeText={(text) => setSearchText(text)}
               returnKeyType="done"
