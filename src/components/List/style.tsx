@@ -81,7 +81,25 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "bold",
   },
-  
+  filterContainer: { 
+    flexDirection: "row", 
+    justifyContent: "space-between", 
+    marginBottom: 16,
+    padding: 10, 
+  },
+  sortButton: { 
+    flexDirection: "row", 
+    alignItems: "center", 
+    padding: 10, 
+    backgroundColor: theme.colors.gray[200], 
+    borderRadius: 20, 
+  },
+  filterText: { 
+    color: theme.colors.gray[800], 
+    fontFamily: theme.fontFamily.medium,
+    fontSize: 14, 
+    marginLeft: 8, 
+  },
 })
 
 export default styles;
