@@ -38,7 +38,7 @@ export default function ListBlack() {
 
   // Função para compartilhar os dados no WhatsApp
   const handleShare = async (item: BlackList) => {
-    const message = `🚨 Infrator na Blacklist 🚨\n\n🆔 Nome: ${item.nome}\n📄 CPF: ${item.cpf}\n🛑 Motivo: ${item.motivo}`;
+    const message = `Infrator na Blacklist\n\nNome: ${item.nome}\nCPF: ${item.cpf}\nMotivo: ${item.motivo}`;
     const url = `whatsapp://send?text=${encodeURIComponent(message)}`;
 
     try {

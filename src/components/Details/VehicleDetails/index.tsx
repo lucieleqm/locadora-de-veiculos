@@ -5,16 +5,17 @@ import {
   ActivityIndicator,
   SafeAreaView,
   ScrollView,
-  Image
+  Alert,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import EditButton from "../../Button/EditButton";
+import DeleteButton from "src/components/Button/DeleteButton";
 import api from "../../../services/api";
 import { theme } from "../../../styles/theme";
 import { InfoItem, SectionCard } from "../common";
 import styles from "../common/style";
 import { ImageSlider } from "../../Image/ImageSlider";
 import { API_URL } from "@env";
+import { useRouter } from "expo-router";
 
 interface VeiculoDetailsData {
   id: string;
@@ -23,16 +24,19 @@ interface VeiculoDetailsData {
 export function VeiculoDetails({ id }: VeiculoDetailsData) {
   const [isLoading, setLoading] = useState(true);
   const [details, setDetails] = useState<any>(null);
+  const [associado, setAssociado] = useState(false); // Adicionando estado para verificar se o veículo está associado
+
+  // Obtendo o roteador do expo-router
+  const router = useRouter();
 
   useEffect(() => {
     const fetchDetails = async () => {
       try {
-        console.log();
         const response = await api.get(`veiculos/${id}`);
-        console.log("Dados recebidos:", response.data);
         setDetails(response.data);
+        checkAssociations(response.data); // Verifica as associações após obter os detalhes
       } catch (error) {
-        console.error("Erro ao buscar locações:", error);
+        console.error("Erro ao buscar veículo:", error);
       } finally {
         setLoading(false);
       }
@@ -40,36 +44,74 @@ export function VeiculoDetails({ id }: VeiculoDetailsData) {
     fetchDetails();
   }, [id]);
 
+  // Função para verificar se o veículo está associado a locação ou reparo
+  const checkAssociations = async (veiculo: any) => {
+    try {
+      // Verificando se o veículo tem locações associadas
+      const locacaoResponse = await api.get(`locacoes?veiculo_id=${veiculo.id}`);
+      if (locacaoResponse.data.length > 0) {
+        setAssociado(true); // Se tiver locação, setar associado como true
+        return;
+      }
+
+      // Verificando se o veículo tem reparos associados
+      const reparoResponse = await api.get(`reparos?veiculo_id=${veiculo.id}`);
+      if (reparoResponse.data.length > 0) {
+        setAssociado(true); // Se tiver reparo, setar associado como true
+        return;
+      }
+
+      setAssociado(false); // Se não tiver locação ou reparo, permitir a exclusão
+    } catch (error) {
+      console.error("Erro ao verificar associações:", error);
+    }
+  };
+
+  // Função para deletar o veículo
+  const handleDelete = async () => {
+    if (associado) {
+      Alert.alert("Erro", "Não é possível deletar o veículo porque ele está associado a uma locação ou reparo.");
+      return;
+    }
+
+    try {
+      await api.delete(`veiculos/${id}`);
+      Alert.alert("Sucesso", "Veículo deletado com sucesso!");
+      router.back(); // Utilizando router.back() em vez de navigation.goBack()
+    } catch (error) {
+      console.error("Erro ao deletar veículo:", error);
+      Alert.alert("Erro", "Não foi possível deletar o veículo.");
+    }
+  };
+
   if (isLoading) {
     return <ActivityIndicator size="large" color={theme.colors.gray[800]} />;
   }
+
   if (!details) {
-    console.log(id);
     return <Text>Detalhes não encontrados</Text>;
   }
 
-  const imagens = details.ImagemVeiculos?.map((imagem: any) => ({ 
-    id: imagem.id, 
-    url: `${API_URL}/${imagem.url}`
-  })) ?? [];
-  console.log("imagens:", imagens)
-
+  const imagens =
+    details.ImagemVeiculos?.map((imagem: any) => ({
+      id: imagem.id,
+      url: `${API_URL}/${imagem.url}`,
+    })) ?? [];
   const disponibilidadeTexto = details.locado ? "Locado" : "Livre";
   const disponibilidadeCor = details.locado ? "red" : "green";
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-
         <ImageSlider images={imagens} />
-        
-        <View>
-          <View style={styles.header}>
-            <Text>
-              {details.Modelo.Marca.nome} {details.Modelo.nome}
-            </Text>
-            <EditButton id={id}  path="/details/info-veiculo"/>
-          </View>
+
+        {/* Cabeçalho com o botão de deletar */}
+        <View style={styles.header}>
+          <Text>
+            {details.Modelo.Marca.nome} {details.Modelo.nome}
+          </Text>
+          {/* Utilizando o DeleteButton com a função handleDelete */}
+          <DeleteButton onDelete={handleDelete} />
         </View>
 
         <SectionCard
