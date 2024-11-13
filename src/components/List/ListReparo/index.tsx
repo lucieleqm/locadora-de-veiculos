@@ -49,7 +49,7 @@ export default function ListReparo({ veiculoId }: ListReparoProps) {
       setLoading(false);
     }
   };
-
+  
   useFocusEffect(
     useCallback(() => {
       fetchData();

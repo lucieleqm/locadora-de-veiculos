@@ -13,6 +13,7 @@ export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
+        headerShadowVisible: false,
         headerStyle: { 
           backgroundColor: theme.colors.gray[100],
         },

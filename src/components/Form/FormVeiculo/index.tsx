@@ -20,6 +20,7 @@ import styles from "../style";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import api from "../../../services/api";
+import { theme } from "src/styles/theme";
 
 // Interface para o tipo de dados do formulário
 interface VeiculoFormData {
@@ -227,17 +228,17 @@ export function FormVeiculo() {
       <SafeAreaView style={styles.boxImageSaveLoad}>
           <TouchableOpacity onPress={pickImage}>
               <SafeAreaView style={styles.boxImageSave}>
-                <MaterialIcons name="add-photo-alternate" size={35} color="black" />
+                <MaterialIcons name="add-photo-alternate" size={35} color={theme.colors.gray[800]}/>
               </SafeAreaView>
           </TouchableOpacity>
           <TouchableOpacity onPress={takePicture}>
               <SafeAreaView style={styles.boxImageSave}>
-                  <MaterialIcons name="add-a-photo" size={30} color="black" />
+                  <MaterialIcons name="add-a-photo" size={30} color={theme.colors.gray[800]}/>
               </SafeAreaView>
           </TouchableOpacity>
           <TouchableOpacity onPress={deleteImage}>
               <SafeAreaView style={styles.boxImageSave}>
-                <Ionicons name="trash-bin-outline" size={37} color="black" />
+                <Ionicons name="trash-bin-outline" size={37} color={theme.colors.gray[800]} />
               </SafeAreaView>
           </TouchableOpacity>
       </SafeAreaView>

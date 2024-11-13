@@ -36,19 +36,27 @@ const styles = StyleSheet.create({
     fontFamily: theme.fontFamily.medium,
     color: theme.colors.gray[800]
   },
-  searchInput: {
-    width: "100%",
-    height: 50,
+  searchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
     backgroundColor: theme.colors.white,
-    borderColor: theme.colors.gray[200],
     borderWidth: 1,
+    borderColor: theme.colors.gray[200],
     borderRadius: 24,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    marginBottom: 10,
+    height: 50,
+  },
+  searchInput: {
+    flex: 1,
     fontFamily: theme.fontFamily.regular,
     fontSize: 16,
     color: theme.colors.gray[800],
-    paddingHorizontal: 16,
-    marginBottom: 16,
   },
+  searchIcon: { 
+    marginRight: 10,
+   },
   shareButton: {
     backgroundColor: "#25D366", // Cor do WhatsApp
     paddingVertical: 10,

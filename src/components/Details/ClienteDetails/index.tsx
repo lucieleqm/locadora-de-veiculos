@@ -26,7 +26,6 @@ export function ClienteDetails({ id }: ClienteDetailsData) {
   useEffect(() => {
     const fetchDetails = async () => {
       try {
-        console.log();
         const response = await api.get(`clientes/${id}`);
         console.log("Dados recebidos:", response.data);
         setDetails(response.data);
@@ -56,7 +55,7 @@ export function ClienteDetails({ id }: ClienteDetailsData) {
         <View>
           <View style={styles.header}>
             <Text>4,5</Text>
-            <EditButton />
+            <EditButton id={id} path={""}/>
             <Switch />
           </View>
         </View>

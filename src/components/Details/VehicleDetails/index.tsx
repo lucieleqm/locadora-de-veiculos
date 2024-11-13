@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -15,6 +15,7 @@ import { InfoItem, SectionCard } from "../common";
 import styles from "../common/style";
 import { ImageSlider } from "../../Image/ImageSlider";
 import { API_URL } from "@env";
+import { useFocusEffect } from "expo-router";
 
 interface VeiculoDetailsData {
   id: string;
@@ -24,21 +25,29 @@ export function VeiculoDetails({ id }: VeiculoDetailsData) {
   const [isLoading, setLoading] = useState(true);
   const [details, setDetails] = useState<any>(null);
 
+  const fetchDetails = async () => {
+    try {
+      console.log();
+      const response = await api.get(`veiculos/${id}`);
+      console.log("Dados recebidos:", response.data);
+      setDetails(response.data);
+    } catch (error) {
+      console.error("Erro ao buscar veículos:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchDetails = async () => {
-      try {
-        console.log();
-        const response = await api.get(`veiculos/${id}`);
-        console.log("Dados recebidos:", response.data);
-        setDetails(response.data);
-      } catch (error) {
-        console.error("Erro ao buscar locações:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchDetails();
   }, [id]);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchDetails();
+    }, [])
+  );
+
 
   if (isLoading) {
     return <ActivityIndicator size="large" color={theme.colors.gray[800]} />;
@@ -65,7 +74,7 @@ export function VeiculoDetails({ id }: VeiculoDetailsData) {
         
         <View>
           <View style={styles.header}>
-            <Text>
+            <Text style={styles.titleDetails}>
               {details.Modelo.Marca.nome} {details.Modelo.nome}
             </Text>
             <EditButton id={id}  path="/details/info-veiculo"/>

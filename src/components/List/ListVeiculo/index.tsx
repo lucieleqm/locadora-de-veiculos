@@ -19,6 +19,7 @@ import { API_URL } from "@env";
 export default function ListVeiculo() {
   interface Veiculo {
     id: number;
+    locado: any;
     Modelo: {
       nome: string;
       Marca: {
@@ -37,6 +38,7 @@ export default function ListVeiculo() {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState<Veiculo[]>([]);
   const [lista, setLista] = useState(data);
+  const [filter, setFilter] = useState<"todos" | "locados" | "naoLocados">("todos");
 
   const fetchData = async () => {
     try {
@@ -51,18 +53,25 @@ export default function ListVeiculo() {
   };
 
   useEffect(() => {
-    if (searchText === "") {
-      setLista(data);
-    } else {
-      setLista(
-        data.filter(
-          (item) =>
-            item.Modelo.nome.toLowerCase().indexOf(searchText.toLowerCase()) >
-            -1
-        )
+    let filteredData = data;
+
+    if (searchText) {
+      filteredData = filteredData.filter(item =>
+        item.Modelo.nome.toLowerCase().includes(searchText.toLowerCase()) ||
+        item.Modelo.Marca.nome.toLowerCase().includes(searchText.toLowerCase()) ||
+        item.placa.toLowerCase().includes(searchText.toLowerCase())
       );
     }
-  }, [searchText, data]);
+
+    // Filtro de veículos locados
+    if (filter === "locados") {
+      filteredData = filteredData.filter((item) => item.locado);
+    } else if (filter === "naoLocados") {
+      filteredData = filteredData.filter((item) => !item.locado);
+    }
+
+  setLista(filteredData);
+  }, [searchText, filter, data])
 
   const handleOnClick = () => {
     let newList = [...data];
@@ -82,7 +91,7 @@ export default function ListVeiculo() {
 
   const router = useRouter();
 
-  const renderItem = ({ item }: { item: Veiculo }) => (
+  const renderItem = ({ item }: { item: Veiculo }): JSX.Element => (
     <View style={styles.cardVehicle}>
       <TouchableOpacity
         onPress={() => router.push(`/details/info-veiculo/${item.id}`)}
@@ -103,6 +112,14 @@ export default function ListVeiculo() {
           <Text style={styles.cardTitle}>
             {item.Modelo.Marca.nome} {item.Modelo.nome}
           </Text>
+          <Text
+            style={{
+              color: item.locado ? "red" : "green",
+              fontWeight: "bold",
+            }}
+          >
+            {item.locado ? "Locado" : "Livre"}
+          </Text>
           <Text style={styles.cardVehicleDetails}>{item.placa}</Text>
           <Text style={styles.cardVehicleDetails}>{item.ano}</Text>
           <Text style={styles.cardParagraph}>A partir de </Text>
@@ -119,7 +136,12 @@ export default function ListVeiculo() {
       ) : (
         <ScrollView>
           <View style={styles.searchContainer}>
-          <Ionicons name="search" size={20} color={theme.colors.blue} style={styles.searchIcon} />
+            <Ionicons
+              name="search"
+              size={20}
+              color={theme.colors.blue}
+              style={styles.searchIcon}
+            />
             <TextInput
               style={styles.searchInput}
               placeholder="Pesquise um veículo"
@@ -129,6 +151,30 @@ export default function ListVeiculo() {
               onFocus={() => {}}
             />
           </View>
+
+          {/* Filtro */}
+          <View style={styles.filterContainer}>
+            <TouchableOpacity
+              onPress={() => setFilter("todos")}
+              style={[styles.filterButton, filter === "todos" && styles.activeFilterButton]}
+            >
+              <Text style={styles.filterText}>Todos</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => setFilter("locados")}
+              style={[styles.filterButton, filter === "locados" && styles.activeFilterButton]}
+            >
+              <Text style={styles.filterText}>Locados</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => setFilter("naoLocados")}
+              style={[styles.filterButton, filter === "naoLocados" && styles.activeFilterButton]}
+              
+            >
+              <Text style={styles.filterText}>Não Locados</Text>
+            </TouchableOpacity>
+          </View>
+
           <FlatList
             data={lista}
             keyExtractor={(item) => item.id.toString()}

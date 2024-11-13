@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
         width: '95%',
         height: 250,
         borderWidth: 2,
+        borderColor: theme.colors.gray[800],
         borderRadius: 10,
         alignItems: 'center',
         justifyContent: 'center'
@@ -40,6 +41,7 @@ const styles = StyleSheet.create({
         height: '100%',
         borderRadius: 10,
         borderWidth: 2,
+        borderColor: theme.colors.gray[800],
         alignItems: 'center',
         justifyContent: 'center'
     },

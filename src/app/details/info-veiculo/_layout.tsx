@@ -7,6 +7,7 @@ import { useLocalSearchParams } from "expo-router";
 import InfoVeiculo from "./[id]";
 import Reparos from "./reparos";
 import Locacoes from "./locacoes";
+import EditVeiculoScreen from "./edit";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -53,6 +54,12 @@ export default function DetalhesLayout() {
         name="Locacoes"
         component={Locacoes}
         options={{ tabBarLabel: "Locacoes" }}
+        initialParams={{ id: veiculoId }}
+      />
+      <Tab.Screen
+        name="EditVeiculoScreen"
+        component={EditVeiculoScreen}
+        options={{ tabBarLabel: "Editar" }}
         initialParams={{ id: veiculoId }}
       />
     </Tab.Navigator>

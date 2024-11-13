@@ -19,6 +19,7 @@ export default function DrawerLayout() {
     <Drawer
       screenOptions={{
         title: "",
+        headerShadowVisible: false,
         headerStyle: { backgroundColor: theme.colors.gray[800] },
         headerTintColor: theme.colors.gray[100],
         drawerStyle: { backgroundColor: theme.colors.gray[100] },
