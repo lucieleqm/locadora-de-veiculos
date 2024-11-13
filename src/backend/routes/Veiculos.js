@@ -163,14 +163,14 @@ router.delete("/:id", async (req, res) => {
 
 
 // Edição de Veículo por ID
-router.put('/:id/edit', upload.array('imagens'), async (req, res) => {
+router.put('/edit/:id', upload.array('imagens'), async (req, res) => {
   const { id } = req.params;
   const {
-    id_tipo_veiculo,
-    id_modelo,
-    id_combustivel,
-    motor,
-    id_cor,
+    //id_tipo_veiculo,
+    //id_modelo,
+    //id_combustivel,
+    //motor,
+    //id_cor,
     ano,
     valor,
     locado,
@@ -187,11 +187,11 @@ router.put('/:id/edit', upload.array('imagens'), async (req, res) => {
     }
 
     await veiculo.update({
-      id_tipo_veiculo,
-      id_modelo,
-      id_combustivel,
-      motor,
-      id_cor,
+      //id_tipo_veiculo,
+      //id_modelo,
+      //id_combustivel,
+      //motor,
+      //id_cor,
       ano,
       valor,
       locado,

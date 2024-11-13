@@ -5,6 +5,13 @@ const styles = StyleSheet.create({
   container: {
     padding: 10,
   },
+  titleDetails: {
+    color: theme.colors.gray[800],
+    fontFamily: theme.fontFamily.bold,
+    fontSize: 24,
+    marginTop: 10,
+    marginLeft: 15
+  },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",

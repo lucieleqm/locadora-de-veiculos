@@ -78,6 +78,26 @@ const styles = StyleSheet.create({
   searchIcon: { 
     marginRight: 10,
    },
+
+  filterContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginVertical: 16,
+  },
+  activeFilterButton: {
+    backgroundColor: theme.colors.blue,
+  },
+  filterButton: {
+    padding: 10,
+    paddingHorizontal: 20,
+    backgroundColor: theme.colors.gray[300],
+    borderRadius: 18,
+  },
+  filterText: {
+    color: theme.colors.white,
+    fontFamily: theme.fontFamily.bold,
+  },
+
 });
 
 export default styles;

@@ -36,19 +36,27 @@ const styles = StyleSheet.create({
     fontFamily: theme.fontFamily.medium,
     color: theme.colors.gray[800]
   },
-  searchInput: {
-    width: "100%",
-    height: 50,
+  searchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
     backgroundColor: theme.colors.white,
-    borderColor: theme.colors.gray[200],
     borderWidth: 1,
+    borderColor: theme.colors.gray[200],
     borderRadius: 24,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    marginBottom: 10,
+    height: 50,
+  },
+  searchInput: {
+    flex: 1,
     fontFamily: theme.fontFamily.regular,
     fontSize: 16,
     color: theme.colors.gray[800],
-    paddingHorizontal: 16,
-    marginBottom: 16,
   },
+  searchIcon: { 
+    marginRight: 10,
+   },
   shareButton: {
     backgroundColor: "#25D366", // Cor do WhatsApp
     paddingVertical: 10,
@@ -73,7 +81,25 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "bold",
   },
-  
+  filterContainer: { 
+    flexDirection: "row", 
+    justifyContent: "space-between", 
+    marginBottom: 16,
+    padding: 10, 
+  },
+  sortButton: { 
+    flexDirection: "row", 
+    alignItems: "center", 
+    padding: 10, 
+    backgroundColor: theme.colors.gray[200], 
+    borderRadius: 20, 
+  },
+  filterText: { 
+    color: theme.colors.gray[800], 
+    fontFamily: theme.fontFamily.medium,
+    fontSize: 14, 
+    marginLeft: 8, 
+  },
 })
 
 export default styles;

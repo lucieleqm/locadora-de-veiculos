@@ -4,6 +4,7 @@ import { theme } from './theme';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: theme.colors.gray[100]
     },
     boxMain:{
         flex: 1,
@@ -12,9 +13,16 @@ const styles = StyleSheet.create({
         width: '100%',
         padding: 20
     },
+    titleContainer: {
+        padding: 5,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     textTitle:{
-        fontSize: 25,
-        fontWeight: 'bold'
+        fontSize: 20,
+        fontFamily: theme.fontFamily.bold,
+        color: theme.colors.gray[800],
+        margin: 5
     },
     boxFlatList:{
         width: '100%',
